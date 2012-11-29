@@ -51,7 +51,49 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="sizzle.js" />
+    <Content Include="SL.AJAX.js" />
+    <Content Include="SL.Animation.js" />
+    <Content Include="SL.Array.js" />
+    <Content Include="SL.attr.js" />
+    <Content Include="SL.Broswer.js" />
+    <Content Include="SL.Cookie.js" />
     <Content Include="SL.Core.js" />
+    <Content Include="SL.CSS.js" />
+    <Content Include="SL.CSSNew.js" />
+    <Content Include="SL.Data.js" />
+    <Content Include="SL.Date.js" />
+    <Content Include="SL.Dom.js" />
+    <Content Include="SL.DomE.js" />
+    <Content Include="SL.easyanim.js" />
+    <Content Include="SL.Effect.js" />
+    <Content Include="SL.Event.js" />
+    <Content Include="SL.Function.js" />
+    <Content Include="SL.HttpUrl.js" />
+    <Content Include="sl.js" />
+    <Content Include="SL.Json.js" />
+    <Content Include="SL.lang.js" />
+    <Content Include="SL.Load.js" />
+    <Content Include="SL.manipulation.js" />
+    <Content Include="SL.Node.js" />
+    <Content Include="SL.Number.js" />
+    <Content Include="SL.offset.js" />
+    <Content Include="SL.Operation.js" />
+    <Content Include="SL.QueryString.js" />
+    <Content Include="SL.Queue.js" />
+    <Content Include="SL.ready.js" />
+    <Content Include="SL.Select.js" />
+    <Content Include="SL.Selector.js" />
+    <Content Include="SL.String.js" />
+    <Content Include="SL.support.js" />
+    <Content Include="SL.XML.js" />
+    <Content Include="SLDocument.js" />
+    <Content Include="StringBuffer.js" />
+    <Content Include="test.js" />
+    <Content Include="throttle.js" />
+    <Content Include="Timer.js" />
+    <Content Include="Type.js" />
+    <Content Include="TypeNew.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
