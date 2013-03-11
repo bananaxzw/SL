@@ -34,7 +34,7 @@ SL().create(function (SL) {
 
         }
     };
- 
+
     /**
     *@ignore  事件处理
     */
@@ -108,7 +108,7 @@ SL().create(function (SL) {
         type: "POST",
         data: null,
         dataType: "text",
-        contentType: "application/x-www-form-urlencoded",
+        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
         onSuccess: function () { },
         onError: function () { },
         onComplete: function () { },
@@ -117,10 +117,19 @@ SL().create(function (SL) {
         timeout: 30000,
         url: "",
         cache: false,
-        callbackContext: null
+        callbackContext: null,
+        jsonp: "callback",
+        accepts: {
+            xml: "application/xml, text/xml",
+            html: "text/html",
+            script: "text/javascript, application/javascript",
+            json: "application/json, text/javascript",
+            text: "text/plain",
+            _default: "*/*"
+        }
     }
     function ajax(options) {
-        options = SL.extend(defaultSetting, options);
+        options = SL.extend(true, {}, defaultSetting, options);
         var isComplete = false, status,
         xhr = new window.XMLHttpRequest(), jsonp, callbackContext = options.callbackContext || options;
         //传进来的data没经过处理
