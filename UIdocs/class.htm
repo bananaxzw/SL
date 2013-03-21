@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+     <link href="http://www.aspnetjs.com/SL/docs/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="http://www.aspnetjs.com/SL/docs/js/sl.js" type="text/javascript"></script>
+    <script src="http://www.aspnetjs.com/SL/docs/js/SL.Node.js" type="text/javascript"></script>
+    <script src="http://www.aspnetjs.com/SL/docs/js/hl-all.js" type="text/javascript"></script>
+    <link href="http://www.aspnetjs.com/SL/docs/js/style.css" rel="stylesheet" type="text/css" />
+
+    
+    <script src="js/hl-all.js" type="text/javascript"></script>
+    <link href="js/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        sl.ready(function () {
+            DlHighlight.HELPERS.highlightByName("code", "pre");
+            if (sl.Browser.ie) {
+                $("pre.DlHighlight").each(function () {
+                    var $this = $(this);
+                    $this.html("<pre>" + $this.find("pre").html() + "</pre>");
+                })
+            }
+            try {
+                var obj = parent.document.getElementById("classFrame");  //取得父页面IFrame对象
+                //alert(obj.height); //弹出父页面中IFrame中设置的高度
+                obj.height = document.body.scrollHeight;  //调整父页面中IFrame的高度为此页面
+            } catch (e) { }
+        });
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span10">
+                <div id="content">
+                    <!-- ============================== class title ============================ -->
+                    <h1 class="classTitle">
+                        类Date
+                        <div class='file'>
+                            define in:<a href="../symbols/src/SL.Date.js.html">SL.Date.js</a></div>
+                    </h1>
+                    <hr>
+                    <!-- ============================== class summary ========================== -->
+                    <!--          <p class="description">
+                        <br>
+                        <i>Defined in: </i><a href="../symbols/src/SL.Date.js.html">SL.Date.js</a>.
+                    </p>-->
+                    <!-- ============================== constructor summary ==================== -->
+                    <br />
+                    <h3>
+                        类概要</h3>
+                    <p class="description">
+                        Date扩展</p>
+                    <br />
+                    <!--<table class="summaryTable" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    Constructor Attributes
+                                </th>
+                                <th scope="col">
+                                    Constructor Name and Description
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="attributes">
+                                    &nbsp;
+                                </td>
+                                <td class="nameDescription">
+                                    <div class="fixedFont">
+                                        <b><a href="../symbols/date.html#constructor">date</a></b>()
+                                    </div>
+                                    <div class="description">
+                                        date扩展</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>-->
+                    <!-- ============================== properties summary ===================== -->
+                    <!-- ============================== methods summary ======================== -->
+                    <h3>
+                        方法概要</h3>
+                    <table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class date.">
+                        <!--<caption>
+                            方法概要</caption>-->
+                        <thead>
+                            <!--<tr>
+                                <th scope="col">
+                                    Method Attributes
+                                </th>
+                                <th scope="col">
+                                    Method Name and Description
+                                </th>
+                            </tr>-->
+                            <th>
+                                成员属性
+                            </th>
+                            <th>
+                                名称
+                            </th>
+                            <th>
+                                说明
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <label class=" label label-info">
+                                        静态</label>
+                                </td>
+                                <td>
+                                    <b><a href="../symbols/date.html#constructor">CompareTo</a></b>
+                                </td>
+                                <td>
+                                    将此实例与指定对象进行比较并返回一个对二者的相对值的指示。
+                                </td>
+                            </tr>
+                            <!--  <tr>
+                                <td class="attributes">
+                                    &nbsp;
+                                </td>
+                                <td class="nameDescription">
+                                    <div class="fixedFont">
+                                        <b><a href="../symbols/date.html#add">add</a></b>(date时间, part, number)
+                                    </div>
+                                    <div class="description">
+                                        将指定的数目（月数，天数，年数等等）加到当前时间上</div>
+                                </td>
+                            </tr>-->
+                        </tbody>
+                    </table>
+                    <!-- ============================== events summary ======================== -->
+                    <!-- ============================== constructor details ==================== -->
+                    <!--  <div class="details">
+                        <a name="constructor"></a>
+                        <div class="sectionTitle">
+                            类 详解
+                        </div>
+                        <div class="detailTitle fixedFont">
+                            <span class="methodType"></span><b>date</b>()
+                        </div>
+                        <dl class="description">
+                            <dt class="heading">功能:</dt>
+                            <dd>
+                                date扩展
+                            </dd>
+                        </dl>
+                    </div>-->
+                    <!-- ============================== field details ========================== -->
+                    <!-- ============================== method details ========================= -->
+                    <!-- <div class="sectionTitle">
+                        方法详解
+                    </div>-->
+                    <br />
+                    <h3>
+                        方法详解</h3>
+                    <a name="add"></a>
+                    <!--<div class="detailTitle fixedFont">
+                        <span class="methodType"></span><b>add</b>(date时, part, number)
+                    </div>-->
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            <b>add</b>(date时, part, number)</label>
+                    </div>
+                    <!-- <dl class="description">
+                        <dt class="heading">功能:</dt>
+                        <dd>
+                            将指定的数目（月数，天数，年数等等）加到当前时间上
+                        </dd>
+                    </dl>-->
+                    <dl class="description">
+                        <dt class="heading">功能:</dt>
+                        <dd>
+                            将指定的数目（月数，天数，年数等等）加到当前时间上
+                        </dd>
+                    </dl>
+                    <pre name="code" class='js'>
+var tt = document.getElementById("sff");
+SL().Event.addEvent(tt, "click", function (event) {
+   console.log(event.extendData.name);
+}, { "name": "xuzhiwei" });
+SL().Event.addEvent(tt, "click", function (event) {
+   console.log(event.extendData.name);
+}, { "name": "xuzhiwei1" });
+function see() {
+   alert("i see you!");
+}
+SL().Event.addEvent(tt, "click", see);
+</pre>
+                    <dl class="detailList">
+                        <dt class="heading">参数:</dt>
+                        <dd>
+                            <dl class="paramsList">
+                                <dt><span class="light fixedFont">{Date}</span> <b>date时间</b> </dt>
+                                <dd>
+                                </dd>
+                            </dl>
+                            <dl class="paramsList">
+                                <dt><span class="light fixedFont">{String}</span> <b>part</b> </dt>
+                                <dd>
+                                    数目的类型（y:年 M月 d天 h小时 m分 s秒）</dd>
+                            </dl>
+                            <dl class="paramsList">
+                                <dt><b>number</b> </dt>
+                                <dd>
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+                    <hr>
+                    <a name="format"></a>
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span><b>format</b>(date时间, format格式)
+                    </div>
+                    <dl class="description">
+                        <dt class="heading">功能:</dt>
+                        <dd>
+                            格式化时间
+                        </dd>
+                    </dl>
+                    <dl class="detailList">
+                        <dt class="heading">参数:</dt>
+                        <dd>
+                            <dl class="paramsList">
+                                <dt><span class="light fixedFont">{Date}</span> <b>date时间</b> </dt>
+                                <dd>
+                                </dd>
+                            </dl>
+                            <dl class="paramsList">
+                                <dt><span class="light fixedFont">{String}</span> <b>format格式</b> </dt>
+                                <dd>
+                                    日期格式 yyyy：4位数的年 yy:年的后2位 M：正常表示月份 MM：不足10左边补0 MMM:英文表示 NNN英文缩写 d:天数 dd:不足10补充0 EE：英文星期
+                                    E英文星期缩写 h:12小时制 H 小时制 m:分钟 mm不足2位补0 s:秒钟 ss不足2位补0</dd>
+                            </dl>
+                        </dd>
+                    </dl>
+                    <hr>
+                    <a name="isBefore"></a>
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span><b>isBefore</b>(date1, date2)
+                    </div>
+                    <dl class="description">
+                        <dt class="heading">功能:</dt>
+                        <dd>
+                        </dd>
+                    </dl>
+                    <dl class="detailList">
+                        <dt class="heading">参数:</dt>
+                        <dd>
+                            <dl class="paramsList">
+                                <dt><b>date1</b> </dt>
+                                <dd>
+                                </dd>
+                            </dl>
+                            <dl class="paramsList">
+                                <dt><b>date2</b> </dt>
+                                <dd>
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+                    <hr>
+                    <a name="parseString"></a>
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span><b>parseString</b>(val, format)
+                    </div>
+                    <dl class="description">
+                        <dt class="heading">功能:</dt>
+                        <dd>
+                        </dd>
+                    </dl>
+                    <dl class="detailList">
+                        <dt class="heading">参数:</dt>
+                        <dd>
+                            <dl class="paramsList">
+                                <dt><b>val</b> </dt>
+                                <dd>
+                                </dd>
+                            </dl>
+                            <dl class="paramsList">
+                                <dt><b>format</b> </dt>
+                                <dd>
+                                </dd>
+                            </dl>
+                        </dd>
+                    </dl>
+                    <!-- ============================== event details ========================= -->
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
