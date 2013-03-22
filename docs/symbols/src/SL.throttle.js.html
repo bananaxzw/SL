@@ -1,0 +1,140 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=UTF-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="TOKN">﻿</span><span class="COMM">/*
+<span class='line'>  2</span> 
+<span class='line'>  3</span> debounce
+<span class='line'>  4</span> 形像的比喻是橡皮球。如果手指按住橡皮球不放，它就一直受力，不能反弹起来，直到松手。
+<span class='line'>  5</span> 
+<span class='line'>  6</span> debounce 的关注点是空闲的间隔时间。
+<span class='line'>  7</span> 
+<span class='line'>  8</span> /**
+<span class='line'>  9</span> * 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 idle，action 才会执行
+<span class='line'> 10</span> * @param idle   {number}    空闲时间，单位毫秒
+<span class='line'> 11</span> * @param action {function}  请求关联函数，实际应用需要调用的函数
+<span class='line'> 12</span> * @param tail?  {bool}      是否在尾部执行
+<span class='line'> 13</span> * @return {function}	返回客户调用函数
+<span class='line'> 14</span> */</span><span class="WHIT">
+<span class='line'> 15</span> </span><span class="COMM">/*debounce(idle,action,tail?)
+<span class='line'> 16</span> throttle
+<span class='line'> 17</span> 形像的比喻是水龙头或机枪，你可以控制它的流量或频率。
+<span class='line'> 18</span> 
+<span class='line'> 19</span> throttle 的关注点是连续的执行间隔时间。
+<span class='line'> 20</span> 
+<span class='line'> 21</span> /**
+<span class='line'> 22</span> * 频率控制 返回函数连续调用时，action 执行频率限定为 次 / delay
+<span class='line'> 23</span> * @param delay  {number}    延迟时间，单位毫秒
+<span class='line'> 24</span> * @param action {function}  请求关联函数，实际应用需要调用的函数
+<span class='line'> 25</span> * @param tail?  {bool}      是否在尾部用定时器补齐调用
+<span class='line'> 26</span> * @return {function}	返回客户调用函数
+<span class='line'> 27</span> */</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="COMM">/*throttle(delay,action,tail?)
+<span class='line'> 29</span> 样例代码
+<span class='line'> 30</span> // ajaxQuery 将在停止输入 250 毫秒后执行
+<span class='line'> 31</span> $('#autocomplete').addEventListener('keyup',debounce(250,function() {
+<span class='line'> 32</span> ajaxQuery(this.value,renderUI);
+<span class='line'> 33</span> },true))
+<span class='line'> 34</span> // 当窗口大小改变时，以 50 毫秒一次的频率为单位执行定位函数 position
+<span class='line'> 35</span> /*window.addEventListener('resize',throttle(50,position,true) );
+<span class='line'> 36</span> 应用
+<span class='line'> 37</span> 只要牵涉到连续事件或频率控制相关的应用都可以考虑到这两个函数，比如：
+<span class='line'> 38</span> 
+<span class='line'> 39</span> 游戏射击，keydown 事件
+<span class='line'> 40</span> 文本输入、自动完成，keyup 事件
+<span class='line'> 41</span> 鼠标移动，mousemove 事件
+<span class='line'> 42</span> DOM 元素动态定位，window对象的resize和scroll 事件
+<span class='line'> 43</span> 前两者 debounce 和 throttle 都可以按需使用；后两者肯定是用 throttle 了。
+<span class='line'> 44</span> 
+<span class='line'> 45</span> 如果不做过滤处理，每秒种甚至会触发数十次相应的事件。尤其是 mousemove 事件，每移动一像素都可能触发一次事件。如果是在一个画布上做一个鼠标相关的应用，过滤事件处理是必须的，否则肯定会造成糟糕的体验。
+<span class='line'> 46</span> 
+<span class='line'> 47</span> 实现中要注意的是 throttle 函数可以不使用定时器，这时关联的函数都同步执行，这样很不错，比如一个游戏射击应用，50ms间隔，没什么影响。但是如果是一个固定元素定位应用，就有可能必须考虑补上最后一次触发事件了，这时就必须用到定时器。
+<span class='line'> 48</span> 
+<span class='line'> 49</span> 同样的，使用中注意的有：
+<span class='line'> 50</span> 
+<span class='line'> 51</span> 1) 返回值。如果关联的函数有返回值的话，如果某次触发是异步执行的，返回值就获取不到了。可以考虑扩展这里使用的版本，添加回调函数参数或扩展成 throttle 对象来使用。
+<span class='line'> 52</span> 
+<span class='line'> 53</span> 2) 传入参数。我直接捕获了闭包中的 arguments 参数，异步执行时会使用最后一次触发的参数。
+<span class='line'> 54</span> 
+<span class='line'> 55</span> 我在流行的 Rx、Ext 和 Underscore 中都看到过类似的函数。对比了一下， Underscore 中的函数是简化了的， debounce 只能在尾部执行， throttle 关联的函数全部是异步执行——首次触发时它甚至不会去执行关联函数，这是定时器本身延后执行的特性。
+<span class='line'> 56</span> 
+<span class='line'> 57</span> 感受最深的是，以往我可能是写上好几个变量来控制频率。但是一旦知道了这一类的行为的模式和名称之后，就可以一次性解决这一类问题。
+<span class='line'> 58</span> */</span><span class="WHIT">
+<span class='line'> 59</span> 
+<span class='line'> 60</span> 
+<span class='line'> 61</span> 
+<span class='line'> 62</span> 
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="COMM">/// &lt;reference path="SL.Core.js" /></span><span class="WHIT">
+<span class='line'> 65</span> 
+<span class='line'> 66</span> 
+<span class='line'> 67</span> </span><span class="COMM">/**
+<span class='line'> 68</span> *空闲执行控制
+<span class='line'> 69</span> *@namespace
+<span class='line'> 70</span> *@name throttle
+<span class='line'> 71</span> */</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="NAME">sl.create</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 73</span> 
+<span class='line'> 74</span> </span><span class="WHIT">    </span><span class="COMM">/*
+<span class='line'> 75</span>     *频率控制 返回函数连续调用时，action 执行频率限定为 次 / delay
+<span class='line'> 76</span>     *@memberOf throttle
+<span class='line'> 77</span>     *@function
+<span class='line'> 78</span>     *@param delay  {number}    延迟时间，单位毫秒
+<span class='line'> 79</span>     *@param action {function}  请求关联函数，实际应用需要调用的函数
+<span class='line'> 80</span>     *@param tail?  {bool}      是否在尾部用定时器补齐调用
+<span class='line'> 81</span>     *@param ctx {object} 作用域 默认为sl对象
+<span class='line'> 82</span>     *@return {function}	返回客户调用函数
+<span class='line'> 83</span>     */</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">throttle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">delay</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">action</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">tail</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">debounce</span><span class="PUNC">,</span><span class="NAME">ctx</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">now</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">last_call</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">last_exec</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">timer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">curr</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">diff</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">       </span><span class="NAME">args</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">exec</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">            </span><span class="NAME">last_exec</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">            </span><span class="NAME">action.apply</span><span class="PUNC">(</span><span class="NAME">ctx</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> 
+<span class='line'> 93</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">            </span><span class="NAME">ctx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx</span><span class="PUNC">||</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">args</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">        </span><span class="NAME">curr</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">now</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">diff</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">curr</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">debounce</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">last_call</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">last_exec</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">delay</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> 
+<span class='line'> 97</span> </span><span class="WHIT">            </span><span class="NAME">clearTimeout</span><span class="PUNC">(</span><span class="NAME">timer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> 
+<span class='line'> 99</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">debounce</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tail</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">                    </span><span class="NAME">timer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="NAME">exec</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">delay</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">diff</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">                    </span><span class="NAME">exec</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">diff</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">                    </span><span class="NAME">exec</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tail</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">                    </span><span class="NAME">timer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="NAME">exec</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NAME">diff</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>112</span> 
+<span class='line'>113</span> </span><span class="WHIT">            </span><span class="NAME">last_call</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">curr</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">    </span><span class="COMM">/*
+<span class='line'>117</span>     * 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 idle，action 才会执行
+<span class='line'>118</span>     *@memberOf throttle
+<span class='line'>119</span>     *@function
+<span class='line'>120</span>     *@param idle   {number}    空闲时间，单位毫秒
+<span class='line'>121</span>     *@param action {function}  请求关联函数，实际应用需要调用的函数
+<span class='line'>122</span>     *@param tail?  {bool}      是否在尾部执行
+<span class='line'>123</span>     *@param ctx {object} 作用域 默认为sl对象
+<span class='line'>124</span>     *@return {function}	返回客户调用函数
+<span class='line'>125</span>     */</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">    </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">debounce</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">idle</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">action</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">tail</span><span class="PUNC">,</span><span class="NAME">ctx</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">throttle</span><span class="PUNC">(</span><span class="NAME">idle</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">action</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">tail</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="NAME">ctx</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">    </span><span class="NAME">sl.throttle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">throttle</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">    </span><span class="NAME">sl.debounce</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">debounce</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> 
+<span class='line'>132</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span></pre></body></html>

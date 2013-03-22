@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+     <link href="http://www.aspnetjs.com/SL/src/css/default/style.css" rel="stylesheet" type="text/css" />
+    <script src="http://www.aspnetjs.com/SL/docs/js/sl.js" type="text/javascript"></script>
+    <script src="http://www.aspnetjs.com/SL/docs/js/SL.Node.js" type="text/javascript"></script>
+    <script src="http://www.aspnetjs.com/SL/docs/js/hl-all.js" type="text/javascript"></script>
+    <link href="http://www.aspnetjs.com/SL/docs/js/style.css" rel="stylesheet" type="text/css" />
+    <script src="http://www.aspnetjs.com/SL/src/UI/SL.Draggable.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        sl.ready(function () {
+            DlHighlight.HELPERS.highlightByName("code", "pre");
+            if (sl.Browser.ie) {
+                $("pre.DlHighlight").each(function () {
+                    var $this = $(this);
+                    $this.html("<pre>" + $this.find("pre").html() + "</pre>");
+                })
+            }
+            try {
+                var obj = parent.document.getElementById("classFrame");  //取得父页面IFrame对象
+                //alert(obj.height); //弹出父页面中IFrame中设置的高度
+                obj.height = document.body.scrollHeight;  //调整父页面中IFrame的高度为此页面
+            } catch (e) { }
+
+        });
+
+        sl.ready(function () {
+            new sl.ui.draggable(document.getElementById("sfs"), { proxy: "", containment: document.getElementById("Div1") });
+            new sl.ui.draggable(document.getElementById("Div2"), { proxy: "clone" });
+            $("#Button1").click(function () {
+                alert($("#sfs").offset().left);
+            })
+        })
+       
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span10">
+                <div id="content">
+                    <!-- ============================== class title ============================ -->
+                    <h1 class="classTitle">
+                        拖动
+                        <div class='file'>
+                            define in:<a href="../symbols/src/SL.Date.js.html">SL.Date.js</a></div>
+                    </h1>
+                    <hr>
+                    <br />
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            无限制拖拉</label>
+                    </div>
+                    <dl class="description">
+                        <dt class="heading">代码如下:</dt>
+                    </dl>
+                    <pre name="code" class='js'>
+new sl.ui.draggable(document.getElementById("Div2"), { proxy: "clone" });
+</pre>
+                    <dl class="detailList">
+                        <dt class="heading">效果:</dt>
+                        <div id='Div2' style="height: 50px; background-color: green; width: 50px; border: 5px solid black;">
+                            无限制拖拉
+                        </div>
+                        </dd>
+                    </dl>
+                    <hr>
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            指定区域内拖拉</label>
+                    </div>
+                    <dl class="description">
+                        <dt class="heading">代码如下:</dt>
+                    </dl>
+                    <pre name="code" class='js'>
+new sl.ui.draggable(document.getElementById("sfs"), { proxy: "", containment: document.getElementById("Div1") });
+</pre>
+                    <dl class="detailList">
+                        <dt class="heading">效果:</dt>
+                        <dd>
+                            <div id='Div1' style="height: 600px; position: relative; background-color: Red; width: 600px;
+                                top: 20px; padding: 10px; position: relative; margin: 10px 10px;">
+                                <div id='sfs' style="height: 50px; background-color: green; width: 50px; border: 5px solid black;">
+                                    内部拖拉
+                                </div>
+                            </div>
+                        </dd>
+                    </dl>
+                    <br />
+                    <hr>
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            option参数说明</label>
+                    </div>
+                    <table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class date.">
+                        <thead>
+                            <th>
+                                名称
+                            </th>
+                            <th>
+                                说明
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    proxy
+                                </td>
+                                <td>
+                                   拖拉时候是否采用影子拖拉 目前只提供"clone"和""(采用源对象拖拉)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    handle
+                                </td>
+                                <td>
+                                   拖拉的手柄 也就是鼠标移动到元素的指定区域才能拖拉
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    containment
+                                </td>
+                                <td>
+                                    拖拉的容器 为dom元素
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

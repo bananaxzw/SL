@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+     <link href="http://www.aspnetjs.com/SL/src/css/default/style.css" rel="stylesheet" type="text/css" />
+    <script src="http://www.aspnetjs.com/SL/docs/js/sl.js" type="text/javascript"></script>
+    <script src="http://www.aspnetjs.com/SL/docs/js/SL.Node.js" type="text/javascript"></script>
+    <script src="http://www.aspnetjs.com/SL/docs/js/hl-all.js" type="text/javascript"></script>
+    <link href="http://www.aspnetjs.com/SL/docs/js/style.css" rel="stylesheet" type="text/css" />
+    <link href="http://www.aspnetjs.com/SL/src/css/default/SLDialog.css" rel="stylesheet" type="text/css" />
+    <script src="http://www.aspnetjs.com/SL/src/UI/SL.Mask.js" type="text/javascript"></script>
+    <script src="http://www.aspnetjs.com/SL/src/UI/SL.Dialog.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        sl.ready(function () {
+            DlHighlight.HELPERS.highlightByName("code", "pre");
+            if (sl.Browser.ie) {
+                $("pre.DlHighlight").each(function () {
+                    var $this = $(this);
+                    $this.html("<pre>" + $this.find("pre").html() + "</pre>");
+                })
+            }
+            try {
+                var obj = parent.document.getElementById("classFrame");  //取得父页面IFrame对象
+                //alert(obj.height); //弹出父页面中IFrame中设置的高度
+                obj.height = document.body.scrollHeight;  //调整父页面中IFrame的高度为此页面
+            } catch (e) { }
+
+        });
+
+        sl.ready(function () {
+            var tt = new sl.ui.dialog(document.getElementById("ElementContainerDialog"), { message: "中间内容", title: "头部", footer: "底部", zIndex: 10002 });
+            $("#btnOpenElement").click(function () {
+                tt.open();
+            })
+            $("#btnCloseElment").click(function () {
+                tt.close();
+            })
+        });
+        sl.ready(function () {
+            var mm = new sl.ui.dialog(document.body, { message: "内容", title: "头部", footer: "底部", zIndex: 10002 });
+            $("#btnOpen").click(function () {
+                mm.open();
+            });
+        });
+       
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span10">
+                <div id="content">
+                    <!-- ============================== class title ============================ -->
+                    <h1 class="classTitle">
+                        对话框
+                        <div class='file'>
+                            define in:<a href="../symbols/src/SL.Date.js.html">SL.Date.js</a></div>
+                    </h1>
+                    <hr>
+                    <br />
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            局部遮罩对话框</label>
+                    </div>
+                    <dl class="description">
+                        <dt class="heading">代码如下:</dt>
+                    </dl>
+                    <pre name="code" class='js'>
+ var tt = new sl.ui.dialog(document.getElementById("ElementContainerDialog"), { message: "中间内容", title: "头部", footer: "底部", zIndex: 10002 });
+$("#btnOpenElement").click(function () {
+    tt.open();
+ })
+$("#btnCloseElment").click(function () {
+      tt.close();
+});
+</pre>
+                    <dl class="detailList">
+                        <dt class="heading">效果:</dt>
+                    </dl>
+                    <input id="btnCloseElment" type="button" value="关闭" />
+                    <input id="btnOpenElement" type="button" value="打开" />
+                    <div id="ElementContainerDialog" style="height: 820px; width: 800px; overflow: auto;
+                        border: 1px solid red;">
+                        <p>
+                            saf</p>
+                        <p>
+                            saf</p>
+                        <p>
+                            saf</p>
+                        <p>
+                            saf</p>
+                        <p>
+                            saf</p>
+                        <p>
+                            saf</p>
+                    </div>
+                    <hr>
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            全页面遮罩对话框</label>
+                    </div>
+                    <dl class="description">
+                        <dt class="heading">代码如下:</dt>
+                    </dl>
+                    <pre name="code" class='js'>
+var mm = new sl.ui.dialog(document.body, { message: "内容", title: "头部", footer: "底部", zIndex: 10002 });
+$("#btnOpen").click(function () {
+        mm.open();
+ });
+</pre>
+                    <dl class="detailList">
+                        <dt class="heading">效果:</dt>
+                        <dd>
+                            <input id="btnOpen" type="button" value="弹出全局对话框" />
+                        </dd>
+                    </dl>
+                    <hr/>
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            option参数说明</label>
+                    </div>
+                    <table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class date.">
+                        <thead>
+                            <th>
+                                名称
+                            </th>
+                            <th>
+                                说明
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    title{string}
+                                </td>
+                                <td>
+                                    标题
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    footer{string}
+                                </td>
+                                <td>
+                                    底部
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    message{string}
+                                </td>
+                                <td>
+                                    中间的消息体
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    zIndex{number} 
+                                </td>
+                                <td>
+                                    默认为1000
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    showClose{boolean}
+                                </td>
+                                <td>
+                                   是否显示关闭按钮 默认为true
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                    autoShow{boolean}
+                                </td>
+                                <td>
+                                    一开始就出现 默认为false
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    centerX{boolean}
+                                </td>
+                                <td>
+                                  对话框水平居中 默认为true
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                     centerY{boolean}
+                                </td>
+                                <td>
+                                    对话框垂直居中 默认为true
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    showOverlay{boolean}
+                                </td>
+                                <td>
+                                   是否显示遮罩层 默认为true
+                                </td>
+                            </tr>
+
+                             <tr>
+                                <td>
+                                    overlayCSS{object}
+                                </td>
+                                <td>
+                                  遮罩层的样式
+                                </td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

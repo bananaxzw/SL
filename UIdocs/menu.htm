@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+     <link href="http://www.aspnetjs.com/SL/src/css/default/style.css" rel="stylesheet" type="text/css" />
+    <script src="http://www.aspnetjs.com/SL/docs/js/sl.js" type="text/javascript"></script>
+    <script src="http://www.aspnetjs.com/SL/docs/js/SL.Node.js" type="text/javascript"></script>
+    <script src="http://www.aspnetjs.com/SL/docs/js/hl-all.js" type="text/javascript"></script>
+    <link href="http://www.aspnetjs.com/SL/docs/js/style.css" rel="stylesheet" type="text/css" />
+    <link href="http://www.aspnetjs.com/SL/src/css/default/menu.css" rel="stylesheet" type="text/css" />
+    <link href="http://www.aspnetjs.com/SL/src/css/default/icon.css" rel="stylesheet" type="text/css" />
+    <script src="http://www.aspnetjs.com/SL/src/UI/SL.Menu.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        sl.ready(function () {
+            DlHighlight.HELPERS.highlightByName("code", "pre");
+            if (sl.Browser.ie) {
+                $("pre.DlHighlight").each(function () {
+                    var $this = $(this);
+                    $this.html("<pre>" + $this.find("pre").html() + "</pre>");
+                })
+            }
+            try {
+                var obj = parent.document.getElementById("classFrame");  //取得父页面IFrame对象
+                //alert(obj.height); //弹出父页面中IFrame中设置的高度
+                obj.height = document.body.scrollHeight;  //调整父页面中IFrame的高度为此页面
+            } catch (e) { }
+
+        });
+
+        var deskTop = [
+	{ text: '刷新', click: function () { alert('干嘛不按F5!') } },
+	{ line: true },
+	{ text: '粘贴', value: "paste", ico: 'icon-cut', click: function () { alert('粘不了!') } },
+	{ text: '重命名', disabled: true },
+	{ line: true },
+	{ text: '新建', ico: 'add', sub: [
+				{ text: '文件夹', ico: 'folder', click: function () { alert('过几天吧!') } },
+				{ text: '快捷方式', disabled: true },
+				{ line: true },
+				{ text: '公文包' },
+				{ text: 'word文档', ico: 'word' },
+				{ text: '文本文档' },
+				{ text: '更多格式', ico: 'more', sub: [
+							{ text: '许志伟', click: function () { alert('许志伟!') } },
+							{ text: '许志伟' },
+							{ text: 'asfsa', sub: [
+								{ text: 'asf', sub: [{ text: '许志伟' }, { text: '待续...'}] },
+								{ text: 'asf' },
+								{ text: 'asf' },
+								{ text: 'asfsaf' }
+							]
+							}
+						]
+				}
+			]
+	}
+];
+        sl.ready(function () {
+            var ss = new sl.ui.menu(document.getElementById("safsa"), { menuData: deskTop, autoOpen: true, isTopMenuAlwaysOpen: true });
+        });
+       
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span10">
+                <div id="content">
+                    <!-- ============================== class title ============================ -->
+                    <h1 class="classTitle">
+                        菜单
+                        <div class='file'>
+                            define in:<a href="../symbols/src/SL.Date.js.html">SL.Date.js</a></div>
+                    </h1>
+                    <hr>
+                    <br />
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            基本用法</label>
+                    </div>
+                    <dl class="description">
+                        <dt class="heading">代码如下:</dt>
+                    </dl>
+                    <pre name="code" class='js'>
+     var deskTop = [
+	{ text: '刷新', click: function () { alert('干嘛不按F5!') } },
+	{ line: true },
+	{ text: '粘贴', value: "paste", ico: 'icon-cut', click: function () { alert('粘不了!') } },
+	{ text: '重命名', disabled: true },
+	{ line: true },
+	{ text: '新建', ico: 'add', sub: [
+				{ text: '文件夹', ico: 'folder', click: function () { alert('过几天吧!') } },
+				{ text: '快捷方式', disabled: true },
+				{ line: true },
+				{ text: '公文包' },
+				{ text: 'word文档', ico: 'word' },
+				{ text: '文本文档' },
+				{ text: '更多格式', ico: 'more', sub: [
+							{ text: '许志伟', click: function () { alert('许志伟!') } },
+							{ text: '许志伟' },
+							{ text: 'asfsa', sub: [
+								{ text: 'asf', sub: [{ text: '许志伟' }, { text: '待续...'}] },
+								{ text: 'asf' },
+								{ text: 'asf' },
+								{ text: 'asfsaf' }
+							]
+							}
+						]
+				}
+			]
+	}
+];
+sl.ready(function () {
+        var ss = new sl.ui.(document.getElementById("safsa"), { menuData: deskTop ,autoOpen:true,isTopMenuAlwaysOpen:ture});
+});
+</pre>
+                    <dl class="detailList">
+                        <dt class="heading">效果:</dt>
+                        <dd>
+                            <div id="Div1" style="position: relative; height: 200px;">
+                                <div id="safsa">
+                                </div>
+                            </div>
+                        </dd>
+                    </dl>
+                    <hr>
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            option参数说明</label>
+                    </div>
+                    <table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class date.">
+                        <thead>
+                            <th>
+                                名称
+                            </th>
+                            <th>
+                                说明
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    menuData
+                                </td>
+                                <td>
+                                    菜单数据(json数组形式)<br />
+                                    text表示显示出的文字<br />
+                                    icon表示菜单项的图标<br />
+                                    value表示菜单项的值<br />
+                                    click表示点击菜单项的动作 第一个参数为text 第二个为value<br />
+                                    sub表示子项
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    autoOpen
+                                </td>
+                                <td>
+                                    菜单是否自动出现 类似右键菜单和下拉就不需要自动出现
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    width
+                                </td>
+                                <td>
+                                    菜单的宽度
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    zIndex
+                                </td>
+                                <td>
+                                    菜单的层次
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    left,top
+                                </td>
+                                <td>
+                                    菜单的位置
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                  isTopMenuAlwaysOpen
+                                </td>
+                                <td>
+                                    顶级的菜单是否一致显示 为false的话 点击菜单项会消失
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
