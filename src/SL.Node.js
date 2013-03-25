@@ -375,12 +375,14 @@
         *检查当前的元素是否含有某个特定的类，如果有，则返回true
         */
         hasClass: function (className) {
+            var has = false;
             sl.each(this.elements, function (i, d) {
                 if (sl.attr.hasClass(d, className)) {
-                    return true;
+                    has = true;
+                    return false;
                 }
             });
-            return false;
+            return has;
         },
         /**
         *如果存在（不存在）就删除（添加）一个类
@@ -663,18 +665,18 @@
 	        return fn && this.bind(name, fn);
 	    };
 	});
-	/**
-	*获取匹配元素相对滚动条左侧的偏移
-	*@memberOf chain.prototype
-	*@function
-	*@name scrollLeft
-	*/
-	/**
-	*获取匹配元素相对滚动条顶部的偏移
-	*@memberOf chain.prototype
-	*@function
-	*@name scrollTop
-	*/
+    /**
+    *获取匹配元素相对滚动条左侧的偏移
+    *@memberOf chain.prototype
+    *@function
+    *@name scrollLeft
+    */
+    /**
+    *获取匹配元素相对滚动条顶部的偏移
+    *@memberOf chain.prototype
+    *@function
+    *@name scrollTop
+    */
     sl.each(["scrollLeft", "scrollTop"], function (index, name) {
         chain.prototype[name] = function (value) {
             return sl[name](this.elements, value);
