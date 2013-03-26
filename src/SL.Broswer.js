@@ -96,9 +96,9 @@ sl.create(function () {
         * @default 0 
         * @type number 
         * @example 
-        */ 
-        safari : 0
-    }
+        */
+        safari: 0
+    };
 
     sl.Browser = sl.Browser || {};
     sl.Browser = new Browser();

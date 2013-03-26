@@ -31,8 +31,8 @@ SL().create(function (SL) {
         tbody: !div.getElementsByTagName("tbody").length,
         optSelected: opt.selected,
         //某些浏览器 webkit没设置radio和checkbox的值时候value为空 而ie和FF为on 统一为on
-        checkOn: ( input.value === "on" )
-    }
+        checkOn: (input.value === "on")
+    };
     select.disabled = true;
     support.optDisabled = !opt.disabled;
     sl.ready(function () {

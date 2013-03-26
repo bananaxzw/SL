@@ -1,4 +1,5 @@
-﻿/// <reference path="SL.Core.js" />
+﻿/*global _comma_separated_list_of_variables_*/
+/// <reference path="SL.Core.js" />
 /// <reference path="SL.CSS.js" />
 /// <reference path="SL.support.js" />
 sl.create(function () {
@@ -41,7 +42,7 @@ sl.create(function () {
             body = container = innerDiv = checkDiv = table = td = null;
         };
         this.Initialed = false;
-    }
+    };
     offset.prototype = {
         /**
         *@ignore
@@ -155,7 +156,7 @@ sl.create(function () {
             return offsetParent;
         }
 
-    }
+    };
     var _offset = new offset();
     /**
     *设置或者获取元素的位置 相对于页面
@@ -177,7 +178,7 @@ sl.create(function () {
         }
 
         return sl.access(nodes, value, null, _offset.getOffset, _offset.setOffset, _offset, null);
-    }
+    };
     sl.position = function (elem) {
         return _offset.position(elem);
     };

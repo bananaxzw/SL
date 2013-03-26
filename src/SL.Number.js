@@ -67,7 +67,7 @@ SL().create(function (SL) {
             /// <param name="format"></param>
             /// <returns type=""></returns>
 
-           // .replace(/(\d{1,2})(?=(\d{3})+\b)/g,"$1,")
+            // .replace(/(\d{1,2})(?=(\d{3})+\b)/g,"$1,")
 
             var hasComma = -1 < format.indexOf(','),
     psplit = this.stripNonNumeric(format).split('.'),
@@ -106,7 +106,7 @@ SL().create(function (SL) {
 
 
         }
-    }
+    };
     SL.Number = SL.Number || {};
     SL.Number = new number();
 

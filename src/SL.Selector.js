@@ -810,7 +810,7 @@ SL().create(function (SL) {
 
                 return ret;
             };
-        }
+        };
 
         var sortOrder, siblingCheck;
 
@@ -1171,7 +1171,7 @@ SL().create(function (SL) {
                     checkSet[i] = match;
                 }
             }
-        }
+        };
 
         function dirCheck(dir, cur, doneName, checkSet, nodeCheck, isXML) {
             for (var i = 0, l = checkSet.length; i < l; i++) {
@@ -1210,7 +1210,7 @@ SL().create(function (SL) {
                     checkSet[i] = match;
                 }
             }
-        }
+        };
 
         if (document.documentElement.contains) {
             Sizzle.contains = function (a, b) {
@@ -1267,7 +1267,7 @@ SL().create(function (SL) {
     };
 
     function slSelector() {
-        this.find = function (selector, context,result) {
+        this.find = function (selector, context, result) {
             return Sizzle(selector, context, result);
         }
         this.expr = Sizzle.selectors;
@@ -1277,13 +1277,13 @@ SL().create(function (SL) {
         this.filter = Sizzle.filter;
         this.contains = Sizzle.contains;
         this.getText = Sizzle.getText;
-        this.multiFilter= function (expr, elems, not) {
+        this.multiFilter = function (expr, elems, not) {
             if (not) {
                 expr = ":not(" + expr + ")";
             }
             return Sizzle.matches(expr, elems);
         }
-    }
+    };
 
     SL.selector = new slSelector();
     SL.select = SL.selector.find;

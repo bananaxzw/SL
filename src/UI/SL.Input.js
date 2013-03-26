@@ -14,13 +14,17 @@
 ********************************************************************************************/
 sl.create("sl.ui", function () {
 
-    function WrapText(textbox) {
+    function WrapText(textbox, opts) {
         var str = "<span class='ui-input-container'>" +
-        "</span>";
-        $(textbox).addClass("ui-input-text").wrapAll(str);
-        return $(textbox).parent().append("<span class='icon-container'><span class='ui-input-icon ui-icon ui-icon-search'></span></span>");
+        "</span>", $textbox = $(textbox);
+        $textbox.addClass("ui-input-text").wrapAll(str);
+        var p = $textbox.parent(), show = "";
+        if (!opts.showSearch) {
+            show = "style='visibility:hidden;'";
+        }
+        return p.append("<span class='icon-container' " + show + "><span class='ui-input-icon ui-icon ui-icon-search'></span></span>");
     };
-    var Defaluts = { DefaultText: "" };
+    var Defaluts = { DefaultText: "", showSearch: true, ondelete: function () { } };
 
     var EventHelper = {
         setInputEvent: function ($text) {
@@ -31,7 +35,11 @@ sl.create("sl.ui", function () {
             $("span.ui-input-icon", $container).click(function () {
                 if ($(this).hasClass("ui-icon-circle-close")) {
                     $(this).addClass("ui-icon-search").removeClass("ui-icon-circle-close");
+                    if (!opts.showSearch) {
+                        $(this).parent().hide(true);
+                    }
                     $text.val(opts.DefaultText).css("color", "#a0a0a0");
+                    opts.ondelete.call(this);
                 }
             });
             //点击 原来文字
@@ -51,7 +59,7 @@ sl.create("sl.ui", function () {
             //有字母 出现删除
             $text.keyup(function () {
                 if (this.value != opts.DefaultText && this.value != "") {
-                    $("span.ui-input-icon", $container).removeClass("ui-icon-search").addClass("ui-icon-circle-close");
+                    $("span.ui-input-icon", $container).removeClass("ui-icon-search").addClass("ui-icon-circle-close").parent().show();
                 }
 
             });
@@ -71,7 +79,7 @@ sl.create("sl.ui", function () {
             }
             else {
                 sl.extend(opts, Defaluts, options);
-                var $Input_Container = WrapText(elem);
+                var $Input_Container = WrapText(elem, opts);
                 elem.value = opts.DefaultText;
                 $this.data("CalvinInput.data", { options: opts, $Input_Container: $Input_Container });
                 EventHelper.setInputEvent($this);

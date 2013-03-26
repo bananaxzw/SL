@@ -68,7 +68,7 @@
             }
         }
         this.length = this.elements.length;
-    }
+    };
     chain.prototype = {
         //暂存dom元素
         elements: [],
@@ -402,14 +402,20 @@
             }
 
         },
-        hide: function () {
+        hide: function (isPosition) {
             return this.each(function () {
-                this.style.display = "none";
+                if (isPosition) {
+                    this.style.visibility = "hidden";
+                }
+                else {
+                    this.style.display = "none";
+                }
             });
         },
         show: function () {
             return this.each(function () {
                 this.style.display = "";
+                this.style.visibility = "visible";
             });
         },
         bind: function (event, data, fn) {
@@ -701,18 +707,15 @@
                 }
             }
         }
-
         return resultNodes;
-
-    }
+    };
     window.slChain = window.$ = function (selector, context) {
         return new chain(selector, context);
-    }
+    };
     slChain.noConflict = function () {
         if (window.$ === slChain) {
             window.$ = _$;
         }
         return slChain;
     };
-
 })();

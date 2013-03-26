@@ -447,7 +447,7 @@ SL().create(function (SL) {
         DocumentFragment: function (obj) {
             return this.Object(obj) && obj.nodeType == 11;
         }
-    }
+    };
     SL.InstanceOf = SL.InstanceOf || {};
     SL.InstanceOf = new InstanceOf();
 });
@@ -528,7 +528,7 @@ SL().create(function (SL) {
         }
         // Return the modified object
         return target;
-    }
+    };
     SL.extend = extend;
 });
 SL().create(function (SL) {
@@ -804,7 +804,7 @@ SL().create(function (SL) {
                     window["eval"].call(window, sriptText);
                 })(sriptText);
             }
-        }
+        };
     }).call(SL);
 
 });
@@ -867,7 +867,7 @@ SL().create(function (SL) {
         } else if (contentLoadedEventList) {
             contentLoadedEventList.push(fn);
         }
-    }
+    };
     function BindContentLoadedEvent() {
         if (isBinded) {
             return;
@@ -890,7 +890,7 @@ SL().create(function (SL) {
                 doScrollCheck();
             }
         }
-    }
+    };
     function fireLoadedEvents() {
         if (!isLoaded) {
             if (!document.body) {
@@ -906,7 +906,7 @@ SL().create(function (SL) {
                 contentLoadedEventList = null;
             }
         }
-    }
+    };
     function doScrollCheck() {
         if (isLoaded) {
             return;
@@ -920,7 +920,7 @@ SL().create(function (SL) {
             return;
         }
         fireLoadedEvents();
-    }
+    };
     SL.ready = ready;
 });
 

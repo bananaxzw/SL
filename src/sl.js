@@ -14,6 +14,20 @@
 
 
 
+/**    
+* SL (Javascript Extension Tools) 
+*
+* @version    1.0
+* @author    bananaxzw(许志伟)(许志伟)(<a href="mailto:bananaxzw@qq.com">Paladin-xu</a>)
+* 
+*/
+/**    
+* @description  SL框架基类 主要核心
+* 感谢jquery protype jet框架的作者们 感谢franky
+*
+*注意：允许你使用该框架 但是不允许修改该框架 有发现BUG请通知作者 切勿擅自修改框架内容
+*/
+
 (function () {
 
     var version = "1.0", topNamespace = this,
@@ -26,12 +40,9 @@
             SL.Instances = Instances;
         }
         /**
-        * SL对象原型
-        * @class
+        * 核心模块
         * @namespace
-        * @name SL
-        * @global
-        * @since version 1.0
+        * @name sl
         */
         SL = function (ver, isNewInstance) {
             var _SL = this;
@@ -49,7 +60,6 @@
                             throw new Error("没有找到 SL version " + ver + ", 所以返回默认版本 SL version " + SL.DEFAULT_VERSION + "!");
                         }
                     } catch (e) {
-
                         //输出("A.错误：[" + e.name + "] " + e.message + ", " + e.fileName + ", 行号:" + e.lineNumber + "; stack:" + typeof e.stack, 2);
                     }
                 } else {
@@ -64,19 +74,18 @@
             },
 
             /**
-            * @description 可以一次性连续创建命名空间
-            * @param {String} name 命名空间名称
-            * @returns {Object} 返回对最末命名空间的引用
+            *@description 可以一次性连续创建命名空间
+            *@name registerNamespace
+            *@memberOf sl
+            *@function
+            *@param {String} name 命名空间名称
+            *@returns {Object} 返回对最末命名空间的引用
             * 
             * @example
             *在全局环境中创建top.sub名字空间, _registerNamespace完成的操作相当于在全局环境中执行如下语句：
             * var top = {};
             * top.sub = {};
-            *
-            * var _s=new SL();
-            * _s._registerNamespace("top.sub");
-            *或者
-            * SL().registerNamespace("top.sub");
+            * sl.registerNamespace("top.sub");
             */
             registerNamespace: function (namespacePath) {
                 var rootObject = topNamespace;
@@ -110,47 +119,49 @@
                 }
                 return rootObject;
             },
+
             /**
-            * @description  创建一个 Javascript 代码包
-            * @param {String} name 要创建的包的命名空间
-            * @param {Function} func 要创建的包的包体
-            * @returns {Mixed} 返回任何自定义的变量
-            * 
-            * @example
-            * SL().create(function(SL){
+            *创建一个 Javascript 代码包
+            *@memberOf sl
+            *@function
+            *@name create
+            *@param {String} name 要创建的包的命名空间
+            *@param {Function} func 要创建的包的包体
+            *@returns {Mixed} 返回任何自定义的变量
+            *@example
+            * sl.create(function(){
             * 	//这时上下文对象this指向全局window对象
             * 	alert(this);
             * };
             * 
-            * SL().create("top.sub", function(SL){
+            *sl.create("top.sub", function(SL){
             * 	//这时上下文对象this指向window对象下的top.sub对象
             * 	alert(this);
             * };
             * 
             *
-            *  SL().create("topNameSpace.sub", function () {
+            *sl.create("topNameSpace.sub", function () {
             *    this.say = function () {
             *        alert("hello word!");
             *        }
-            *      });
+            * });
             *   topNameSpace.sub.say();
             *
-            *    SL().create("topNameSpace.sub.subsub", function () {
+            *sl.create("topNameSpace.sub.subsub", function () {
             *        this.say = function () {
             *            alert("hello word Sub!");
             *        }
-            *    });
-            *    topNameSpace.sub.subsub.say();
+            *});
+            *topNameSpace.sub.subsub.say();
             *
             *
-            *   SL().create("myNameSpace", function (SL) {
+            *sl.create("myNameSpace", function () {
             *        this.say = function () {
             *            alert("hello word myNameSpace!");
             *        }
-            *        SL.U = this;
-            *   });
-            *    alert(myNameSpace.say == SL().U.say);
-            *    alert(myNameSpace.say == (new SL()).U.say);
+            *        sl.U = this;
+            * });
+            *alert(myNameSpace.say == sl.U.say);
             *     
             */
             create: function () {
@@ -180,7 +191,7 @@
 
             },
             /**
-            * @private 比较大小
+            *@ignore
             */
             compare: function (obj1, obj2) {
                 if (obj1 == null || obj2 == null) return (obj1 === obj2);
@@ -207,12 +218,15 @@
 
             /**
             * @description  创建对象
+            *@name Class
+            *@memberOf sl
+            *@function
             * @param {Object} option = {base: superClass} 在option对象的base属性中指定要继承的对象，可以不写，不写就不继承任何类
             * @param {Object}  object={.....} 要创建的类的属性和方法
             * @returns {Object} newclass返回新创建的对象
             * 
             * @example
-            * var Person = SL().Class({
+            * var Person = sl.Class({
             *    init: function (name, sex, age) {
             *        this.name = name;
             *        this.age = age;
@@ -223,7 +237,7 @@
             *    }
             *
             * });
-            * var Employee = SL().Class({ base: Person }, {
+            * var Employee = sl.Class({ base: Person }, {
             *     init: function (name, sex, age, id) {
             *         this.base.init(name, sex, age);
             *         this.EmployeeId = id;
@@ -300,10 +314,7 @@ SL().create(function (SL) {
     * @class
     * @name InstanceOf
     * @example 
-    * return SL().InstanceOf.String(obj)
-    *或者 
-    *var sl=new SL();
-    *sl.InstanceOf.String(obj)
+    * return sl.InstanceOf.String(obj)
     */
     var toString = Object.prototype.toString,
 
@@ -452,19 +463,17 @@ SL().create(function (SL) {
         DocumentFragment: function (obj) {
             return this.Object(obj) && obj.nodeType == 11;
         }
-    }
+    };
     SL.InstanceOf = SL.InstanceOf || {};
     SL.InstanceOf = new InstanceOf();
 });
-/**
-*@memberOf SL
-*对象扩展
-*/
 SL().create(function (SL) {
 
     /**
-    *@memberOf SL
     *对象扩展
+    *@memberOf sl
+    *@function
+    *@param deep||target,[object1],[objectN]
     *@example
     * var object1 = {
     *        apple: 0,
@@ -476,9 +485,9 @@ SL().create(function (SL) {
     *        durian: 100
     *    };
     *
-    *    console.dir(SL().extend(true, object1, object2));
+    *    console.dir(sl.extend(true, object1, object2));
     *  {"apple":0,"banana":{"weight":52,"price":200},"cherry":97,"durian":100}
-    *    console.dir(SL().extend(object1, object2));
+    *    console.dir(sl.extend(object1, object2));
     *    {"apple":0,"banana":{"price":200},"cherry":97,"durian":100}
     */
     function extend() {
@@ -535,7 +544,7 @@ SL().create(function (SL) {
         }
         // Return the modified object
         return target;
-    }
+    };
     SL.extend = extend;
 });
 SL().create(function (SL) {
@@ -571,6 +580,22 @@ SL().create(function (SL) {
 
 
     (function () {
+
+        /**
+        *通用例遍方法，可用于例遍对象和数组。
+        *@name each
+        *@memberOf sl
+        *@function
+        *@param object,[callback]
+        *@example
+        *sl.each( [0,1,2], function(i, n){
+        *  alert( "Item #" + i + ": " + n );
+        *});
+        *
+        *sl.each( { name: "John", lang: "JS" }, function(i, n){
+        *  alert( "Name: " + i + ", Value: " + n );
+        *});
+        */
         this.each = function (object, callback, args) {
             var name, i = 0, length = object.length;
             if (args) {
@@ -597,9 +622,25 @@ SL().create(function (SL) {
                 }
             }
         };
+
         /**
+        *返回一个新函数，并且这个函数始终保持了特定的作用域。
+        *@memberOf sl
+        *@name proxy
+        *@function
+        *@param function,context||context,name
+        *@example
         *proxy( obj, "test" )
         *proxy(fn,context)
+        *
+        *var obj = {
+        *  name: "John",
+        *  test: function() {
+        *    alert( this.name );
+        *  }
+        *};
+        *sl.proxy( obj, "test" )
+        *或者 sl.proxy( obj.test, obj )
         */
         this.proxy = function () {
             var fn, proxy, context;
@@ -629,6 +670,16 @@ SL().create(function (SL) {
             if (fn.guid) { proxy.guid = fn.guid; }
             return proxy;
         };
+        /**
+        *将表单元素数组或者对象序列化。
+        *@name param
+        *@memberOf sl
+        *@function
+        *@param obj
+        *@example
+        *var params = {width:100,height:100}
+        *var str = sl.param(params);=>width=100&height=100
+        */
         //把json转换成querying形式 比如{width:100,height:100}=>width=100&height=100
         this.param = function (a, traditional) {
             var s = [],
@@ -681,6 +732,16 @@ SL().create(function (SL) {
             } //取得第一个元素的属性, getter的参数总是很小的
             return length ? getter.call(bind || elems[0], elems[0], key) : void 0;
         };
+        /**
+        *合并两个数组
+        *@memberOf sl
+        *@function
+        *@name merge
+        *@param first,second
+        *@example
+        *var params = {width:100,height:100}
+        *var str = sl.param(params);=>width=100&height=100
+        */
         this.merge = function (first, second) {
             var i = first.length, j = 0;
 
@@ -698,21 +759,46 @@ SL().create(function (SL) {
 
             return first;
         };
-        this.grep = function (elems, callback, inv) {
+        /**
+        *使用过滤函数过滤数组元素。
+        *@memberOf sl
+        *@function
+        *@name grep
+        *@param array 待过滤数组
+        *@param callback 此函数将处理数组每个元素
+        *@param invert (可选) 如果 "invert" 为 false 或为设置，则函数返回数组中由过滤函数返回 true 的元素，当"invert" 为 true，则返回过滤函数中返回 false 的元素集。
+        *@example
+        *sl.grep( [0,1,2], function(n,i){
+        *  return n > 0;
+        });
+        */
+        this.grep = function (arr, callback, inv) {
             var ret = [];
-            for (var i = 0, length = elems.length; i < length; i++) {
+            for (var i = 0, length = arr.length; i < length; i++) {
                 //若inv为true表示不满足callback条件 inv为false表示满足callback条件
-                if (!inv !== !callback(elems[i], i)) {
-                    ret.push(elems[i]);
+                if (!inv !== !callback(arr[i], i)) {
+                    ret.push(arr[i]);
                 }
             }
 
             return ret;
         };
-        this.map = function (elems, callback, arg) {
+        /**
+        *将一个数组中的元素转换到另一个数组中。
+        *@memberOf sl
+        *@function
+        *@name map
+        *@param array 待转换数组
+        *@param callback 此函数将处理数组每个元素
+        *@example
+        *sl.map( [0,1,2], function(n){
+        *  return n + 4;
+        *   });
+        */
+        this.map = function (arr, callback, arg) {
             var ret = [], value;
-            for (var i = 0, length = elems.length; i < length; i++) {
-                value = callback(elems[i], i, arg);
+            for (var i = 0, length = arr.length; i < length; i++) {
+                value = callback(arr[i], i, arg);
 
                 if (value != null) {
                     ret[ret.length] = value;
@@ -721,13 +807,20 @@ SL().create(function (SL) {
 
             return ret.concat.apply([], ret);
         };
+        /**
+        *动态执行js代码
+        *@memberOf sl
+        *@function
+        *@name evelScript
+        *@param sriptText js代码串
+        */
         this.evalSript = function (sriptText) {
             if (sriptText && /\S/.test(sriptText)) {
                 (window.execScript || function (sriptText) {
                     window["eval"].call(window, sriptText);
                 })(sriptText);
             }
-        }
+        };
     }).call(SL);
 
 });
@@ -790,7 +883,7 @@ SL().create(function (SL) {
         } else if (contentLoadedEventList) {
             contentLoadedEventList.push(fn);
         }
-    }
+    };
     function BindContentLoadedEvent() {
         if (isBinded) {
             return;
@@ -813,7 +906,7 @@ SL().create(function (SL) {
                 doScrollCheck();
             }
         }
-    }
+    };
     function fireLoadedEvents() {
         if (!isLoaded) {
             if (!document.body) {
@@ -829,7 +922,7 @@ SL().create(function (SL) {
                 contentLoadedEventList = null;
             }
         }
-    }
+    };
     function doScrollCheck() {
         if (isLoaded) {
             return;
@@ -843,22 +936,16 @@ SL().create(function (SL) {
             return;
         }
         fireLoadedEvents();
-    }
+    };
     SL.ready = ready;
 });
 
 //json2
-SL().create(function (SL) {
-
-    /*
-    http://www.JSON.org/json2.js
-    2009-08-17
-
-    Public Domain.
-
-    NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
-
-    See http://www.JSON.org/js.html
+sl.create(function () {
+    /**
+    *json操作
+    *@namespace json操作
+    *@name JSON
     */
     var JSON = window['JSON'] || {};
     (function () {
@@ -870,6 +957,9 @@ SL().create(function (SL) {
 
         if (typeof Date.prototype.toJSON !== 'function') {
 
+            /**
+            *@ignore
+            */
             Date.prototype.toJSON = function (key) {
 
                 return isFinite(this.valueOf()) ?
@@ -880,12 +970,20 @@ SL().create(function (SL) {
                  f(this.getUTCMinutes()) + ':' +
                  f(this.getUTCSeconds()) + 'Z' : null;
             };
-
+            /**
+            *@ignore
+            */
             String.prototype.toJSON =
-        Number.prototype.toJSON =
-        Boolean.prototype.toJSON = function (key) {
-            return this.valueOf();
-        };
+            /**
+            *@ignore
+            */
+            Number.prototype.toJSON =
+            /**
+            *@ignore
+            */
+            Boolean.prototype.toJSON = function (key) {
+                return this.valueOf();
+            };
         }
 
         var cx = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
@@ -921,7 +1019,9 @@ SL().create(function (SL) {
             '"' + string + '"';
         }
 
-
+        /**
+        *@ignore
+        */
         function str(key, holder) {
 
             // Produce a string from holder[key].
@@ -1051,6 +1151,13 @@ SL().create(function (SL) {
         // If the JSON object does not yet have a stringify method, give it one.
 
         if (typeof JSON.stringify !== 'function') {
+            /**
+            *把json对象转换成字符串形式
+            *@memberOf JSON
+            *@function
+            *@name stringify
+            *@param value JSON对象
+            */
             JSON.stringify = function (value, replacer, space) {
 
                 // The stringify method takes a value and an optional replacer, and an optional
@@ -1096,7 +1203,13 @@ SL().create(function (SL) {
 
 
         // If the JSON object does not yet have a parse method, give it one.
-
+        /**
+        *把字符串转换成json
+        *@memberOf JSON
+        *@function
+        *@name parse
+        *@param value 字符串对象
+        */
         if (typeof JSON.parse !== 'function') {
             JSON.parse = function (text, reviver) {
 
@@ -1166,18 +1279,18 @@ replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
             };
         }
     } ());
-    SL.Josn = JSON;
+    sl.Josn = JSON;
 });
 //cookie
-SL().create(function (SL) {
+sl.create(function () {
     /**
     * @class
     * @name Cookie
     * @example
-    * SL().Cookie.set("name1", "xuzhiwei", ".testxuzhiwei11.com", "/", 1);
-    * console.log(SL().Cookie.get("name1"));
-    * SL().Cookie.remove("name1");
-    * console.log(SL().Cookie.get("name1"));
+    * sl.Cookie.set("name1", "xuzhiwei", ".testxuzhiwei11.com", "/", 1);
+    * console.log(sl.Cookie.get("name1"));
+    * sl.Cookie.remove("name1");
+    * console.log(sl.Cookie.get("name1"));
     */
     var Cookie = function () { };
     Cookie.prototype = {
@@ -1245,21 +1358,23 @@ SL().create(function (SL) {
         }
     };
 
-    SL.Cookie = SL.Cookie || {};
-    SL.Cookie = new Cookie();
+    sl.Cookie = SL.Cookie || {};
+    sl.Cookie = new Cookie();
 });
 //array
-SL().create(function (SL) {
+sl.create(function () {
     /**
-    * array扩展
-    * @class
+    * @description array扩展
+    * @class array扩展
     * @name array
     */
+
     var array = function () { };
     array.prototype = {
 
         /**
         *把数据拷贝到新的数组中
+        *@private
         *@example
         * var initalArray = [1, 2, 3, 4, 6, 6, 7];
         *    var copyArray = slArray.copy(initalArray);
@@ -1297,7 +1412,7 @@ SL().create(function (SL) {
             /// <param name="obj">值</param>
             /// <returns type="int">位置</returns>
             for (var i = 0, len = arr.length; i < len; i++) {
-                if (SL.compare(arr[i], obj)) return i;
+                if (sl.compare(arr[i], obj)) return i;
             }
             return -1;
         },
@@ -1316,7 +1431,7 @@ SL().create(function (SL) {
             /// <param name="obj"></param>
             /// <returns type=""></returns>
             for (var i = arr.length - 1; i >= 0; i--) {
-                if (SL.compare(arr[i], obj)) return i;
+                if (sl.compare(arr[i], obj)) return i;
             }
             return -1;
         },
@@ -1362,7 +1477,7 @@ SL().create(function (SL) {
         *@param {Array} arr 要查找的数据
         *@param {Array} items 插入的元素数据
         *@example
-        *   var slArray = SL().Array;
+        *   var slArray = sl.Array;
         *    var initalArray = [1, 2, 3, 4, 6, 6, 7];
         *   slArray.addRange(initalArray, [1, 3, 4]);
         */
@@ -1458,34 +1573,36 @@ SL().create(function (SL) {
         *移除重复
         *@param {Array} arr  数组
         *@example
-        * var slArray = SL().Array;
+        * var slArray = sl.Array;
         * var initalArray = [1, 2, 3, 4, 6, 6, 7];
         * slArray.deleteRepeater(initalArray);
         */
-        deleteRepeater: function (arr) {
-            /// <summary>
-            /// 删除当前数组中重复的项
-            /// </summary>
-            /// <param name="arr"></param>
-            /// <returns type=""></returns>
-            if (arr.length < 2) return arr;
-            var aT = arr.concat();
-            arr.length = 0;
-            for (var i = 0; i < aT.length; i++) {
-                arr.push(aT.splice(i--, 1)[0]);
-                for (var j = 0; j < aT.length; j++) {
-                    if (SL.compare(aT[j], arr[arr.length - 1])) aT.splice(j--, 1);
+        deleteRepeater: function (src) {
+            var arr = [],
+		obj = {},
+		i = 0,
+		len = src.length,
+		result;
+
+            for (; i < len; i++) {
+                result = src[i];
+                if (obj[result] !== result) {
+                    arr.push(result);
+                    obj[result] = result;
                 }
             }
             return arr;
+
         },
+
+
         /**
         *循环遍历数据 并指定函数动作
         *@param {Array} arr  数组
         *@param {Function} f 要执行的函数 第一个参数为数据元素 第二个参数为索引
         *@param {Object} oThis 为空时候默认为window对象、
         *@example
-        * var slArray = SL().Array;
+        * var slArray = sl.Array;
         * var initalArray = [1, 2, 3, 4, 6, 6, 7];
         *slArray.forEach(initalArray, function (data, index) {
         *        console.log(index + "|" + data);
@@ -1514,7 +1631,7 @@ SL().create(function (SL) {
         *@param {Function} f 要过滤规则的函数 第一个参数为数据元素 第二个参数为索引
         *@param {Object} oThis 为空时候默认为window对象、
         *@example
-        * var slArray = SL().Array;
+        * var slArray = sl.Array;
         * var initalArray = [1, 2, 3, 4, 6, 6, 7];
         *  var filterArray = slArray.filter(initalArray, function ( data,index) {
         *     if (index == 1 || data == 7) return true;
@@ -1542,7 +1659,7 @@ SL().create(function (SL) {
         *@param {Function} f 要执行映射的函数 第一个参数为数据元素 第二个参数为索引 第三个参数为原始数组
         *@param {Object} oThis 为空时候默认为window对象、
         *@example
-        * var slArray = SL().Array;
+        * var slArray = sl.Array;
         * var initalArray = [1, 2, 3, 4, 6, 6, 7];
         *    console.log(slArray.map(initalArray, function (data, index) {
         *       return data + index;
@@ -1610,18 +1727,18 @@ SL().create(function (SL) {
         }
 
     };
-    SL.Array = SL.Array || {};
-    SL.Array = new array();
+    sl.Array = sl.Array || {};
+    sl.Array = new array();
 });
 //broswer
-SL().create(function (SL) {
+sl.create(function () {
     /**
     *浏览器信息 目前只提供版本判断
     *@class
     *@name Browser
     *@example 
-    * alert(SL().Browser.chrome)
-    * alert(SL().Browser.ie);
+    * alert(sl.Browser.chrome)
+    * alert(sl.Browser.ie);
     */
     function Browser() {
 
@@ -1698,12 +1815,13 @@ SL().create(function (SL) {
         * @example 
         */
         safari: 0
-    }
+    };
 
-    SL.Browser = SL.Browser || {};
-    SL.Browser = new Browser();
+    sl.Browser = sl.Browser || {};
+    sl.Browser = new Browser();
 });
 //date
+
 SL().create(function (SL) {
 
     /**
@@ -2116,9 +2234,8 @@ SL().create(function (SL) {
     SL.String = SL.String || {};
     SL.String = new string();
 
-
-
 });
+
 //number
 SL().create(function (SL) {
     /**
@@ -2213,7 +2330,7 @@ SL().create(function (SL) {
 
 
         }
-    }
+    };
     SL.Number = SL.Number || {};
     SL.Number = new number();
 
@@ -2222,7 +2339,7 @@ SL().create(function (SL) {
 sl.create("sl", function (SL) {
     function now() {
         return (new Date()).getTime();
-    }
+    };
     var jsc = now(),
     rscript = /<script(.|\s)*?\/script>/gi,
     rselectTextarea = /select|textarea/i,
@@ -2367,7 +2484,7 @@ sl.create("sl", function (SL) {
     *@memberOf ajax
     *@function
     *@name ajax
-    *@param options  ss<br/>ss
+    *@param options  请求参数
     */
     this.ajax = function (options) {
         options = sl.extend(true, {}, sl.ajaxSettting, options);
@@ -2580,6 +2697,10 @@ sl.create("sl", function (SL) {
     *@memberOf ajax
     *@function
     *@name get
+    *@param url 请求地址
+    *@param data 发送的数据
+    *@param callback 成功的回调函数
+    *@param datatype 预期返回的类型
     */
 
     /**
@@ -2587,12 +2708,16 @@ sl.create("sl", function (SL) {
     *@memberOf ajax
     *@function
     *@name post
+    *@param url 请求地址
+    *@param data 发送的数据
+    *@param callback 成功的回调函数
+    *@param datatype 预期返回的类型
     */
     sl.each(["get", "post"], function (i, _type) {
-        sl[_type] = function (url, data, callback, dateType) {
+        sl[_type] = function (url, data, callback, dataType) {
             // 没有data只有回调函数
             if (sl.InstanceOf.Function(data)) {
-                dateType = dateType || callback;
+                dataType = dataType || callback;
                 callback = data;
                 data = null;
             }
@@ -2602,19 +2727,54 @@ sl.create("sl", function (SL) {
                 url: url,
                 data: data,
                 success: callback,
-                dataType: dateType
+                dataType: dataType
             });
         };
     });
-    this.getScript = function (url, callback) {
-        return sl.get(url, undefined, callback, "script");
+
+    /**
+    *请求script
+    *@memberOf ajax
+    *@function
+    *@name getScript
+    *@param url 请求地址
+    *@param data 数据
+    *@param callback 成功的回调函数
+    */
+    this.getScript = function (url, data, callback) {
+        return sl.get(url, data, callback, "script");
     };
+    /**
+    *请求json
+    *@memberOf ajax
+    *@function
+    *@name getJSON
+    *@param url 请求地址
+    *@param data 数据
+    *@param callback 成功的回调函数
+    */
     this.getJSON = function (url, data, callback) {
         return sl.get(url, data, callback, "json");
     };
+    /**
+    *请求jsopp(跨域操作)
+    *@memberOf ajax
+    *@function
+    *@name post
+    *@param url 请求地址
+    *@param data 请求地址
+    *@param callback 成功的回调函数
+    */
     this.getJSONP = function (url, data, callback) {
         return sl.get(url, data, callback, "jsonp");
-    }
+    };
+    /**
+    *请求全局设置参数
+    *@memberOf ajax
+    *@function
+    *@name ajaxSetup
+    *@param setting 参数
+    */
     this.ajaxSetup = function (setting) {
         sl.extend(sl.ajaxSettting, setting);
     };
@@ -2650,8 +2810,10 @@ SL().create(function (SL) {
     support = {
         leadingWhitespace: (div.firstChild.nodeType === 3),
         tbody: !div.getElementsByTagName("tbody").length,
-        optSelected: opt.selected
-    }
+        optSelected: opt.selected,
+        //某些浏览器 webkit没设置radio和checkbox的值时候value为空 而ie和FF为on 统一为on
+        checkOn: (input.value === "on")
+    };
     select.disabled = true;
     support.optDisabled = !opt.disabled;
     sl.ready(function () {
@@ -2707,7 +2869,7 @@ sl.create(function () {
             body = container = innerDiv = checkDiv = table = td = null;
         };
         this.Initialed = false;
-    }
+    };
     offset.prototype = {
         /**
         *@ignore
@@ -2821,7 +2983,7 @@ sl.create(function () {
             return offsetParent;
         }
 
-    }
+    };
     var _offset = new offset();
     /**
     *设置或者获取元素的位置 相对于页面
@@ -2843,7 +3005,7 @@ sl.create(function () {
         }
 
         return sl.access(nodes, value, null, _offset.getOffset, _offset.setOffset, _offset, null);
-    }
+    };
     sl.position = function (elem) {
         return _offset.position(elem);
     };
@@ -3062,7 +3224,7 @@ sl.create(function () {
 
             return val === "" ? "auto" : val;
         };
-    }
+    };
 
     function getWH(elem, style) {
         var val = style === "width" ? elem.offsetWidth : elem.offsetHeight;
@@ -3081,7 +3243,7 @@ sl.create(function () {
             return val;
         }
 
-    }
+    };
     sl.each({ Width: 'width', Height: 'height' }, function (i, d) {
         cssHooks[d] = {
             get: function (elem) {
@@ -3110,7 +3272,7 @@ sl.create(function () {
                     cssHelper.swap(elem, { position: "absolute", visibility: "hidden", display: "block" }, getWH, [elem, style]);
                 }
             }
-        }
+        };
         //inner要加padding
         //outer要加padding  boarder
         sl.each({ Inner: "inner", Outer: "outer" }, function (m, n) {
@@ -3239,7 +3401,7 @@ sl.create(function () {
     sl.css = window.css = function (nodes, style, value) {
         nodes = sl.Convert.convertToArray(nodes, null, sl);
         return sl.access(nodes, style, value, getStyle, setStyle);
-    }
+    };
     function toggle(elem) {
         if ("hidden" === elem.type ||
 	getStyle(elem, "display") === "none" ||
@@ -3249,7 +3411,7 @@ sl.create(function () {
         else {
             setStyle(elem, "display", "none");
         }
-    }
+    };
     sl.toggle = toggle;
 
 
@@ -3258,6 +3420,7 @@ sl.create(function () {
 SL().create(function (SL) {
 
     /**
+    *数据缓存
     *@class
     *@name data
     */
@@ -3344,7 +3507,7 @@ SL().create(function (SL) {
             }
         }
 
-    }
+    };
     var data = new data();
 
     SL.extend({ data: data.AddData, removeData: data.removeData });
@@ -4160,7 +4323,7 @@ SL().create(function (SL) {
 
                 return ret;
             };
-        }
+        };
 
         var sortOrder, siblingCheck;
 
@@ -4521,7 +4684,7 @@ SL().create(function (SL) {
                     checkSet[i] = match;
                 }
             }
-        }
+        };
 
         function dirCheck(dir, cur, doneName, checkSet, nodeCheck, isXML) {
             for (var i = 0, l = checkSet.length; i < l; i++) {
@@ -4560,7 +4723,7 @@ SL().create(function (SL) {
                     checkSet[i] = match;
                 }
             }
-        }
+        };
 
         if (document.documentElement.contains) {
             Sizzle.contains = function (a, b) {
@@ -4622,6 +4785,7 @@ SL().create(function (SL) {
         }
         this.expr = Sizzle.selectors;
         this.matches = Sizzle.matches;
+        this.expr[":"] = Sizzle.selectors.filters;
         this.matchesSelector = Sizzle.matchesSelector;
         this.filter = Sizzle.filter;
         this.contains = Sizzle.contains;
@@ -4632,7 +4796,7 @@ SL().create(function (SL) {
             }
             return Sizzle.matches(expr, elems);
         }
-    }
+    };
 
     SL.selector = new slSelector();
     SL.select = SL.selector.find;
@@ -5380,7 +5544,7 @@ sl.create(function () {
     sl.Event = EventOperator;
 });
 //attr
-SL().create(function () {
+sl.create(function () {
     var valHooks = {
         option: {
             get: function (elem) {
@@ -5458,10 +5622,21 @@ SL().create(function () {
 
             };
         });
-    }
+    };
 
+    /**
+    * @description DOM属性操作
+    * @class DOM属性操作
+    * @name attribute
+    */
     function attribute() { }
     attribute.prototype = {
+        /**
+        *获取元素属性
+        *@param  ele DOM元素
+        *@param  name 属性名
+        *@return 属性值
+        */
         getAttr: function (ele, name) {
             if (/href|src|width|height|colSpan|rowSpan/.test(name)) {
                 /**IE的getAttribute支持第二个参数，可以为 0,1,2,4
@@ -5481,6 +5656,12 @@ SL().create(function () {
                 return ele.getAttribute(name);
             }
         },
+        /**
+        *设置元素属性
+        *@param  ele DOM元素
+        *@param  name 属性名
+        *@param  value 属性值
+        */
         setAttr: function (ele, name, value) {
             //设置属性
             if (value == null) {
@@ -5494,6 +5675,11 @@ SL().create(function () {
             }
 
         },
+        /**
+        *移除元素属性
+        *@param  ele DOM元素
+        *@param  name 属性名
+        */
         removeAttr: function (ele, name) {
             this.setAttr(ele, name, "");
             if (ele.nodeType === 1) {
@@ -5506,6 +5692,11 @@ SL().create(function () {
             }
 
         },
+        /**
+        *添加元素CLASS属性
+        *@param  ele DOM元素
+        *@param  value CLASS名字
+        */
         addClass: function (ele, value) {
             if (value && typeof value === "string") {
                 //分割
@@ -5526,11 +5717,22 @@ SL().create(function () {
             }
 
         },
+        /**
+        *是否具有某CLASS
+        *@param  ele DOM元素
+        *@param  value CLASS名字
+        *@return boolean
+        */
         hasClass: function (ele, value) {
             var re = new RegExp('(\\s|^)' + value + '(\\s|$)');
             return re.test(ele.className.replace(/[\n\t]/, " "));
 
         },
+        /**
+        *移除某个CLASS
+        *@param  ele DOM元素
+        *@param  value CLASS名字
+        */
         removeClass: function (ele, value) {
             if ((value && typeof value === "string") || value === undefined) {
                 var classNames = (value || "").split(/\s+/);
@@ -5549,6 +5751,11 @@ SL().create(function () {
                 }
             }
         },
+        /**
+        *触发和移除某个CLASS
+        *@param  ele DOM元素
+        *@param  value CLASS名字
+        */
         toggleClass: function (ele, value) {
             if (this.hasClass(ele, value)) {
                 this.removeClass(ele, value);
@@ -5556,6 +5763,11 @@ SL().create(function () {
                 this.addClass(ele, value);
             }
         },
+        /**
+        *获取元素ele的Value值
+        *@param  ele DOM元素
+        *@return value值
+        */
         getValue: function (ele) {
             var hooks = valHooks[ele.type] || valHooks[ele.nodeName.toLowerCase()];
             if (hooks && "get" in hooks && (ret = hooks.get(ele)) !== undefined) {
@@ -5566,6 +5778,11 @@ SL().create(function () {
             }
             return "";
         },
+        /**
+        *设置元素value值
+        *@param  ele DOM元素
+        *@param  value value值
+        */
         setValue: function (ele, value) {
             if (ele.nodeType != 1) {
                 return;
@@ -5578,10 +5795,11 @@ SL().create(function () {
             }
 
         }
-    }
+    };
     sl.attr = new attribute();
 });
 //DOM
+
 SL().create(function (SL) {
     //var xuzhiweiSL = new SL();
     /**
@@ -5615,12 +5833,10 @@ SL().create(function (SL) {
             if (elem === document) return [];
             var n = elem.parentNode.firstChild;
             var r = [];
-
             for (; n; n = n.nextSibling) {
                 if (n.nodeType == 1 && n != elem)
                     r.push(n);
             }
-
             return r;
         },
         /**
@@ -5975,8 +6191,8 @@ sl.create(function () {
             }
 
             last_call = curr;
-        }
-    }
+        };
+    };
     /*
     * 空闲控制 返回函数连续调用时，空闲时间必须大于或等于 idle，action 才会执行
     *@memberOf throttle
@@ -5989,7 +6205,7 @@ sl.create(function () {
     */
     var debounce = function (idle, action, tail, ctx) {
         return throttle(idle, action, tail, true, ctx);
-    }
+    };
     sl.throttle = throttle;
     sl.debounce = debounce;
 

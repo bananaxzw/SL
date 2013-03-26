@@ -105,7 +105,7 @@ SL().create(function (SL) {
             }
         }
 
-    }
+    };
     var data = new data();
 
     SL.extend({ data: data.AddData, removeData: data.removeData });

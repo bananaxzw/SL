@@ -10,7 +10,7 @@
 sl.create("sl", function (SL) {
     function now() {
         return (new Date()).getTime();
-    }
+    };
     var jsc = now(),
     rscript = /<script(.|\s)*?\/script>/gi,
     rselectTextarea = /select|textarea/i,
@@ -412,7 +412,7 @@ sl.create("sl", function (SL) {
     *@param data 数据
     *@param callback 成功的回调函数
     */
-    this.getScript = function (url,data, callback) {
+    this.getScript = function (url, data, callback) {
         return sl.get(url, data, callback, "script");
     };
     /**
@@ -426,7 +426,7 @@ sl.create("sl", function (SL) {
     */
     this.getJSON = function (url, data, callback) {
         return sl.get(url, data, callback, "json");
-    }; 
+    };
     /**
     *请求jsopp(跨域操作)
     *@memberOf ajax
@@ -438,7 +438,7 @@ sl.create("sl", function (SL) {
     */
     this.getJSONP = function (url, data, callback) {
         return sl.get(url, data, callback, "jsonp");
-    }
+    };
     /**
     *请求全局设置参数
     *@memberOf ajax
