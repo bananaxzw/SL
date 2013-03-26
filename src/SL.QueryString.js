@@ -68,5 +68,5 @@ sl.create(function () {
     };
     sl.QueryString = function (str) {
         return new QueryString(str);
-    }
+    };
 });

@@ -167,7 +167,7 @@ sl.create(function () {
 
             return val === "" ? "auto" : val;
         };
-    }
+    };
 
     function getWH(elem, style) {
         var val = style === "width" ? elem.offsetWidth : elem.offsetHeight;
@@ -186,7 +186,7 @@ sl.create(function () {
             return val;
         }
 
-    }
+    };
     sl.each({ Width: 'width', Height: 'height' }, function (i, d) {
         cssHooks[d] = {
             get: function (elem) {
@@ -195,10 +195,10 @@ sl.create(function () {
                 }
                 if (elem.nodeType && elem.nodeType == 9) {
                     if (elem.nodeType === 9) {
-                     
-                       var doc = elem.documentElement;
+
+                        var doc = elem.documentElement;
                         // support:IE6
-                        if (doc["client"+i] >= doc["scroll"+i]) {
+                        if (doc["client" + i] >= doc["scroll" + i]) {
                             return doc["client" + i];
                         }
 
@@ -215,7 +215,7 @@ sl.create(function () {
                     cssHelper.swap(elem, { position: "absolute", visibility: "hidden", display: "block" }, getWH, [elem, style]);
                 }
             }
-        }
+        };
         //inner要加padding
         //outer要加padding  boarder
         sl.each({ Inner: "inner", Outer: "outer" }, function (m, n) {
@@ -224,9 +224,9 @@ sl.create(function () {
                     var fixAtrrs = sizeParams[i], val = parseFloat(getStyle(elem, d)), isOuter = (n == "outer");
                     if (!sl.InstanceOf.Window(elem)) {
                         sl.each(fixAtrrs, function (f, g) {
-                            val += parseFloat(getStyle(elem, "padding" + g))||0;
+                            val += parseFloat(getStyle(elem, "padding" + g)) || 0;
                             if (isOuter) {
-                                val += parseFloat(getStyle(elem, "border" + g + "Width"))||0;
+                                val += parseFloat(getStyle(elem, "border" + g + "Width")) || 0;
                             }
                         });
                     };
@@ -344,7 +344,7 @@ sl.create(function () {
     sl.css = window.css = function (nodes, style, value) {
         nodes = sl.Convert.convertToArray(nodes, null, sl);
         return sl.access(nodes, style, value, getStyle, setStyle);
-    }
+    };
     function toggle(elem) {
         if ("hidden" === elem.type ||
 	getStyle(elem, "display") === "none" ||
@@ -354,7 +354,7 @@ sl.create(function () {
         else {
             setStyle(elem, "display", "none");
         }
-    }
+    };
     sl.toggle = toggle;
 
 

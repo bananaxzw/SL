@@ -98,7 +98,7 @@ sl.create(function () {
 
             };
         });
-    }
+    };
 
     /**
     * @description DOM属性操作
@@ -271,6 +271,6 @@ sl.create(function () {
             }
 
         }
-    }
+    };
     sl.attr = new attribute();
 });

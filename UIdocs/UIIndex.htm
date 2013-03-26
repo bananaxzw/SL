@@ -2,14 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-     <link href="http://www.aspnetjs.com/SL/src/css/default/style.css" rel="stylesheet" type="text/css" />
-    <script src="http://www.aspnetjs.com/SL/docs/js/sl.js" type="text/javascript"></script>
-    <script src="http://www.aspnetjs.com/SL/docs/js/SL.Node.js" type="text/javascript"></script>
+    <link href="http://www.aspnetjs.com/SL/src/css/default/style.css" rel="stylesheet"
+        type="text/css" />
+   <script src="http://www.aspnetjs.com/SL/src/sl-min.js" type="text/javascript"></script>
+    <script src="http://www.aspnetjs.com/SL/src/SL.Node.js" type="text/javascript"></script>
     <script src="http://www.aspnetjs.com/SL/docs/js/hl-all.js" type="text/javascript"></script>
     <link href="http://www.aspnetjs.com/SL/docs/js/style.css" rel="stylesheet" type="text/css" />
     <script src="http://www.aspnetjs.com/SL/src/UI/SL.Menu.js" type="text/javascript"></script>
     <script src="http://www.aspnetjs.com/SL/src/UI/SL.FixedTop.js" type="text/javascript"></script>
-    <link href="http://www.aspnetjs.com/SL/src/css/default/menu.css" rel="stylesheet" type="text/css" />
+    <link href="http://www.aspnetjs.com/SL/src/css/default/menu.css" rel="stylesheet"
+        type="text/css" />
+    <style type="text/css">
+        .copyright
+        {
+            text-align: center;
+        }
+    </style>
     <script type="text/javascript">
         function goto1(where) {
             window.classFrame.location = where;
@@ -36,6 +44,8 @@
 	{ text: '延迟加载', sub: [{ text: '页面元素延迟', click: function () { goto1("lazyload.htm") } }, { text: '滚动底部加载', click: function () { goto1("scrollbottom.htm") } }, { text: '图片延迟加载', click: function () { goto1("imageLazyload.htm"); } }] },
 	{ line: true },
 	{ text: '对话框', click: function () { goto1("dialog.htm"); } },
+    	{ text: '带删除按钮文本框', click: function () { goto1("input.htm"); } },
+    { text: '交流群', sub:[{text:'14804593'}] },
 	{ text: '继续更新中··', click: function () { alert('怎么这么多要求!') } }
 ];
         sl.ready(function () {
@@ -61,7 +71,7 @@
             <h1>
                 Javascript Lab</h1>
             <p class="lead">
-                构建web前端的脚本库-SL.</p>
+                构建web前端的UI库-SL.UI</p>
         </div>
     </div>
     <div class="container-fluid">
@@ -75,6 +85,16 @@
                     id="classFrame" name="classFrame"></iframe>
             </div>
         </div>
+    </div>
+    <div class="copyright">
+        <p>
+            <script type="text/javascript">
+                var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F83b53e258e76dd8bae7f0b328d9ce46b' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+            Powered by SL-UI</a>
+            <script src="http://s20.cnzz.com/stat.php?id=4468815&web_id=4468815&show=pic1" language="JavaScript"></script>
+        </p>
     </div>
 </body>
 </html>
