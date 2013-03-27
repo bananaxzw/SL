@@ -18,7 +18,8 @@ sl.create("sl.ui", function () {
         source: [],
         selected: function (event, item) { },
         dynamicSource: false,
-        ajaxOption: sl.ajaxSettting
+        ajaxOption: sl.ajaxSettting,
+        AutoInput: true, MenuHideAuto: true
     };
     var styleHelper = {
         /**
@@ -67,7 +68,7 @@ sl.create("sl.ui", function () {
             var key = textBox.value, param;
             //json数据
             if (/json/.test(opts.ajaxOption.contentType)) {
-                params = JSON.stringify($.extend({ "key": key }, opts.ajaxOption.data));
+                params = JSON.stringify(sl.extend({ "key": key }, opts.ajaxOption.data));
             } else {
                 params = sl.param(sl.extend({ "key": key }, opts.ajaxOption.data));
             }
@@ -194,7 +195,7 @@ sl.create("sl.ui", function () {
                 var $SelectedItem = $(">li.ui-menu-itemHover", $itemContainer.get(0));
                 var SelectIndex = $items.index($SelectedItem.get(0));
                 switch (event.keyCode) {
-                    //向上                                                                                                                                            
+                    //向上                                                                                                                                               
                     case 38:
                         styleHelper.RemoveItemHoverStyle($itemContainer);
 
@@ -202,7 +203,7 @@ sl.create("sl.ui", function () {
                             $SelectedItem.prev().addClass("ui-menu-itemHover");
                         }
                         break;
-                    //向下                                                                                                                                         
+                    //向下                                                                                                                                            
                     case 40:
                         styleHelper.RemoveItemHoverStyle($itemContainer);
                         //没有选中的项
@@ -242,7 +243,7 @@ sl.create("sl.ui", function () {
                         }
                         MenuItemHelper.RemoveMenuItems(textBox);
                         break;
-                    //删除键                                                                               
+                    //删除键                                                                                  
                     case 8:
                         var minLength = opts.min;
                         if ($this.val().length >= minLength) {
@@ -274,11 +275,16 @@ sl.create("sl.ui", function () {
             var ItemData = $MenuItem.data("MenuItem.Data");
             $MenuItem.bind("selected", opts.selected);
             //设置item点击的事件 默认事件自动填写text框
-            $MenuItem.bind("click", function () {
-                $textBox.val(ItemData.text);
+            $MenuItem.bind("click", function (e) {
+                if (opts.AutoInput) {
+                    $textBox.val(ItemData.text);
+                }
                 $MenuItem.trigger("selected", [ItemData]);
-                $MenuItem.parent().hide();
+                if (opts.MenuHideAuto) {
+                    $MenuItem.parent().hide();
+                }
                 ItemData.Selected = true;
+                e.stopPropagation();
 
             });
         }
@@ -306,8 +312,12 @@ sl.create("sl.ui", function () {
         * @param {Key} 值
         **/
         FilterOptionSouces: function (opts, Key) {
-            if (opts.source == null || opts.source.length == 0)
+            if (opts.source == null || opts.source.length == 0) {
                 return null;
+            }
+            if (opts.dynamicSource) {
+                return opts.source;
+            }
             var fileterArray = new Array();
             sl.each(opts.source, function (t, d) {
                 if (sl.InstanceOf.PlainObject(d)) {
@@ -352,3 +362,8 @@ sl.create("sl.ui", function () {
 
     });
 });
+
+/*********************************
+@2013-03-07修改ajax获取数据
+
+***************************************/
