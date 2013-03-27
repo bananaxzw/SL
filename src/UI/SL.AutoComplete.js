@@ -18,7 +18,7 @@ sl.create("sl.ui", function () {
         source: [],
         selected: function (event, item) { },
         dynamicSource: false,
-        ajaxOption: { url: "", extendData: {} }
+        ajaxOption: sl.ajaxSettting
     };
     var styleHelper = {
         /**
@@ -64,18 +64,22 @@ sl.create("sl.ui", function () {
             var opts = sl.data(textBox, 'CalvinAutoComplete.data').options;
             var $loading = GenerateLoading(textBox);
             $loading.show();
-            var key = textBox.value;
-            // var params = JSON.stringify($.extend({ "key": key }, opts.ajaxOption.extendData));
-            var params = sl.param(sl.extend({ "key": key }, opts.ajaxOption.extendData));
+            var key = textBox.value, param;
+            //json数据
+            if (/json/.test(opts.ajaxOption.contentType)) {
+                params = JSON.stringify($.extend({ "key": key }, opts.ajaxOption.data));
+            } else {
+                params = sl.param(sl.extend({ "key": key }, opts.ajaxOption.data));
+            }
             if (opts.dynamicSource) {
                 var xmlhttp = sl.ajax({
                     type: "POST",
                     url: opts.ajaxOption.url,
-                    //contentType: "application/json",
+                    contentType: opts.ajaxOption.contentType,
                     dataType: "json",
                     data: params,
                     success: function (data) {
-                        opts.source = data;
+                        opts.source = data ? (data.d ? data.d : data) : null;
                         var $items = MenuItemHelper._GenrateMenuItems(textBox, otherHelper.FilterOptionSouces(opts, textBox.value), height, width, top, left);
                         $loading.hide();
                         return $items;
@@ -85,8 +89,6 @@ sl.create("sl.ui", function () {
                         return null;
                     }
                 });
-
-
             }
             else {
                 var $items = MenuItemHelper._GenrateMenuItems(textBox, otherHelper.FilterOptionSouces(opts, textBox.value), height, width, top, left);
@@ -192,7 +194,7 @@ sl.create("sl.ui", function () {
                 var $SelectedItem = $(">li.ui-menu-itemHover", $itemContainer.get(0));
                 var SelectIndex = $items.index($SelectedItem.get(0));
                 switch (event.keyCode) {
-                    //向上                                                                                                                                     
+                    //向上                                                                                                                                            
                     case 38:
                         styleHelper.RemoveItemHoverStyle($itemContainer);
 
@@ -200,7 +202,7 @@ sl.create("sl.ui", function () {
                             $SelectedItem.prev().addClass("ui-menu-itemHover");
                         }
                         break;
-                    //向下                                                                                                                                  
+                    //向下                                                                                                                                         
                     case 40:
                         styleHelper.RemoveItemHoverStyle($itemContainer);
                         //没有选中的项
@@ -240,7 +242,7 @@ sl.create("sl.ui", function () {
                         }
                         MenuItemHelper.RemoveMenuItems(textBox);
                         break;
-                    //删除键                                                                        
+                    //删除键                                                                               
                     case 8:
                         var minLength = opts.min;
                         if ($this.val().length >= minLength) {
@@ -297,7 +299,7 @@ sl.create("sl.ui", function () {
             return $LoadingHtml;
         }
 
-    }
+    };
     var otherHelper = {
         /**
         * @description 根据指定的key 过滤options.sources数组 以便再生成菜单
@@ -307,15 +309,13 @@ sl.create("sl.ui", function () {
             if (opts.source == null || opts.source.length == 0)
                 return null;
             var fileterArray = new Array();
-
             sl.each(opts.source, function (t, d) {
                 if (sl.InstanceOf.PlainObject(d)) {
                     var reg = new RegExp(".*" + Key + ".*", "g");
                     if (reg.test(d.text)) {
                         fileterArray.push(d);
                     }
-                }
-                else {
+                } else {
                     var reg = new RegExp(".*" + Key + ".*", "g");
                     if (reg.test(d)) {
                         fileterArray.push(d);
@@ -323,27 +323,6 @@ sl.create("sl.ui", function () {
                 }
             });
             return fileterArray;
-        },
-        /**
-        * @description 获取补全
-        * @param  {key } 获取产生下拉菜单的数组 如果是静态数据就返回options.source 
-        *                如果是动态数据 则采用文本框的key然后 ajax取数据 采用同步的方式
-        */
-        GetSource: function (opts, key) {
-            var data = JSON.stringify(sl.extend({ "key": key }, opts.ajaxOption.extendData));
-            if (opts.dynamicSource) {
-                var xmlhttp = sl.ajax({
-                    type: "POST",
-                    url: opts.ajaxOption.url,
-                    contentType: "application/json",
-                    dataType: "json",
-                    data: data,
-                    async: false
-                });
-                var returnData = JSON.parse(xmlhttp.responseText);
-                opts.source = returnData;
-            }
-            return opts.source;
         }
     };
     this.autocomplete = sl.Class(
@@ -354,7 +333,7 @@ sl.create("sl.ui", function () {
             var state = sl.data(elem, 'CalvinAutoComplete.data');
             if (state) {
                 // htmlHelper.destroy(this);
-                sl.extend(opts, state.options, options);
+                sl.extend(true, opts, state.options, options);
                 state.options = opts;
             }
             else {
