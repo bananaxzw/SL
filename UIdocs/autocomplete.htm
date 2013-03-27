@@ -50,12 +50,12 @@
             var mm = new sl.ui.autocomplete(document.getElementById("ajax"),
            {
                min: 1,
-
                dynamicSource: true,
-               ajaxOption: { url: "ajaxdata.asmx/HelloWorld",
+               ajaxOption: {
+                   url: "ajaxdata.asmx/HelloWorld",
                    contentType: "application/json",
-                       dataType: "json"
-                   
+                   dataType: "json"
+
                }
            });
 
