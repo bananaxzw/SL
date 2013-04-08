@@ -20,7 +20,7 @@ sl.create("sl.ui", function () {
         iconCls: null
     };
     function createButton(target) {
-        var opts = $.data(target, 'linkbutton').options;
+        var opts = sl.data(target, 'slbutton').options;
         $(target).empty();
         $(target).addClass('l-btn');
         if (opts.id) {
@@ -49,7 +49,7 @@ sl.create("sl.ui", function () {
         setDisabled(target, opts.disabled);
     };
     function setDisabled(target, disabled) {
-        var state = $.data(target, 'linkbutton');
+        var state = sl.data(target, 'slbutton');
         if (disabled) {
             state.options.disabled = true;
             var href = $(target).attr('href');
@@ -77,25 +77,25 @@ sl.create("sl.ui", function () {
     };
     this.button = sl.Class({
         init: function (elem, options) {
-            var state = $.data(this, 'linkbutton');
+            var state = sl.data(elem, 'slbutton');
             if (state) {
-                $.extend(state.options, options);
+                sl.extend(state.options, options);
             }
             else {
-                var t = $(this);
-                $.data(this, 'linkbutton', {
-                    options: $.extend({}, defaults, {
+                var t = $(elem);
+                sl.data(elem, 'slbutton', {
+                    options: sl.extend({}, defaults, {
                         id: t.attr('id'),
                         disabled: (t.attr('disabled') ? true : undefined),
                         plain: (t.attr('plain') ? t.attr('plain') == 'true' : undefined),
-                        text: $.trim(t.html()),
+                        text: sl.String.trim(t.html()),
                         iconCls: t.attr('icon')
                     }, options)
                 });
                 t.removeAttr('disabled');
             }
 
-            createButton(this);
+            createButton(elem);
         }
 
     });
