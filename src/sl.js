@@ -5298,7 +5298,6 @@ sl.create(function () {
                     if (cur.disabled !== true) {
                         selMatch = {};
                         matches = [];
-                        jqcur[0] = cur;
                         for (i = 0; i < delegateCount; i++) {
                             handleObj = handlers[i];
                             sel = handleObj.selector;

@@ -34,8 +34,8 @@ sl.create("sl.ui", function () {
         init: function (elem, options) {
 
             var full, ie6 = sl.Browser.ie == 6.0, options = sl.extend({}, Defaults, options);
-            if ((elem.nodeType && elem.nodeType === 9) || sl.InstanceOf.Window(elem) || elem.nodeName == "BODY") {
-                this.elem = elem.body || elem.document.body;
+            if (sl.InstanceOf.BodyOrHtmlOrWindow(elem)) {
+                this.elem = /body/i.test(elem.nodeName) ? elem : (elem.body || elem.document.body);
                 full = true; //window或者document为true
             }
             else {
@@ -46,10 +46,10 @@ sl.create("sl.ui", function () {
                 if (sl.css(this.elem, 'position') == 'static')
                     this.elem.style.position = 'relative';
             }
-            sl.data(elem, "sldialog", { options: options, ie6: ie6, full: full, container: this.elem });
-            DialogHelper.createMask(elem);
-            DialogHelper.wrapDialog(elem);
-            DialogHelper.setDialogStyle(elem);
+            sl.data(this.elem, "sldialog", { options: options, ie6: ie6, full: full, container: this.elem });
+            DialogHelper.createMask(this.elem);
+            DialogHelper.wrapDialog(this.elem);
+            DialogHelper.setDialogStyle(this.elem);
             if (!options.autoShow) {
                 this.close();
             }
@@ -151,7 +151,6 @@ sl.create("sl.ui", function () {
                 borderAndPaddingWidth = $p.outerWidth() - $p.width();
                 borderAndPaddingHeight = $p.outerHeight() - $p.height();
             }
-
             var l, t;
             if (sl.Support.boxModel) {
                 l = ((p.offsetWidth - el.offsetWidth) / 2) - (borderAndPaddingWidth / 2);

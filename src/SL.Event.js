@@ -498,11 +498,9 @@ sl.create(function () {
                     if (cur.disabled !== true) {
                         selMatch = {};
                         matches = [];
-                        jqcur[0] = cur;
                         for (i = 0; i < delegateCount; i++) {
                             handleObj = handlers[i];
                             sel = handleObj.selector;
-
                             if (selMatch[sel] === undefined) {
                                 //目前只支持简单的判断 不支持复杂的选择器 后面待添加
                                 selMatch[sel] = (
