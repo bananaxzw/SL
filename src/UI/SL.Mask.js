@@ -33,7 +33,7 @@ sl.create("sl.ui",function () {
         init: function (elem, options) {
             this.opts = sl.extend(true, options, defaults);
             if (sl.InstanceOf.BodyOrHtmlOrWindow(elem)) {
-                this.elem = elem.body || elem.document.body;
+                this.elem =/body/i.test(elem.nodeName)?elem:(elem.body || elem.document.body);
                 this.full = true; //是页面遮罩还是局部的元素遮罩
             }
             else {

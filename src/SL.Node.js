@@ -671,6 +671,15 @@
 	        return fn && this.bind(name, fn);
 	    };
 	});
+    chain.prototype.deledate = function (selector, types, data, fn) {
+        if (fn == null) {
+            fn = data;
+            data = undefined;
+        }
+        return this.each(function () {
+            sl.Event.addEvent(this, types, fn, data, selector);
+        });
+    };
     /**
     *获取匹配元素相对滚动条左侧的偏移
     *@memberOf chain.prototype

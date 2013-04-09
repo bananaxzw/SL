@@ -4,7 +4,7 @@
     <title></title>
     <link href="http://www.aspnetjs.com/SL/src/css/default/style.css" rel="stylesheet"
         type="text/css" />
-   <script src="http://www.aspnetjs.com/SL/src/sl-min.js" type="text/javascript"></script>
+    <script src="http://www.aspnetjs.com/SL/src/sl-min.js" type="text/javascript"></script>
     <script src="http://www.aspnetjs.com/SL/src/SL.Node.js" type="text/javascript"></script>
     <script src="http://www.aspnetjs.com/SL/docs/js/hl-all.js" type="text/javascript"></script>
     <link href="http://www.aspnetjs.com/SL/docs/js/style.css" rel="stylesheet" type="text/css" />
@@ -24,18 +24,9 @@
             // document.getElementById("classFrame").src = where;
         }
         var deskTop = [
-        { text: '基础库', ico: 'icon-add', click: function () {
-            window.open("http://www.aspnetjs.com/Index.html");
-        }
-        },
-        { text: '参与维护', ico: 'icon-add', click: function () {
-            window.open("https://github.com/bananaxzw/SL");
-        }
-        },
-	{ text: 'autocomplete', ico: 'icon-add', click: function () {
-	    goto1("autocomplete.htm");
-	}
-	},
+    { text: '基础库', ico: 'icon-add', click: function () { window.open("http://www.aspnetjs.com/Index.html"); } },
+    { text: '参与维护', ico: 'icon-add', click: function () { window.open("https://github.com/bananaxzw/SL"); } },
+	{ text: 'autocomplete', ico: 'icon-add', click: function () { goto1("autocomplete.htm"); } },
 	{ text: 'combobox', click: function () { goto1("combobox.htm"); } },
     { text: '菜单', sub: [{ text: '普通菜单', click: function () { goto1("menu.htm") } }, { text: '右键菜单', click: function () { goto1("contextmenu.htm"); } }] },
 	{ line: true },
@@ -44,11 +35,11 @@
 	{ text: '延迟加载', sub: [{ text: '页面元素延迟', click: function () { goto1("lazyload.htm") } }, { text: '滚动底部加载', click: function () { goto1("scrollbottom.htm") } }, { text: '图片延迟加载', click: function () { goto1("imageLazyload.htm"); } }] },
 	{ line: true },
 	{ text: '对话框', click: function () { goto1("dialog.htm"); } },
-    	{ text: '带删除按钮文本框', click: function () { goto1("input.htm"); } },
-        { text: 'tooltip提示框', click: function () { goto1("tooltip.htm"); } },
-    { text: '交流群', sub:[{text:'14804593'}] },
+    { text: '带删除按钮文本框', click: function () { goto1("input.htm"); } },
+    { text: 'tooltip提示框', click: function () { goto1("tooltip.htm"); } },
+    { text: '交流方法', sub: [{ text: 'QQ群14804593' }, { text: '作者QQ59728447'}] },
 	{ text: '继续更新中··', click: function () { alert('怎么这么多要求!') } }
-];
+                       ];
         sl.ready(function () {
             var mm = new sl.ui.fixedtop(document.getElementById("nav"), { top: 0 });
             mm.reset();
@@ -61,7 +52,6 @@
                 }
             })
             var ss = new sl.ui.menu(document.getElementById("nav"), { menuData: deskTop, isTopMenuAlwaysOpen: true, autoOpen: true, width: 200 });
-
         });
 
     </script>

@@ -67,6 +67,10 @@ sl.create("sl.ui", function () {
             });
             btn.blur();
         };
+
+        $(document).click(function () {
+            menu.hide();
+        });
     };
 
     this.buttonmenu = sl.Class({
