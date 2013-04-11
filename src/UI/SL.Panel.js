@@ -55,18 +55,18 @@ sl.create("sl.ui", function () {
         onBeforeExpand: function () { },
         onCollapse: function () { },
         onExpand: function () { },
-        animate: true
+        animate: false
     };
     var reSizeAndDraggable = {
         setDraggable: function (target) {
-            var data = $.data(target, 'panel');
+            var data = sl.data(target, 'panel');
             var $panel = data.panel;
             //  var dragHandle = $("div.panel-header", $panel);
             $panel.CalvinDraggable({ handle: "div.panel-header", containment: $panel.get(0).parentNode });
 
         },
         setResizeable: function (target) {
-            var data = $.data(target, 'panel');
+            var data = sl.data(target, 'panel');
             var $panel = data.panel;
             var $parent = $panel.parent();
             var maxWidth = $parent.width();
@@ -107,11 +107,11 @@ sl.create("sl.ui", function () {
         destroy: function (target) {
 
             var $target = $(target);
-            var panel = $.data(target, "panel").panel;
+            var panel = sl.data(target, "panel").panel;
 
-            var orginTarget = $.data(target, "panel").originInfo.obj;
+            var orginTarget = sl.data(target, "panel").originInfo.obj;
             var orginParentNode = target.parentNode.parentNode;
-            $.removeData(target, "panel");
+            sl.removeData(target, "panel");
             panel.remove();
             orginParentNode.appendChild(orginTarget);
         }
@@ -125,8 +125,8 @@ sl.create("sl.ui", function () {
             * @returns header的jq对象
             */
             formHeader: function (target) {
-                var panel = $.data(target, 'panel').panel;
-                var opts = $.data(target, 'panel').options;
+                var panel = sl.data(target, 'panel').panel;
+                var opts = sl.data(target, 'panel').options;
                 if (!opts.noheader) {
                     var $header = $('<div class="panel-header"><div class="panel-title">' + opts.title + '</div></div>').prependTo(panel);
                     var $tool = $('<div class="panel-tool"></div>').appendTo($header);
@@ -171,8 +171,8 @@ sl.create("sl.ui", function () {
             event.stopPropagation();
         },
         closePanel: function (target, forceClose) {
-            var $panel = $.data(target, "panel").panel;
-            var opts = $.data(target, "panel").options;
+            var $panel = sl.data(target, "panel").panel;
+            var opts = sl.data(target, "panel").options;
             if (forceClose != true) {
                 if (opts.onBeforeClose.call(target) == false) return;
             }
@@ -194,22 +194,23 @@ sl.create("sl.ui", function () {
             event.stopPropagation();
         },
         collapsePanel: function (target, animate) {
-            var opts = $.data(target, "panel").options;
-            var panel = $.data(target, 'panel').panel;
+            var opts = sl.data(target, "panel").options;
+            var panel = sl.data(target, 'panel').panel;
             var body = panel.find('>div.panel-body');
             var tool = panel.find('>div.panel-header .panel-tool-collapse');
 
             if (tool.hasClass('panel-tool-expand')) return;
 
-            body.stop(true, true); // stop animation
+            //body.stop(true, true); // stop animation
             if (opts.onBeforeCollapse.call(target) == false) return;
 
             tool.addClass('panel-tool-expand');
             if (animate) {
-                body.slideUp('normal', function () {
-                    opts.collapsed = true;
-                    opts.onCollapse.call(target);
-                });
+                //                body.slideUp('normal', function () {
+                //                    opts.collapsed = true;
+                //                    opts.onCollapse.call(target);
+                //                });
+                //body.height(0);
             }
             else {
                 body.hide();
@@ -218,14 +219,14 @@ sl.create("sl.ui", function () {
             }
         },
         expandPanel: function (target, animate) {
-            var opts = $.data(target, "panel").options;
-            var panel = $.data(target, 'panel').panel;
+            var opts = sl.data(target, "panel").options;
+            var panel = sl.data(target, 'panel').panel;
             var body = panel.find('>div.panel-body');
             var tool = panel.find('>div.panel-header .panel-tool-collapse');
 
             if (!tool.hasClass('panel-tool-expand')) return;
 
-            body.stop(true, true); // stop animation
+            //body.stop(true, true); // stop animation
             if (opts.onBeforeExpand.call(target) == false) return;
 
             tool.removeClass('panel-tool-expand');
@@ -250,8 +251,8 @@ sl.create("sl.ui", function () {
             event.stopPropagation();
         },
         openPanel: function (target, forceOpen) {
-            var opts = $.data(target, "panel").options;
-            var $panel = $.data(target, "panel").panel;
+            var opts = sl.data(target, "panel").options;
+            var $panel = sl.data(target, "panel").panel;
             if (forceOpen != true) {
                 if (opts.onBeforeOpen.call(target) == false) return;
             }
@@ -281,9 +282,9 @@ sl.create("sl.ui", function () {
             var $target = $(target);
             var width = $target.width();
             var height = $target.height();
-            var panel = $.data(target, 'panel').panel;
-            $.data(target, 'panel').originalStyle.height = height;
-            $.data(target, 'panel').originalStyle.width = width;
+            var panel = sl.data(target, 'panel').panel;
+            sl.data(target, 'panel').originalStyle.height = height;
+            sl.data(target, 'panel').originalStyle.width = width;
             var pheader = panel.find('>div.panel-header');
             var pbody = panel.find('>div.panel-body');
             panel.width(width - (panel.outerWidth() - panel.width()));
@@ -293,8 +294,8 @@ sl.create("sl.ui", function () {
 
         },
         setMaxsizeStyle: function (target) {
-            var opts = $.data(target, 'panel').options;
-            var panel = $.data(target, 'panel').panel;
+            var opts = sl.data(target, 'panel').options;
+            var panel = sl.data(target, 'panel').panel;
             var tool = panel.find('>div.panel-header .panel-tool-max');
 
             if (tool.hasClass('panel-tool-restore')) return;
@@ -326,17 +327,17 @@ sl.create("sl.ui", function () {
         },
         setRestroreStyle: function (target) {
             var $target = $(target);
-            var opts = $.data(target, 'panel').options;
-            var panel = $.data(target, 'panel').panel;
+            var opts = sl.data(target, 'panel').options;
+            var panel = sl.data(target, 'panel').panel;
             var tool = panel.find('>div.panel-header .panel-tool-max');
 
             if (!tool.hasClass('panel-tool-restore')) return;
 
             panel.show();
             tool.removeClass('panel-tool-restore');
-            var panel = $.data(target, 'panel').panel;
-            var height = $.data(target, 'panel').originalStyle.height;
-            var width = $.data(target, 'panel').originalStyle.width;
+            var panel = sl.data(target, 'panel').panel;
+            var height = sl.data(target, 'panel').originalStyle.height;
+            var width = sl.data(target, 'panel').originalStyle.width;
             var pheader = panel.find('>div.panel-header');
             var pbody = panel.find('>div.panel-body');
             panel.width(width - (panel.outerWidth() - panel.width()));
@@ -351,7 +352,7 @@ sl.create("sl.ui", function () {
         */
         setSizeByParams: function (target, params) {
             var $target = $(target);
-            var data = $.data(target, "panel");
+            var data = sl.data(target, "panel");
             var opts = data.options;
             var panel = data.panel;
             var pheader = panel.find('>div.panel-header');
@@ -430,41 +431,40 @@ sl.create("sl.ui", function () {
     this.panel = sl.Class(
     {
         init: function (elem, options) {
-            var $this = $(this);
+            var $this = $(elem);
             var width = $this.width();
             var height = $this.height();
-            var state = $.data(this, 'panel');
+            var state = sl.data(elem, 'panel');
 
             if (state) {
                 // htmlHelper.destroy(this);
-                opts = $.extend(state.options, options);
+                opts = sl.extend(state.options, options);
                 state.options = opts;
             }
             else {
-
-                opts = $.extend(defaults, {
+                opts = sl.extend(defaults, {
                     width: (parseInt($this.css('width')) || undefined),
                     height: (parseInt($this.css('height')) || undefined),
                     left: (parseInt($this.css('left')) || undefined),
                     top: (parseInt($this.css('top')) || undefined),
                     title: ($this.attr('title') || "<span>&nbsp;</span>")
                 }, options);
-                $this.data("panel", { width: width, height: height, panel: null, header: null, options: opts, originalStyle: { height: 0, width: 0 }, originInfo: { obj: this} });
+                $this.data("panel", { width: width, height: height, panel: null, header: null, options: opts, originalStyle: { height: 0, width: 0 }, originInfo: { obj: elem} });
                 var data = $this.data("panel");
-                var $pannel = htmlHelper.formPanel(this);
+                var $pannel = htmlHelper.formPanel(elem);
                 data.panel = $pannel;
-                var $header = headerHelper.formHeader(this);
+                var $header = headerHelper.formHeader(elem);
                 data.header = $header;
                 if (opts.draggable) {
-                    reSizeAndDraggable.setDraggable(this);
+                    // reSizeAndDraggable.setDraggable(elem);
                 }
                 if (opts.resizeable) {
-                    reSizeAndDraggable.setResizeable(this);
+                    //reSizeAndDraggable.setResizeable(elem);
                 }
             }
             /*如果多次调用calvinPanel的话 因为target被JS重新设置宽度 采用把target的原始宽度缓存起来 
             *防止多次调用 宽度逐渐缩小*/
-            var data = $.data(this, "panel");
+            var data = sl.data(elem, "panel");
             if (data) {
 
                 $this.height(data.height);
@@ -472,11 +472,9 @@ sl.create("sl.ui", function () {
 
             }
 
-            otherHelper.setNormalStyle(this);
-            otherHelper.setInitalState(this);
+            otherHelper.setNormalStyle(elem);
+            otherHelper.setInitalState(elem);
 
         }
-
-
     });
 });
