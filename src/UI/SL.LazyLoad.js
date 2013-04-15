@@ -25,7 +25,7 @@ sl.create("sl.ui", function () {
             /// <param name="addBoarder">是否包括边框</param>
             if (!elem) return { top: 0, bottom: 0, left: 0, right: 0 };
             var isTop = sl.InstanceOf.BodyOrHtmlOrWindow(elem);
-            var $elem = $(elem), offset = sl.offset(elem), top = offset.top, left = offset.left, right, bottom;
+            var $elem = slChain(elem), offset = sl.offset(elem), top = offset.top, left = offset.left, right, bottom;
             var borderTopWidth = parseFloat($elem.css("borderTopWidth")), borderRightWidth = parseFloat($elem.css("borderRightWidth")),
             borderLeftWidth = parseFloat($elem.css("borderLeftWidth")), borderBottomWidth = parseFloat($elem.css("borderBottomWidth")),
             innerHeight = parseFloat($elem.innerHeight()), innerWidth = parseFloat($elem.innerWidth());
@@ -33,7 +33,7 @@ sl.create("sl.ui", function () {
                 top = 0, left = 0, bottom = 0, right = 0;
                 innerHeight = parseFloat(document.documentElement["clientHeight"] || document.body["clientHeight"]);
                 innerWidth = parseFloat(document.documentElement["clientWidth"] || document.body["clientWidth"]);
-                top += $(document).scrollTop(), left += $(document).scrollLeft();
+                top += slChain(document).scrollTop(), left += slChain(document).scrollLeft();
             }
             if (!addBoarder) {
                 top = top + borderTopWidth, bottom = top + innerHeight, left = left + borderLeftWidth, right = left + innerWidth;
@@ -89,7 +89,7 @@ sl.create("sl.ui", function () {
             var othis = this;
             setTimeout(function () {
                 if (!othis.initializeLoaded)
-                { $(othis.isTop ? window : othis.container).trigger("scroll"); }
+                { slChain(othis.isTop ? window : othis.container).trigger("scroll"); }
             }, 50);
         }
 
@@ -122,15 +122,15 @@ sl.create("sl.ui", function () {
             if (isTop) {
                 container = doc.compatMode == 'CSS1Compat' ? doc.documentElement : doc.body;
             }
-            var $container = $(container);
+            var $container = slChain(container);
             //定义执行方法
             var oThis = this, width = container.clientWidth, height = container.clientHeight;
             //绑定事件 滚动时候和relize时候触发
-            $(isTop ? window : container).bind("scroll", sl.throttle(oThis.delay, function () {
+            slChain(isTop ? window : container).bind("scroll", sl.throttle(oThis.delay, function () {
                 oThis.load.call(oThis);
                 this.initializeLoaded = true;
             }, true));
-            isTop && $(window).bind("resize", sl.throttle(oThis.delay, function () {
+            isTop && slChain(window).bind("resize", sl.throttle(oThis.delay, function () {
                 //是否已经改变了 宽度
                 var clientWidth = container.clientWidth, clientHeight = container.clientHeight;
                 if (clientWidth != width || clientHeight != height) {
@@ -187,10 +187,10 @@ sl.create("sl.ui", function () {
         //销毁程序
         dispose: function (load) {
             if (this.isTop) {
-                $(window).unbind("scroll").unbind("resize");
+                slChain(window).unbind("scroll").unbind("resize");
             }
             else {
-                $(this.container).unbind("scroll");
+                slChain(this.container).unbind("scroll");
             }
         }
     });

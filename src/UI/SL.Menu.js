@@ -33,19 +33,19 @@ sl.create("sl.ui", function () {
 
             menuHelper.InitMenu(elem);
             //点击文档别的位置按钮消失
-            $(document).bind('click', function () { menuHelper.hideAllSubMenu($(elem)); });
+            slChain(document).bind('click', function () { menuHelper.hideAllSubMenu(slChain(elem)); });
         },
         /*为contextMenu提供的接口*/
         showMenu: function (pos) {
-            menuHelper.showMenu($(this.elem), pos);
+            menuHelper.showMenu(slChain(this.elem), pos);
         },
         hide: function () {
-            menuHelper.hideAllMenu($(this.elem));
+            menuHelper.hideAllMenu(slChain(this.elem));
         }
     });
     var menuHelper = {
         InitMenu: function (elem) {
-            var $target = $(elem);
+            var $target = slChain(elem);
             var data = sl.data(elem, "slmenu").options;
             menuHelper.buildTopMenu(elem, data);
             if (!data.autoOpen) {
@@ -53,7 +53,7 @@ sl.create("sl.ui", function () {
             }
         },
         bindSubMenu: function (menuData, target) {
-            var $subMenu = $("<div class='menu'></div>"), opts = sl.data(target, "slmenu").options;
+            var $subMenu = slChain("<div class='menu'></div>"), opts = sl.data(target, "slmenu").options;
             $subMenu.css("z-index", opts.zIndex++);
             for (var i = 0, j = menuData.length; i < j; i++) {
                 var itemData = menuData[i];
@@ -70,7 +70,7 @@ sl.create("sl.ui", function () {
         },
         buildTopMenu: function (target, data) {
             var menuData = data.menuData;
-            $target = $(target), opts = sl.data(target, "slmenu").options;
+            $target = slChain(target), opts = sl.data(target, "slmenu").options;
             $target.addClass('menu-top').addClass("menu"); // the top menu
             $target.css({ "z-index": data.zIndex++, "left": data.left, "top": data.top });
             for (var i = 0, j = menuData.length; i < j; i++) {
@@ -92,7 +92,7 @@ sl.create("sl.ui", function () {
                 return null;
             }
             else {
-                var text = itemData.text, click = itemData.click, value = itemData.value, $item = $("<div style='height: 20px;' class='menu-item'> <div class='menu-text'>" + text + "</div></div>");
+                var text = itemData.text, click = itemData.click, value = itemData.value, $item = slChain("<div style='height: 20px;' class='menu-item'> <div class='menu-text'>" + text + "</div></div>");
 
                 //是否可以选择
                 var selected = itemData.selected || itemData.click ? true : false || itemData.sub ? false : true;
@@ -129,7 +129,7 @@ sl.create("sl.ui", function () {
                 if (this.$subMenu) {
                     _this.hideMenu(this.$subMenu);
                 }
-                $(this).removeClass('menu-active');
+                slChain(this).removeClass('menu-active');
             });
         },
         hideAllMenu: function ($target) {
@@ -139,7 +139,7 @@ sl.create("sl.ui", function () {
             if (data.onHide) {
                 data.onHide.call($target.elements[0]);
             }
-            //  $(document).unbind('.menu');
+            //  slChain(document).unbind('.menu');
             if (opts.isTopMenuAlwaysOpen) {
                 this.showMenu($target);
             }
@@ -152,7 +152,7 @@ sl.create("sl.ui", function () {
                 if (this.$subMenu) {
                     _this.hideMenu(this.$subMenu);
                 }
-                $(this).removeClass('menu-active');
+                slChain(this).removeClass('menu-active');
             });
 
         }
@@ -165,7 +165,7 @@ sl.create("sl.ui", function () {
 
         },
         howerEvent: function (menuItem, target) {
-            var $menuItem = $(menuItem);
+            var $menuItem = slChain(menuItem);
             $menuItem.hover(
              function () {
                  //隐藏同级元素的菜单
@@ -173,7 +173,7 @@ sl.create("sl.ui", function () {
                      if (this.$subMenu) {
                          menuHelper.hideMenu(this.$subMenu);
                      }
-                     $(this).removeClass('menu-active');
+                     slChain(this).removeClass('menu-active');
                  });
 
                  //激活样式
@@ -183,7 +183,7 @@ sl.create("sl.ui", function () {
                      var itemPos = $menuItem.offset();
                      var left = itemPos.left + $menuItem.outerWidth() - 2;
                      //超过文档宽度 
-                     if (left + $subMenu.outerWidth() > $(window).width()) {
+                     if (left + $subMenu.outerWidth() > slChain(window).width()) {
                          left = itemPos.left - $subMenu.outerWidth() + 2;
                      }
 
@@ -213,13 +213,13 @@ sl.create("sl.ui", function () {
         },
         clickEvent: function (menuItem, target) {
 
-            var $menuItem = $(menuItem);
+            var $menuItem = slChain(menuItem);
             $menuItem.click(function (e) {
                 var itemData = $menuItem.data("itemData");
                 if (itemData.selected && itemData.click) {
                     itemData.click.call(menuItem, itemData.text, itemData.value);
                 };
-                menuHelper.hideAllMenu($(target));
+                menuHelper.hideAllMenu(slChain(target));
                 e.stopPropagation();
 
             });

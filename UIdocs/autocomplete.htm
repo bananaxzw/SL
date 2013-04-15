@@ -17,8 +17,8 @@
         sl.ready(function () {
             DlHighlight.HELPERS.highlightByName("code", "pre");
             if (sl.Browser.ie) {
-                $("pre.DlHighlight").each(function () {
-                    var $this = $(this);
+                slChain("pre.DlHighlight").each(function () {
+                    var $this = slChain(this);
                     $this.html("<pre>" + $this.find("pre").html() + "</pre>");
                 })
             }
@@ -31,7 +31,7 @@
         });
 
         sl.ready(function () {
-            //alert($(".mm").data(""));
+            //alert(slChain(".mm").data(""));
             var ss = new sl.ui.autocomplete(document.getElementById("basic"),
             { min: 1,
                 source: ["许志伟1", "许志伟2", "许志伟3", "许志伟4", "许志伟5"]

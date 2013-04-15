@@ -12,8 +12,8 @@
 
   var toggle = '[data-toggle=dropdown]'
     , Dropdown = function (element) {
-        var $el = $(element).on('click.dropdown.data-api', this.toggle)
-        $('html').on('click.dropdown.data-api', function () {
+        var $el = slChain(element).on('click.dropdown.data-api', this.toggle)
+        slChain('html').on('click.dropdown.data-api', function () {
           $el.parent().removeClass('open')
         })
       }
@@ -23,7 +23,7 @@
     constructor: Dropdown
 
   , toggle: function (e) {
-      var $this = $(this)
+      var $this = slChain(this)
         , $parent
         , isActive
 
@@ -53,7 +53,7 @@
 
       if (!/(38|40|27)/.test(e.keyCode)) return
 
-      $this = $(this)
+      $this = slChain(this)
 
       e.preventDefault()
       e.stopPropagation()
@@ -66,7 +66,7 @@
 
       if (!isActive || (isActive && e.keyCode == 27)) return $this.click()
 
-      $items = $('[role=menu] li:not(.divider) a', $parent)
+      $items = slChain('[role=menu] li:not(.divider) a', $parent)
 
       if (!$items.length) return
 
@@ -84,8 +84,8 @@
   }
 
   function clearMenus() {
-    $(toggle).each(function () {
-      getParent($(this)).removeClass('open')
+    slChain(toggle).each(function () {
+      getParent(slChain(this)).removeClass('open')
     })
   }
 
@@ -98,7 +98,7 @@
       selector = selector && /#/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
     }
 
-    $parent = $(selector)
+    $parent = slChain(selector)
     $parent.length || ($parent = $this.parent())
 
     return $parent
@@ -110,7 +110,7 @@
 
   $.fn.dropdown = function (option) {
     return this.each(function () {
-      var $this = $(this)
+      var $this = slChain(this)
         , data = $this.data('dropdown')
       if (!data) $this.data('dropdown', (data = new Dropdown(this)))
       if (typeof option == 'string') data[option].call($this)

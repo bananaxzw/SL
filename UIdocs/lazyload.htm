@@ -38,8 +38,8 @@
         sl.ready(function () {
             DlHighlight.HELPERS.highlightByName("code", "pre");
             if (sl.Browser.ie) {
-                $("pre.DlHighlight").each(function () {
-                    var $this = $(this);
+                slChain("pre.DlHighlight").each(function () {
+                    var $this = slChain(this);
                     $this.html("<pre>" + $this.find("pre").html() + "</pre>");
                 })
             }
@@ -55,18 +55,18 @@
         });
         sl.ready(function () {
             var i = 0;
-            var container = $("#idLazyContainer2"), lazyTable = container.html();
+            var container = slChain("#idLazyContainer2"), lazyTable = container.html();
             lazyTable = lazyTable.replace(/<div>/ig, '<div><img src="http://images.cnblogs.com/cnblogs_com/xuzhiwei/274587/o_o_loading.gif" />');
             function Lazy2() {
                 container.html(lazyTable)
-                var elems = sl.map($("textarea", container).elements, function (area) { return area.parentNode; }),
+                var elems = sl.map(slChain("textarea", container).elements, function (area) { return area.parentNode; }),
         lazy = new sl.ui.lazyload(elems, {
             container: container.elements[0], mode: "cross",
             onLoadData: function (elem) {
                 elem.innerHTML = elem.getElementsByTagName("textarea")[0].value + (i++);
             }
         });
-                $("#idReset2").click(function () {
+                slChain("#idReset2").click(function () {
                     lazy.dispose(); Lazy2();
                 });
             }

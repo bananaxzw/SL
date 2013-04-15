@@ -16,8 +16,8 @@ sl.create("sl.ui",function () {
         handles: 'n, e, s, w, ne, se, sw, nw, all',
         minWidth: 10,
         minHeight: 10,
-        maxWidth: 10000, //$(document).width(),
-        maxHeight: 10000, //$(document).height(),
+        maxWidth: 10000, //slChain(document).width(),
+        maxHeight: 10000, //slChain(document).height(),
         edge: 5,
         onStartResize: function (e) { },
         onResize: function (e) { },
@@ -32,7 +32,7 @@ sl.create("sl.ui",function () {
         */
         getDirection: function (target, event) {
 
-            var dir = '', $target = $(target);
+            var dir = '', $target = slChain(target);
             offset = $target.offset(),
              width = $target.outerWidth(),
             height = $target.outerHeight(),
@@ -121,9 +121,9 @@ sl.create("sl.ui",function () {
             sl.data(event.data.target, 'resizable').options.onStopResize.call(event.data.target, event);
             eventHelper.onResize(event);
             eventHelper.applySize(event);
-            $(document).unbind('mousedown');
-            $(document).unbind('mousemove');
-            $(document).unbind('mouseup');
+            slChain(document).unbind('mousedown');
+            slChain(document).unbind('mousemove');
+            slChain(document).unbind('mouseup');
 
             return false;
         },
@@ -132,14 +132,14 @@ sl.create("sl.ui",function () {
             var resizeData = event.data;
             var target = resizeData.target;
             //            if ($.boxModel == true) {
-            $(target).css({
+            slChain(target).css({
                 width: resizeData.width - resizeData.deltaWidth,
                 height: resizeData.height - resizeData.deltaHeight,
                 left: resizeData.left,
                 top: resizeData.top
             });
             //            } else {
-            //                $(target).css({
+            //                slChain(target).css({
             //                    width: resizeData.width,
             //                    height: resizeData.height,
             //                    left: resizeData.left,
@@ -154,20 +154,20 @@ sl.create("sl.ui",function () {
             this.opts = sl.extend({}, defaults, options);
 
             // bind mouse event using namespace resizable
-            $(elem).bind('mousemove', onMouseMove).bind('mousedown', onMouseDown);
+            slChain(elem).bind('mousemove', onMouseMove).bind('mousedown', onMouseDown);
             sl.data(elem, 'resizable', {
                 options: this.opts
             });
             function onMouseMove(e) {
                 var dir = resizableHelper.getDirection(this, e);
                 if (dir == '') {
-                    $(this).css('cursor', 'default');
+                    slChain(this).css('cursor', 'default');
                 } else {
-                    $(this).css('cursor', dir + '-resize');
+                    slChain(this).css('cursor', dir + '-resize');
                 }
             }
             function onMouseDown(e) {
-                var dir = resizableHelper.getDirection(this, e), $target = $(this);
+                var dir = resizableHelper.getDirection(this, e), $target = slChain(this);
                 if (dir == '') return;
                 var data = {
                     target: this,
@@ -185,9 +185,9 @@ sl.create("sl.ui",function () {
                     deltaWidth: $target.outerWidth() - $target.width(),
                     deltaHeight: $target.outerHeight() - $target.height()
                 };
-                $(document).bind('mousedown', data, eventHelper.beginResize);
-                $(document).bind('mousemove', data, eventHelper.onResize);
-                $(document).bind('mouseup', data, eventHelper.stopResize);
+                slChain(document).bind('mousedown', data, eventHelper.beginResize);
+                slChain(document).bind('mousemove', data, eventHelper.onResize);
+                slChain(document).bind('mouseup', data, eventHelper.stopResize);
             }
             function getCssValue($target, css) {
                 var val = parseFloat($target.css(css));

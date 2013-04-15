@@ -179,7 +179,7 @@
             */
             compare: function (obj1, obj2) {
                 if (obj1 == null || obj2 == null) return (obj1 === obj2);
-                return (obj1 === obj2);
+                return (obj1 == obj2 && obj1.constructor.toString() == obj2.constructor);
             },
             /**
             *@ignore

@@ -23,7 +23,7 @@ sl.create("sl.ui", function () {
             this.initialize(images, options);
             //进行第一次触发
             if (this.isTop) {
-                $(window).trigger("scroll");
+                slChain(window).trigger("scroll");
             } else {
                 this.load();
             }

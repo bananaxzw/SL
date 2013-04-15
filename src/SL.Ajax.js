@@ -1,6 +1,12 @@
 ﻿/// <reference path="SL.Core.js" />
 /// <reference path="SL.Json.js" />
-
+/**    
+* SL (Javascript Extension Tools) 
+*
+* @version    1.0
+* @author    bananaxzw(许志伟)(<a href="mailto:bananaxzw@qq.com">Paladin-xu</a>)
+* 
+***/
 
 /**
 *Ajax操作

@@ -23,8 +23,8 @@ sl.create("sl.ui", function () {
     };
     function checkExsit(name) {
         var s = false;
-        $("span.fileName", $("ul.addfj_new")).each(function () {
-            if ($(this).text() == name) {
+        slChain("span.fileName", slChain("ul.addfj_new")).each(function () {
+            if (slChain(this).text() == name) {
                 s = true;
                 return false;
             }
@@ -35,20 +35,20 @@ sl.create("sl.ui", function () {
 
     var eventHelper = {
         addFile: function (input_file) {
-            var filePath = $(input_file).val(), fileName = getFileName(filePath).join(".");
+            var filePath = slChain(input_file).val(), fileName = getFileName(filePath).join(".");
             if (checkExsit(fileName)) {
                 alert("文件" + fileName + "已经存在");
                 return;
             }
-            var $s = $("<li><span class='icon_addfj'></span><span class='fileName'>" + fileName + "</span>&nbsp;&nbsp;<span class='file_delete'><a href='javascript:void(0);'>删除</a></span></li>");
-            $("ul.addfj_new").append($s);
+            var $s = slChain("<li><span class='icon_addfj'></span><span class='fileName'>" + fileName + "</span>&nbsp;&nbsp;<span class='file_delete'><a href='javascript:void(0);'>删除</a></span></li>");
+            slChain("ul.addfj_new").append($s);
             input_file.name = "filedata";
             $s.append(input_file);
         },
         changeEvent: function (input) {
-            var input_container = $(input).parent();
+            var input_container = slChain(input).parent();
             eventHelper.addFile(input);
-            var $input_temp = $("<input class='addfile' type='file' size='1'/>");
+            var $input_temp = slChain("<input class='addfile' type='file' size='1'/>");
             input_container.append($input_temp);
             $input_temp.change(function () {
                 eventHelper.changeEvent(this);
@@ -60,12 +60,12 @@ sl.create("sl.ui", function () {
     this.mutifileuploader = sl.Class({
         init: function (elem, options) {
             //文件选择
-            $("input.addfile").change(function () {
+            slChain("input.addfile").change(function () {
                 eventHelper.changeEvent(this);
             });
             //删除事件
-            $("ul.addfj_new").delegate("span.file_delete", "click", function () {
-                $(this).parent().remove();
+            slChain("ul.addfj_new").delegate("span.file_delete", "click", function () {
+                slChain(this).parent().remove();
             });
         }
     });

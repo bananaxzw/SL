@@ -49,9 +49,9 @@ sl.create("sl.ui",function () {
             /// <returns type=""></returns>
             eventHelper.drag(e);
             eventHelper.applyPostion(e.data.target, e.data.top, e.data.left);
-            $(document).unbind("mousedown");
-            $(document).unbind("mousemove");
-            $(document).unbind("mouseup");
+            slChain(document).unbind("mousedown");
+            slChain(document).unbind("mousemove");
+            slChain(document).unbind("mouseup");
             return false;
 
         },
@@ -73,8 +73,8 @@ sl.create("sl.ui",function () {
             //如果父元素不是body就加上滚动条
             if (e.data.parent != document.body) {
                 if (sl.boxModel == true) {
-                    left += $(e.data.parent).scrollLeft();
-                    top += $(e.data.parent).scrollTop();
+                    left += slChain(e.data.parent).scrollLeft();
+                    top += slChain(e.data.parent).scrollTop();
                 }
             }
             //如果只允许水平或者垂直 只单单设置top或者left
@@ -88,7 +88,7 @@ sl.create("sl.ui",function () {
             }
         },
         applyPostion: function (target, top, left) {
-            $(target).css({
+            slChain(target).css({
                 left: left,
                 top: top
             });
@@ -138,13 +138,13 @@ sl.create("sl.ui",function () {
                     startX: e.pageX,
                     startY: e.pageY,
                     target: e.target,
-                    width: $(elem).outerWidth(),
-                    height: $(elem).outerHeight(),
+                    width: slChain(elem).outerWidth(),
+                    height: slChain(elem).outerHeight(),
                     $bar: othis.$bar
                 };
-                $(document).bind('mousedown', data, eventHelper.beginDrag);
-                $(document).bind('mousemove', data, eventHelper.onDrag);
-                $(document).bind('mouseup', data, eventHelper.endDrag);
+                slChain(document).bind('mousedown', data, eventHelper.beginDrag);
+                slChain(document).bind('mousemove', data, eventHelper.onDrag);
+                slChain(document).bind('mouseup', data, eventHelper.endDrag);
 
             });
             this.$handle.bind("keydown", function (e) {
@@ -181,16 +181,16 @@ sl.create("sl.ui",function () {
 
             });
             this.$handle.bind('mousemove', function () {
-                $(this).css('cursor', othis.opts.cursor);
+                slChain(this).css('cursor', othis.opts.cursor);
             });
-            var sliderOffset = $(elem).offset();
-            $(elem).bind("click", function (e) {
+            var sliderOffset = slChain(elem).offset();
+            slChain(elem).bind("click", function (e) {
                 if (othis.opts.axis == "v") {
-                    othis.opts.value = eventHelper.collectValueByStep(parseFloat((e.pageY - sliderOffset.top) / $(elem).outerHeight()) * 100, othis.opts.step, othis.opts.max, othis.opts.min);
+                    othis.opts.value = eventHelper.collectValueByStep(parseFloat((e.pageY - sliderOffset.top) / slChain(elem).outerHeight()) * 100, othis.opts.step, othis.opts.max, othis.opts.min);
                     othis.$handle.css({ top: othis.opts.value + "%" });
                     eventHelper.setBarDisplay(othis.$bar, othis.opts.value, othis.opts.axis);
                 } else {
-                    othis.opts.value = eventHelper.collectValueByStep(parseFloat((e.pageX - sliderOffset.left) / $(elem).outerWidth()) * 100, othis.opts.step, othis.opts.max, othis.opts.min);
+                    othis.opts.value = eventHelper.collectValueByStep(parseFloat((e.pageX - sliderOffset.left) / slChain(elem).outerWidth()) * 100, othis.opts.step, othis.opts.max, othis.opts.min);
                     othis.$handle.css({ left: othis.opts.value + "%" });
                     eventHelper.setBarDisplay(othis.$bar, othis.opts.value, othis.opts.axis);
                 }
@@ -203,19 +203,19 @@ sl.create("sl.ui",function () {
 
     });
     this.slider.prototype._render = function () {
-        var $elem = $(this.elem), barcss;
+        var $elem = slChain(this.elem), barcss;
         if (this.opts.labels) {
-            this.$labelmin = $('<span class="label min"></span>');
-            this.$labelcurr = $('<span class="label current"></span>');
-            this.$labelmax = $('<span class="label max"></span>');
+            this.$labelmin = slChain('<span class="label min"></span>');
+            this.$labelcurr = slChain('<span class="label current"></span>');
+            this.$labelmax = slChain('<span class="label max"></span>');
             $elem.append(this.$labelmin).append(this.$labelcurr).append(this.$labelmax);
         }
         if (this.opts.bar) {
-            this.$bar = $('<div class="bar"></div>');
+            this.$bar = slChain('<div class="bar"></div>');
             barcss = this.opts.axis == "v" ? { width: "2px;"} : { height: "2px;" };
             $elem.append(this.$bar);
         }
-        this.$handle = $('<a href="javascript:void(0)" class="handle"></a>');
+        this.$handle = slChain('<a href="javascript:void(0)" class="handle"></a>');
         if (this.opts.axis == "h") {
             this.$handle.css({ top: "-5px", "margin-left": "-5px" });
 

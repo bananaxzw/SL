@@ -55,14 +55,14 @@ sl.create("sl.ui",function () {
             var iframeLayer;
             //在IE6或者非IE浏览器强制使用iframe iframe的作用是为了遮盖住select 是完全透明的
             if (this.ie6 || opts.forceIframe) {
-                iframeLayer = $('<iframe class="CalvinUIBlock" style="z-index:' + (z_index++) + ';border:none;margin:0;padding:0;width:100%;height:100%;top:0;left:0" src="' + opts.iframeSrc + '"></iframe>');
+                iframeLayer = slChain('<iframe class="CalvinUIBlock" style="z-index:' + (z_index++) + ';border:none;margin:0;padding:0;width:100%;height:100%;top:0;left:0" src="' + opts.iframeSrc + '"></iframe>');
             }
             else {
                 //如果是其他的浏览器默认给一个空值
-                iframeLayer = $('<div class="CalvinUIBlock" style="width:0px;height:0px;"></div>');
+                iframeLayer = slChain('<div class="CalvinUIBlock" style="width:0px;height:0px;"></div>');
             }
             //该div层的作用在iframe层上形成一个半透明的灰色（可以自定义颜色）遮罩
-            var divOverlay = $('<div class="CalvinUIBlock blockOverlay" style="z-index:' + (z_index++) + ';border:none;margin:0;padding:0;width:100%;height:100%;top:0;left:0"></div>');
+            var divOverlay = slChain('<div class="CalvinUIBlock blockOverlay" style="z-index:' + (z_index++) + ';border:none;margin:0;padding:0;width:100%;height:100%;top:0;left:0"></div>');
             iframeLayer.appendTo(this.elem), divOverlay.appendTo(this.elem);
             this.$lyr1 = iframeLayer, this.$lyr2 = divOverlay;
 
@@ -71,7 +71,7 @@ sl.create("sl.ui",function () {
             var opts = this.opts;
             //要把body的margin和padding设置为0 不然有滚动条
             if (this.full) {
-                $("body").css({ "margin": "0px", "padding": "0px" });
+                slChain("body").css({ "margin": "0px", "padding": "0px" });
             }
             //设置透明度 iframe为完全透明
             if (this.ie6 || opts.forceIframe) {
@@ -85,7 +85,7 @@ sl.create("sl.ui",function () {
                 this.$lyr2.css('position', this.full ? 'fixed' : 'absolute');
             }
             else {
-                $('html,body').css({ 'height': '100%', 'width': '100%', 'margin': '0px' });
+                slChain('html,body').css({ 'height': '100%', 'width': '100%', 'margin': '0px' });
                 this.$lyr1.css("position", 'absolute');
                 this.$lyr2.css("position", 'absolute');
 

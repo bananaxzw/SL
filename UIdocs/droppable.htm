@@ -37,8 +37,8 @@
         sl.ready(function () {
             DlHighlight.HELPERS.highlightByName("code", "pre");
             if (sl.Browser.ie) {
-                $("pre.DlHighlight").each(function () {
-                    var $this = $(this);
+                slChain("pre.DlHighlight").each(function () {
+                    var $this = slChain(this);
                     $this.html("<pre>" + $this.find("pre").html() + "</pre>");
                 })
             }
@@ -56,13 +56,13 @@
             new sl.ui.droppable(document.getElementById("dd"), {
                 accept: '#d1,#d3',
                 onDragEnter: function (e, source) {
-                    $(this).html('enter' + source.id)
+                    slChain(this).html('enter' + source.id)
                 },
                 onDragLeave: function (e, source) {
-                    $(this).html('leave' + source.id)
+                    slChain(this).html('leave' + source.id)
                 },
                 onDrop: function (e, source) {
-                    $(this).html($(source).html() + ' dropped');
+                    slChain(this).html(slChain(source).html() + ' dropped');
                 }
             });
         })
@@ -98,13 +98,13 @@
             new sl.ui.droppable(document.getElementById("dd"), {
                 accept: '#d1,#d3',
                 onDragEnter: function (e, source) {
-                    $(this).html('enter' + source.id)
+                    slChain(this).html('enter' + source.id)
                 },
                 onDragLeave: function (e, source) {
-                    $(this).html('leave' + source.id)
+                    slChain(this).html('leave' + source.id)
                 },
                 onDrop: function (e, source) {
-                    $(this).html($(source).html() + ' dropped');
+                    slChain(this).html(slChain(source).html() + ' dropped');
                 }
             });
 </pre>

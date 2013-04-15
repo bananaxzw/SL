@@ -15,8 +15,8 @@
         sl.ready(function () {
             DlHighlight.HELPERS.highlightByName("code", "pre");
             if (sl.Browser.ie) {
-                $("pre.DlHighlight").each(function () {
-                    var $this = $(this);
+                slChain("pre.DlHighlight").each(function () {
+                    var $this = slChain(this);
                     $this.html("<pre>" + $this.find("pre").html() + "</pre>");
                 })
             }
@@ -28,7 +28,7 @@
 
         });
         sl.ready(function () {
-            var row = $(".teplate"), msg = $("#idShow"), total = $("#idTotal"), cells = [], rowcount = $("#rowcount").val();
+            var row = slChain(".teplate"), msg = slChain("#idShow"), total = slChain("#idTotal"), cells = [], rowcount = slChain("#rowcount").val();
             for (var i = 0, n = row.elements[0].cells.length; i < n; cells.push(row.elements[0].cells[i++])) { }
 
             function Lazy() {
@@ -39,13 +39,13 @@
                     img.setAttribute("_lazysrc", img.getAttribute("_lazysrc") + "?" + Math.random());
                     cells.push(cells.shift());
                 }
-                for (var h = 0; h < parseInt($("#rowcount").val()) - 1; h++) {
+                for (var h = 0; h < parseInt(slChain("#rowcount").val()) - 1; h++) {
                     var t = row.elements[0].cloneNode(true);
-                    $("#clasetgaf").append(t);
+                    slChain("#clasetgaf").append(t);
                 }
                 msg.html(i);
-                var lazy = new sl.ui.imagelazyload($("#idLazyContainer").elements[0].getElementsByTagName("img"), {
-                    container: $("#idLazyContainer").elements[0], mode: "cross",
+                var lazy = new sl.ui.imagelazyload(slChain("#idLazyContainer").elements[0].getElementsByTagName("img"), {
+                    container: slChain("#idLazyContainer").elements[0], mode: "cross",
                     holder: "http://images.cnblogs.com/cnblogs_com/xuzhiwei/457349/o_holder.gif",
                     onLoad: function (img) {
                         i--;
@@ -53,11 +53,11 @@
 
                     }
                 });
-                $("#idReset").unbind("click").click(function () {
+                slChain("#idReset").unbind("click").click(function () {
                     lazy.dispose(); Lazy();
                 });
-                $("#idPos").unbind("click").click(function () {
-                    with ($("#idLazyContainer").elements[0].style) {
+                slChain("#idPos").unbind("click").click(function () {
+                    with (slChain("#idLazyContainer").elements[0].style) {
                         if (width == "300px") { left = 0; width = "600px"; } else { left = width = "300px"; }
                     }
                     lazy.load(true);
@@ -68,7 +68,7 @@
             total.elements[0].onchange = Lazy;
 
             var timer;
-            $("#idAuto").elements[0].onclick = function () {
+            slChain("#idAuto").elements[0].onclick = function () {
                 clearInterval(timer);
                 if (this.value == "自动播放") {
                     timer = setInterval(Scroll, 50);
@@ -78,10 +78,10 @@
                 }
             }
             function Scroll() {
-                var container = $("#idLazyContainer").elements[0], bak = container.scrollLeft;
+                var container = slChain("#idLazyContainer").elements[0], bak = container.scrollLeft;
                 container.scrollLeft += 50;
                 if (container.scrollLeft == bak) {
-                    clearInterval(timer); $("#idAuto").elements[0].value = "自动播放";
+                    clearInterval(timer); slChain("#idAuto").elements[0].value = "自动播放";
                 }
             }
         });

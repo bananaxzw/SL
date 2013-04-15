@@ -37,14 +37,14 @@ sl.create("sl.ui", function () {
         * @param {itemsContainer} item的容器元素 也就是ul
         */
         RemoveItemHoverStyle: function ($itemsContainer) {
-            $(">li", $itemsContainer).removeClass("ui-menu-itemHover");
+            slChain(">li", $itemsContainer).removeClass("ui-menu-itemHover");
         },
         /**
         * @description  获取产生自动补全效果的textbox的位置和宽高信息
         * @param {textBox} textbox DOM元素
         */
         GetTextBoxStyle: function (textBox) {
-            var $textBox = $(textBox);
+            var $textBox = slChain(textBox);
             var styleInfo;
             if (styleInfo = sl.data(textBox, "styleInfo")) {
                 return styleInfo;
@@ -111,12 +111,12 @@ sl.create("sl.ui", function () {
         _GenrateMenuItems: function (textBox, SouceArray, height, width, top, left) {
             MenuItemHelper.RemoveMenuItems(textBox);
             if (SouceArray == null || !SouceArray.length) return;
-            var $ItemsContainer = $("<ul class='ui-autocomplete ui-menu'></ul>");
+            var $ItemsContainer = slChain("<ul class='ui-autocomplete ui-menu'></ul>");
             //遍历产生item源数组
             sl.each(SouceArray, function (i, d) {
-                var $MenuItem = $("<li class='ui-menu-item'></li>");
+                var $MenuItem = slChain("<li class='ui-menu-item'></li>");
 
-                var $MenuItemText = $("<a></a>");
+                var $MenuItemText = slChain("<a></a>");
                 if (sl.InstanceOf.PlainObject(d)) {
                     $MenuItem.data("MenuItem.Data", { "text": d.text, "value": d.value, "Selected": false });
                     $MenuItemText.append(d.text);
@@ -133,13 +133,13 @@ sl.create("sl.ui", function () {
                     styleHelper.SetItemHover($MenuItem);
                 });
                 //绑定点击事件
-                eventHelper.SetItemClickEvent($MenuItem, $(textBox));
+                eventHelper.SetItemClickEvent($MenuItem, slChain(textBox));
 
             });
             //设置只能提示选项的位置
             $ItemsContainer.css({ "left": left, "width": width, "top": (parseFloat(top) + parseFloat(height)) });
             $ItemsContainer.appendTo("body");
-            $(textBox).data("CalvinAutoComplete.data").ItemsContainer = $ItemsContainer;
+            slChain(textBox).data("CalvinAutoComplete.data").ItemsContainer = $ItemsContainer;
             return $ItemsContainer;
         },
         /**
@@ -147,7 +147,7 @@ sl.create("sl.ui", function () {
         * @param {textBox} textBox元素
         **/
         RemoveMenuItems: function (textBox) {
-            var $this = $(textBox);
+            var $this = slChain(textBox);
             if ($this.data("CalvinAutoComplete.data")) {
                 data = $this.data("CalvinAutoComplete.data");
                 if (data.ItemsContainer) {
@@ -165,7 +165,7 @@ sl.create("sl.ui", function () {
         */
         getSelectedItem: function ($itemContainer) {
             if (!$itemContainer) return;
-            var $SelectedItem = $(">li.ui-menu-itemHover", $itemContainer.get(0));
+            var $SelectedItem = slChain(">li.ui-menu-itemHover", $itemContainer.get(0));
             if ($SelectedItem.length != 0) {
                 return $SelectedItem.eq(0);
             }
@@ -178,7 +178,7 @@ sl.create("sl.ui", function () {
         * @param {textBox} textbox元素
         */
         SetTextBoxKeyUpDownEvent: function (textBox) {
-            var $this = $(textBox);
+            var $this = slChain(textBox);
             var opts = sl.data(textBox, 'CalvinAutoComplete.data').options;
             //首先取消绑定事件
             $this.unbind("keydown");
@@ -190,9 +190,9 @@ sl.create("sl.ui", function () {
                 if (data == null || data.ItemsContainer == null) return;
 
                 var $itemContainer = data.ItemsContainer;
-                var $items = $(">li", $itemContainer.get(0));
+                var $items = slChain(">li", $itemContainer.get(0));
                 var itemsCount = $items.length;
-                var $SelectedItem = $(">li.ui-menu-itemHover", $itemContainer.get(0));
+                var $SelectedItem = slChain(">li.ui-menu-itemHover", $itemContainer.get(0));
                 var SelectIndex = $items.index($SelectedItem.get(0));
                 switch (event.keyCode) {
                     //向上                                                                                                                                               
@@ -220,7 +220,7 @@ sl.create("sl.ui", function () {
                     default:
                         break;
                 }
-                var $newSelectedItem = $(">li.ui-menu-itemHover", $itemContainer.get(0)).eq(0);
+                var $newSelectedItem = slChain(">li.ui-menu-itemHover", $itemContainer.get(0)).eq(0);
                 if ($newSelectedItem.length != 0) {
                     $this.val($newSelectedItem.data("MenuItem.Data").text);
                 }
@@ -292,16 +292,16 @@ sl.create("sl.ui", function () {
 
     };
     function GenerateLoading(target) {
-        if ($(target).data("CalvinAutoCompleteLoading")) {
-            return $(target).data("CalvinAutoCompleteLoading");
+        if (slChain(target).data("CalvinAutoCompleteLoading")) {
+            return slChain(target).data("CalvinAutoCompleteLoading");
 
         }
         else {
-            var $LoadingHtml = $("<div id='CalvinAutoCompleteLoading' class='autoCompleteLoading'></div>");
+            var $LoadingHtml = slChain("<div id='CalvinAutoCompleteLoading' class='autoCompleteLoading'></div>");
             var styleInfo = styleHelper.GetTextBoxStyle(target);
             $LoadingHtml.appendTo("body");
             $LoadingHtml.css({ "left": styleInfo.left, "width": styleInfo.width, "top": (styleInfo.top + styleInfo.height) });
-            $(target).data("CalvinAutoCompleteLoading", $LoadingHtml);
+            slChain(target).data("CalvinAutoCompleteLoading", $LoadingHtml);
             return $LoadingHtml;
         }
 
@@ -352,7 +352,7 @@ sl.create("sl.ui", function () {
                 //移除现有的Items元素
                 MenuItemHelper.RemoveMenuItems(elem);
                 eventHelper.SetTextBoxKeyUpDownEvent(elem);
-                $(document).click(function () {
+                slChain(document).click(function () {
                     MenuItemHelper.RemoveMenuItems(elem);
                 });
             }

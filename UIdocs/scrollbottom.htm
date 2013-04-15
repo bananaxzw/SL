@@ -21,8 +21,8 @@
         sl.ready(function () {
             DlHighlight.HELPERS.highlightByName("code", "pre");
             if (sl.Browser.ie) {
-                $("pre.DlHighlight").each(function () {
-                    var $this = $(this);
+                slChain("pre.DlHighlight").each(function () {
+                    var $this = slChain(this);
                     $this.html("<pre>" + $this.find("pre").html() + "</pre>");
                 })
             }
@@ -35,14 +35,14 @@
         });
 
         sl.ready(function () {
-            var waitingContent = $("<li>加载中...........</li>");
+            var waitingContent = slChain("<li>加载中...........</li>");
             var mm = new sl.ui.bottomload({ container: document.getElementById("Ul1"),
                 onReach: function () {
-                    $("#Ul1").append(waitingContent);
+                    slChain("#Ul1").append(waitingContent);
                 },
                 LoadData: function (data) {
-                    $("#Ul1").append(data);
-                    $(waitingContent).remove();
+                    slChain("#Ul1").append(data);
+                    slChain(waitingContent).remove();
                 },
                 ajaxRequest: true,
                 ajaxOption: { url: "bottomloaded.ashx" }

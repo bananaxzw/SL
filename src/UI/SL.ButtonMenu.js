@@ -22,12 +22,12 @@ sl.create("sl.ui", function () {
     };
     function initbuttonmenu(target) {
         var opts = sl.data(target, 'slmenubutton').options;
-        var btn = $(target);
+        var btn = slChain(target);
         btn.removeClass('m-btn-active m-btn-plain-active');
         var menu;
         new sl.ui.button(target, opts);
         if (opts.menuId && opts.menuData && !sl.InstanceOf.EmptyObject(opts.menuData)) {
-            menu = new sl.ui.menu($(opts.menuId).get(0), {
+            menu = new sl.ui.menu(slChain(opts.menuId).get(0), {
                 onShow: function () {
                     btn.addClass((opts.plain == true) ? 'm-btn-plain-active' : 'm-btn-active');
                 },
@@ -57,8 +57,8 @@ sl.create("sl.ui", function () {
         }
         function showMenu() {
             var left = btn.offset().left;
-            if (left + $(opts.menuId).outerWidth() + 5 > $(window).width()) {
-                left = $(window).width() - $(opts.menuId).outerWidth() - 5;
+            if (left + slChain(opts.menuId).outerWidth() + 5 > slChain(window).width()) {
+                left = slChain(window).width() - slChain(opts.menuId).outerWidth() - 5;
             }
             menu.hide();
             menu.showMenu({
@@ -68,7 +68,7 @@ sl.create("sl.ui", function () {
             btn.blur();
         };
 
-        $(document).click(function () {
+        slChain(document).click(function () {
             menu.hide();
         });
     };
@@ -81,14 +81,14 @@ sl.create("sl.ui", function () {
             } else {
                 sl.data(elem, 'slmenubutton', {
                     options: sl.extend({}, defaults, {
-                        disabled: $(elem).attr('disabled') == 'true',
-                        menuId: $(elem).attr("menuId"),
-                        plain: ($(elem).attr('plain') == 'false' ? false : true),
-                        duration: (parseInt($(elem).attr('duration')) || 100)
+                        disabled: slChain(elem).attr('disabled') == 'true',
+                        menuId: slChain(elem).attr("menuId"),
+                        plain: (slChain(elem).attr('plain') == 'false' ? false : true),
+                        duration: (parseInt(slChain(elem).attr('duration')) || 100)
                     }, options)
                 });
-                $(elem).removeAttr('disabled');
-                $(elem).append('<span class="m-btn-downarrow">&nbsp;</span>');
+                slChain(elem).removeAttr('disabled');
+                slChain(elem).append('<span class="m-btn-downarrow">&nbsp;</span>');
             }
             initbuttonmenu(elem);
         }
