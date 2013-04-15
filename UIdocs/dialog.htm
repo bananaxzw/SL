@@ -18,8 +18,8 @@
         sl.ready(function () {
             DlHighlight.HELPERS.highlightByName("code", "pre");
             if (sl.Browser.ie) {
-                $("pre.DlHighlight").each(function () {
-                    var $this = $(this);
+                slChain("pre.DlHighlight").each(function () {
+                    var $this = slChain(this);
                     $this.html("<pre>" + $this.find("pre").html() + "</pre>");
                 })
             }
@@ -33,17 +33,17 @@
 
         sl.ready(function () {
             var tt = new sl.ui.dialog(document.getElementById("ElementContainerDialog"), { message: "中间内容", title: "头部", footer: "底部", zIndex: 10002 });
-            $("#btnOpenElement").click(function () {
+            slChain("#btnOpenElement").click(function () {
                 tt.open();
             });
-            $("#btnCloseElment").click(function () {
+            slChain("#btnCloseElment").click(function () {
                 tt.close();
             });
 
         });
         sl.ready(function () {
             var mm = new sl.ui.dialog(window, { message: "内容", title: "头部", footer: "底部", zIndex: 10002 });
-            $("#btnOpen").click(function () {
+            slChain("#btnOpen").click(function () {
                 mm.open();
             });
         });
@@ -74,10 +74,10 @@
                     </dl>
                     <pre name="code" class='js'>
  var tt = new sl.ui.dialog(document.getElementById("ElementContainerDialog"), { message: "中间内容", title: "头部", footer: "底部", zIndex: 10002 });
-$("#btnOpenElement").click(function () {
+slChain("#btnOpenElement").click(function () {
     tt.open();
  })
-$("#btnCloseElment").click(function () {
+slChain("#btnCloseElment").click(function () {
       tt.close();
 });
 </pre>
@@ -112,7 +112,7 @@ $("#btnCloseElment").click(function () {
                     </dl>
                     <pre name="code" class='js'>
 var mm = new sl.ui.dialog(document.body, { message: "内容", title: "头部", footer: "底部", zIndex: 10002 });
-$("#btnOpen").click(function () {
+slChain("#btnOpen").click(function () {
         mm.open();
  });
 </pre>

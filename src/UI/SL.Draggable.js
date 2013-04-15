@@ -38,12 +38,12 @@ sl.create("sl.ui",function () {
             var opts = sl.data(e.data.target, 'draggable').options;
 
             //获取可以停靠的对象
-            var droppables = $('.droppable').filter(function () {
+            var droppables = slChain('.droppable').filter(function () {
                 return e.data.target != this;
             }).filter(function () {
                 var accept = sl.data(this, 'droppable').options.accept;
                 if (accept) {
-                    return $(accept).filter(function () {
+                    return slChain(accept).filter(function () {
                         return this == e.data.target;
                     }).length > 0;
                 }
@@ -58,7 +58,7 @@ sl.create("sl.ui",function () {
             if (!proxy) {
                 if (opts.proxy) {
                     if (opts.proxy == 'clone') {
-                        proxy = $(e.data.target).clone().insertAfter(e.data.target);
+                        proxy = slChain(e.data.target).clone().insertAfter(e.data.target);
                     }
                     else {
                         proxy = opts.proxy.call(e.data.target,e.data.target);
@@ -67,7 +67,7 @@ sl.create("sl.ui",function () {
                     proxy.css(opts.proxyClass);
                 }
                 else {
-                    proxy = $(e.data.target);
+                    proxy = slChain(e.data.target);
                 }
             }
             proxy.css('position', 'absolute');
@@ -91,21 +91,21 @@ sl.create("sl.ui",function () {
             var source =e.data.target;
             //触发droppable事件
             sl.data(e.data.target, 'draggable').droppables.each(function () {
-                var dropObj = $(this);
-                var p2 = $(this).offset();
+                var dropObj = slChain(this);
+                var p2 = slChain(this).offset();
                 if (e.pageX > p2.left && e.pageX < p2.left + dropObj.outerWidth()
             && e.pageY > p2.top && e.pageY < p2.top + dropObj.outerHeight()) {
                     if (!this.entered) {
                         //触发_dragenter事件
-                        $(this).trigger('_dragenter', [source]);
+                        slChain(this).trigger('_dragenter', [source]);
                         this.entered = true;
                     }
-                    $(this).trigger('_dragover', [source]);
+                    slChain(this).trigger('_dragover', [source]);
                 }
                 else {
                     if (this.entered) {
                         //离开
-                        $(this).trigger('_dragleave', [source]);
+                        slChain(this).trigger('_dragleave', [source]);
                         this.entered = false;
                     }
                 }
@@ -132,7 +132,7 @@ sl.create("sl.ui",function () {
                 //如果是拖动到可drop对象内 应该立即消失 模拟已经放到容器中 （可定制事件）
                 if (checkDrop() == true) {
                     removeProxy();
-                    $(e.data.target).css({
+                    slChain(e.data.target).css({
                         position:e.data.startPosition,
                         left:e.data.startLeft,
                         top:e.data.startTop
@@ -156,22 +156,22 @@ sl.create("sl.ui",function () {
                     }
                     else {
                         /*
-                        $(e.data.target).animate({
+                        slChain(e.data.target).animate({
                         left:e.data.startLeft,
                         top:e.data.startTop
                         }, function () {
-                        $(e.data.target).css('position',e.data.startPosition);
+                        slChain(e.data.target).css('position',e.data.startPosition);
                         });*/
-                        $(e.data.target).css({
+                        slChain(e.data.target).css({
                             left:e.data.startLeft,
                             top:e.data.startTop
                         });
-                        $(e.data.target).css('position',e.data.startPosition);
+                        slChain(e.data.target).css('position',e.data.startPosition);
                     }
                 }
             }
             else {
-                $(e.data.target).css({
+                slChain(e.data.target).css({
                     position: 'absolute',
                     left:e.data.left,
                     top:e.data.top
@@ -194,18 +194,18 @@ sl.create("sl.ui",function () {
                 if (!data.droppables) return;
                 var dropped = false;
                 data.droppables.each(function () {
-                    var dropObj = $(this);
-                    var p2 = $(this).offset();
+                    var dropObj = slChain(this);
+                    var p2 = slChain(this).offset();
                     if (e.pageX > p2.left && e.pageX < p2.left + dropObj.outerWidth()
 						&& e.pageY > p2.top && e.pageY < p2.top + dropObj.outerHeight()) {
                         if (opts.revert) {
-                            $(e.data.target).css({
+                            slChain(e.data.target).css({
                                 position:e.data.startPosition,
                                 left:e.data.startLeft,
                                 top:e.data.startTop
                             });
                         }
-                        $(this).trigger('_drop', [e.data.target]);
+                        slChain(this).trigger('_drop', [e.data.target]);
                         dropped = true;
                         this.entered = false;
                     }
@@ -213,9 +213,9 @@ sl.create("sl.ui",function () {
                 return dropped;
             }
 
-            $(document).unbind("mousedown");
-            $(document).unbind("mousemove");
-            $(document).unbind("mouseup");
+            slChain(document).unbind("mousedown");
+            slChain(document).unbind("mousemove");
+            slChain(document).unbind("mouseup");
             return false;
 
         },
@@ -225,7 +225,7 @@ sl.create("sl.ui",function () {
             if (proxy) {
                 proxy.css('cursor', opts.cursor);
             } else {
-                proxy = $(e.data.target);
+                proxy = slChain(e.data.target);
                 sl.data(e.data.target, 'draggable').handle.css('cursor', opts.cursor);
             }
             proxy.css({
@@ -253,8 +253,8 @@ sl.create("sl.ui",function () {
             //如果父元素不是body就加上滚动条
             if (e.data.parent != document.body) {
                 if (sl.boxModel == true) {
-                    left += $(e.data.parent).scrollLeft();
-                    top += $(e.data.parent).scrollTop();
+                    left += slChain(e.data.parent).scrollLeft();
+                    top += slChain(e.data.parent).scrollTop();
                 }
             }
             //如果只允许水平或者垂直 只单单设置top或者left
@@ -277,8 +277,8 @@ sl.create("sl.ui",function () {
             var containment = opts.containment;
             var dragData =e.data;
             var target = dragData.target;
-            var targetHeight = $(target).outerHeight();
-            var targetWidth = $(target).outerWidth();
+            var targetHeight = slChain(target).outerHeight();
+            var targetWidth = slChain(target).outerWidth();
             var ConstrainArea = dragData.ConstrainArea;
             var elementArea = dragData.targetArea;
 
@@ -317,7 +317,7 @@ sl.create("sl.ui",function () {
                 var ConstrainArea = {};
                 if (arguments[i] == window)
                     arguments[i] = document.body || document.documentElement;
-                var $containment = $(arguments[i]);
+                var $containment = slChain(arguments[i]);
 
 
                 ConstrainArea.top = $containment.offset().top;
@@ -359,18 +359,18 @@ sl.create("sl.ui",function () {
             }
             opts.containment = opts.containment || elem.ownerDocument.documentElement || elem.ownerDocument.body;
             if (opts.disabled == true) {
-                $(this).css('cursor', 'default');
+                slChain(this).css('cursor', 'default');
                 return;
             }
             //        if (opts.containment) {
-            //            $(elem).css("margin", "0px");
+            //            slChain(elem).css("margin", "0px");
             //        }
 
             var handle = null;
             if (typeof opts.handle == 'undefined' || opts.handle == null) {
-                handle = $(elem);
+                handle = slChain(elem);
             } else {
-                handle = (typeof opts.handle == 'string' ? $(opts.handle, elem) : handle);
+                handle = (typeof opts.handle == 'string' ? slChain(opts.handle, elem) : handle);
             }
             sl.data(elem, 'draggable', {
                 options: opts,
@@ -383,7 +383,7 @@ sl.create("sl.ui",function () {
 
             function onMouseDown(e) {
                 if (checkArea(e) == false) return;
-                var $target = $(e.data.target);
+                var $target = slChain(e.data.target);
                 var position = $target.position();
                 var data = {
                     startPosition: $target.css('position'),
@@ -394,18 +394,18 @@ sl.create("sl.ui",function () {
                     startX: e.pageX,
                     startY: e.pageY,
                     target:e.data.target,
-                    parent: $(e.data.target).parent()[0],
+                    parent: slChain(e.data.target).parent()[0],
                     targetArea: {},
                     ConstrainArea: {},
                     proxy: opts.proxy
                 };
                 computeArea(opts.containment,e.data.target);
-                $(document).bind('mousedown', data, eventHelper.beginDrag);
-                $(document).bind('mousemove', data, sl.throttle(50, eventHelper.onDrag, true));
-                $(document).bind('mouseup', data, eventHelper.endDrag);
+                slChain(document).bind('mousedown', data, eventHelper.beginDrag);
+                slChain(document).bind('mousemove', data, sl.throttle(50, eventHelper.onDrag, true));
+                slChain(document).bind('mouseup', data, eventHelper.endDrag);
                 //计算目标区划 和 限制区划
                 function computeArea(constrain, target) {
-                    var areas = domHelper.getElementsArea(constrain, target), $target = $(target);
+                    var areas = domHelper.getElementsArea(constrain, target), $target = slChain(target);
                     data.ConstrainArea = areas[0];
                     areas[1].under = (areas[1].under + parseFloat($target.css("border-top-width")) + parseFloat($target.css("border-bottom-width")));
                     areas[1].right = (areas[1].right + parseFloat($target.css("border-left-width")) + parseFloat($target.css("border-right-width")));
@@ -415,17 +415,17 @@ sl.create("sl.ui",function () {
 
             function onMouseMove(e) {
                 if (checkArea(e)) {
-                    $(this).css('cursor', opts.cursor);
+                    slChain(this).css('cursor', opts.cursor);
                 } else {
-                    $(this).css('cursor', 'default');
+                    slChain(this).css('cursor', 'default');
                 }
             }
 
             // 鼠标是不是在手柄的可拖动区域
             function checkArea(e) {
-                var offset = $(handle).offset();
-                var width = $(handle).outerWidth();
-                var height = $(handle).outerHeight();
+                var offset = slChain(handle).offset();
+                var width = slChain(handle).outerWidth();
+                var height = slChain(handle).outerHeight();
                 var edge = opts.edge;
                 if (e.pageY - offset.top > edge) {
                     if (offset.left + width - e.pageX > edge) {

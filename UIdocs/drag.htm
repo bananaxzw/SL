@@ -12,8 +12,8 @@
         sl.ready(function () {
             DlHighlight.HELPERS.highlightByName("code", "pre");
             if (sl.Browser.ie) {
-                $("pre.DlHighlight").each(function () {
-                    var $this = $(this);
+                slChain("pre.DlHighlight").each(function () {
+                    var $this = slChain(this);
                     $this.html("<pre>" + $this.find("pre").html() + "</pre>");
                 })
             }
@@ -28,8 +28,8 @@
         sl.ready(function () {
             new sl.ui.draggable(document.getElementById("sfs"), { proxy: "", containment: document.getElementById("Div1") });
             new sl.ui.draggable(document.getElementById("Div2"), { proxy: "clone" });
-            $("#Button1").click(function () {
-                alert($("#sfs").offset().left);
+            slChain("#Button1").click(function () {
+                alert(slChain("#sfs").offset().left);
             })
         })
        

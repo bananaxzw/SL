@@ -1,5 +1,8 @@
 ﻿//遮罩层
 /// <reference path="../sl.js" />
+/// <reference path="SL.Draggable.js" />
+/// <reference path="SL.Resizable.js" />
+
 /********************************************************************************************
 * 文件名称:	
 * 设计人员:	许志伟 
@@ -61,8 +64,9 @@ sl.create("sl.ui", function () {
         setDraggable: function (target) {
             var data = sl.data(target, 'panel');
             var $panel = data.panel;
-            //  var dragHandle = $("div.panel-header", $panel);
-            $panel.CalvinDraggable({ handle: "div.panel-header", containment: $panel.get(0).parentNode });
+            //  var dragHandle = slChain("div.panel-header", $panel);
+            //$panel.CalvinDraggable({ handle: "div.panel-header", containment: $panel.get(0).parentNode });
+            new sl.ui.draggable($panel.get(0), { handle: "div.panel-header", containment: $panel.get(0).parentNode });
 
         },
         setResizeable: function (target) {
@@ -71,7 +75,21 @@ sl.create("sl.ui", function () {
             var $parent = $panel.parent();
             var maxWidth = $parent.width();
             var maxHeight = $parent.height();
-            $panel.CalvinResizable({ maxWidth: maxWidth, maxHeight: maxHeight, onResize: function () {
+//            $panel.CalvinResizable({ maxWidth: maxWidth, maxHeight: maxHeight, onResize: function () {
+//                var params = {};
+//                params.height = $panel.height();
+//                params.width = $panel.width();
+//                otherHelper.setSizeByParams(target, params);
+
+//            }, onStopResize: function () {
+//                var params = {};
+//                params.height = $panel.height();
+//                params.width = $panel.width();
+//                otherHelper.setSizeByParams(target, params);
+
+//            }
+//            });
+            new sl.ui.resizeable($panel.get(0), { maxWidth: maxWidth, maxHeight: maxHeight, onResize: function () {
                 var params = {};
                 params.height = $panel.height();
                 params.width = $panel.width();
@@ -96,9 +114,9 @@ sl.create("sl.ui", function () {
         * @returns 包裹后的jq对象
         */
         formPanel: function (target) {
-            var $target = $(target);
+            var $target = slChain(target);
 
-            var $panel = $(target).addClass('panel-body').wrap('<div class="panel"></div>').parent();
+            var $panel = slChain(target).addClass('panel-body').wrap('<div class="panel"></div>').parent();
 
             $panel.addClass(opts.cls);
             return $panel;
@@ -106,7 +124,7 @@ sl.create("sl.ui", function () {
         //销毁已有的panel
         destroy: function (target) {
 
-            var $target = $(target);
+            var $target = slChain(target);
             var panel = sl.data(target, "panel").panel;
 
             var orginTarget = sl.data(target, "panel").originInfo.obj;
@@ -128,32 +146,32 @@ sl.create("sl.ui", function () {
                 var panel = sl.data(target, 'panel').panel;
                 var opts = sl.data(target, 'panel').options;
                 if (!opts.noheader) {
-                    var $header = $('<div class="panel-header"><div class="panel-title">' + opts.title + '</div></div>').prependTo(panel);
-                    var $tool = $('<div class="panel-tool"></div>').appendTo($header);
+                    var $header = slChain('<div class="panel-header"><div class="panel-title">' + opts.title + '</div></div>').prependTo(panel);
+                    var $tool = slChain('<div class="panel-tool"></div>').appendTo($header);
                     if (opts.closable) {
-                        $('<div class="panel-tool-close"></div>').appendTo($tool).bind('click', { panelTarget: target }, eventHelper.onClose);
+                        slChain('<div class="panel-tool-close"></div>').appendTo($tool).bind('click', { panelTarget: target }, eventHelper.onClose);
                     }
                     if (opts.maximizable) {
-                        $('<div class="panel-tool-max"></div>').appendTo($tool).bind('click', { panelTarget: target }, eventHelper.onMaxAndRestore);
+                        slChain('<div class="panel-tool-max"></div>').appendTo($tool).bind('click', { panelTarget: target }, eventHelper.onMaxAndRestore);
                     }
                     if (opts.minimizable) {
-                        $('<div class="panel-tool-min"></div>').appendTo($tool).bind('click', onMin);
+                        slChain('<div class="panel-tool-min"></div>').appendTo($tool).bind('click', onMin);
                     }
                     if (opts.collapsible) {
-                        $('<div class="panel-tool-collapse"></div>').appendTo($tool).bind('click', { panelTarget: target }, eventHelper.onCollapseAndExpend);
+                        slChain('<div class="panel-tool-collapse"></div>').appendTo($tool).bind('click', { panelTarget: target }, eventHelper.onCollapseAndExpend);
                     }
                     if (opts.tools) {
                         for (var i = opts.tools.length - 1; i >= 0; i--) {
-                            var t = $('<div></div>').addClass(opts.tools[i].iconCls).appendTo($tool);
+                            var t = slChain('<div></div>').addClass(opts.tools[i].iconCls).appendTo($tool);
                             if (opts.tools[i].handler) {
                                 t.bind('click', eval(opts.tools[i].handler));
                             }
                         }
                     }
                     $tool.find('div').hover(function () {
-                        $(this).addClass('panel-tool-over');
+                        slChain(this).addClass('panel-tool-over');
                     }, function () {
-                        $(this).removeClass('panel-tool-over');
+                        slChain(this).removeClass('panel-tool-over');
                     });
                     return $header;
                 }
@@ -186,7 +204,7 @@ sl.create("sl.ui", function () {
         */
         onCollapseAndExpend: function (event) {
             var paneltarget = event.data.panelTarget;
-            if ($(this).hasClass('panel-tool-expand')) {
+            if (slChain(this).hasClass('panel-tool-expand')) {
                 eventHelper.expandPanel(paneltarget, opts.animate);
             } else {
                 eventHelper.collapsePanel(paneltarget, opts.animate);
@@ -262,7 +280,7 @@ sl.create("sl.ui", function () {
         },
         onMaxAndRestore: function (event) {
             var paneltarget = event.data.panelTarget;
-            if ($(this).hasClass('panel-tool-restore')) {
+            if (slChain(this).hasClass('panel-tool-restore')) {
                 eventHelper.restorePanel(paneltarget);
             } else {
                 eventHelper.maximizePanel(paneltarget);
@@ -279,7 +297,7 @@ sl.create("sl.ui", function () {
 
     var otherHelper = {
         setNormalStyle: function (target) {
-            var $target = $(target);
+            var $target = slChain(target);
             var width = $target.width();
             var height = $target.height();
             var panel = sl.data(target, 'panel').panel;
@@ -326,7 +344,7 @@ sl.create("sl.ui", function () {
 
         },
         setRestroreStyle: function (target) {
-            var $target = $(target);
+            var $target = slChain(target);
             var opts = sl.data(target, 'panel').options;
             var panel = sl.data(target, 'panel').panel;
             var tool = panel.find('>div.panel-header .panel-tool-max');
@@ -351,7 +369,7 @@ sl.create("sl.ui", function () {
         * 根据参数重新设置宽度和高度
         */
         setSizeByParams: function (target, params) {
-            var $target = $(target);
+            var $target = slChain(target);
             var data = sl.data(target, "panel");
             var opts = data.options;
             var panel = data.panel;
@@ -431,7 +449,7 @@ sl.create("sl.ui", function () {
     this.panel = sl.Class(
     {
         init: function (elem, options) {
-            var $this = $(elem);
+            var $this = slChain(elem);
             var width = $this.width();
             var height = $this.height();
             var state = sl.data(elem, 'panel');
@@ -456,22 +474,19 @@ sl.create("sl.ui", function () {
                 var $header = headerHelper.formHeader(elem);
                 data.header = $header;
                 if (opts.draggable) {
-                    // reSizeAndDraggable.setDraggable(elem);
+                    reSizeAndDraggable.setDraggable(elem);
                 }
                 if (opts.resizeable) {
-                    //reSizeAndDraggable.setResizeable(elem);
+                    reSizeAndDraggable.setResizeable(elem);
                 }
             }
             /*如果多次调用calvinPanel的话 因为target被JS重新设置宽度 采用把target的原始宽度缓存起来 
             *防止多次调用 宽度逐渐缩小*/
             var data = sl.data(elem, "panel");
             if (data) {
-
                 $this.height(data.height);
                 $this.width(data.width);
-
             }
-
             otherHelper.setNormalStyle(elem);
             otherHelper.setInitalState(elem);
 

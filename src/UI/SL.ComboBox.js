@@ -22,7 +22,7 @@ sl.create("sl.ui", function () {
     {
         init: function (elem, options) {
             if (!elem) throw new Error("未设定元素！");
-            var options = sl.extend(true,{}, defaults, options), $this = $(elem);
+            var options = sl.extend(true,{}, defaults, options), $this = slChain(elem);
             if (data = $this.data("CalvinAutoComplete.data")) {
                 this.clearAll(elem);
                 data.ItemsContainer = null, data.TextBoxContainer = null, data.dropdownIcon = null;
@@ -37,7 +37,7 @@ sl.create("sl.ui", function () {
             //移除现有的Items元素
             EventHelper.SetTextBoxKeyUpDownEvent(elem);
 
-            $(document).click(function (event) {
+            slChain(document).click(function (event) {
                 MenuItemHelper.RemoveMenuItems(elem);
             });
 
@@ -71,7 +71,7 @@ sl.create("sl.ui", function () {
         * @param {textBox} textbox元素
         */
         SetTextBoxKeyUpDownEvent: function (textBox) {
-            var $this = $(textBox),
+            var $this = slChain(textBox),
             options = $this.data("CalvinAutoComplete.data").options;
 
             $this.unbind("keydown");
@@ -83,9 +83,9 @@ sl.create("sl.ui", function () {
                 if ((data == null || data.ItemsContainer == null) && (dropDownIconData == null || dropDownIconData.AllMenusItems == null || dropDownIconData.AllMenusItems.is(":hidden"))) return;
 
                 var $itemContainer = data.ItemsContainer || dropDownIconData.AllMenusItems;
-                var $items = $(">li", $itemContainer.get(0));
+                var $items = slChain(">li", $itemContainer.get(0));
                 var itemsCount = $items.length;
-                var $SelectedItem = $(">li.ui-menu-itemHover", $itemContainer.get(0));
+                var $SelectedItem = slChain(">li.ui-menu-itemHover", $itemContainer.get(0));
                 var SelectIndex = $items.index($SelectedItem.get(0));
                 switch (event.keyCode) {
                     //向上                                                                                                                                                                                    
@@ -115,7 +115,7 @@ sl.create("sl.ui", function () {
                     default:
                         break;
                 }
-                var $newSelectedItem = $(">li.ui-menu-itemHover", $itemContainer.get(0)).eq(0);
+                var $newSelectedItem = slChain(">li.ui-menu-itemHover", $itemContainer.get(0)).eq(0);
                 if ($newSelectedItem.length != 0) {
                     $this.val($newSelectedItem.data("MenuItem.Data").text);
                 }
@@ -176,12 +176,12 @@ sl.create("sl.ui", function () {
         GenrateMenuItems: function (textBox, SouceArray, height, width, top, left) {
            
             if (!SouceArray.length) return;
-            var $ItemsContainer = $("<ul class='ui-autocomplete ui-menu'></ul>"), options = $(textBox).data("CalvinAutoComplete.data").options;
+            var $ItemsContainer = slChain("<ul class='ui-autocomplete ui-menu'></ul>"), options = slChain(textBox).data("CalvinAutoComplete.data").options;
             //遍历产生item源数组
             sl.each(SouceArray, function (i, d) {
-                var $MenuItem = $("<li class='ui-menu-item'></li>");
+                var $MenuItem = slChain("<li class='ui-menu-item'></li>");
 
-                var $MenuItemText = $("<a></a>");
+                var $MenuItemText = slChain("<a></a>");
                 if (sl.InstanceOf.PlainObject(d)) {
                     $MenuItem.data("MenuItem.Data", { "text": d.text, "value": d.value, "Selected": false });
                     $MenuItemText.append(d.text);
@@ -198,7 +198,7 @@ sl.create("sl.ui", function () {
                     MenuItemHelper.SetItemHover($MenuItem);
                 });
                 //绑定点击事件
-                EventHelper.SetMenuItemClickEvent($MenuItem, $(textBox));
+                EventHelper.SetMenuItemClickEvent($MenuItem, slChain(textBox));
 
             });
 
@@ -227,7 +227,7 @@ sl.create("sl.ui", function () {
         * @return 返回选中元素的jq对象
         */
         getSelectedItem: function ($itemContainer) {
-            var $SelectedItem = $(">li.ui-menu-itemHover", $itemContainer.get(0));
+            var $SelectedItem = slChain(">li.ui-menu-itemHover", $itemContainer.get(0));
             if ($SelectedItem.length != 0) {
                 return $SelectedItem.eq(0);
             }
@@ -240,12 +240,12 @@ sl.create("sl.ui", function () {
 
             var hasMatched = false,
              height = 0,
-      options = $(textbox).data("CalvinAutoComplete.data").options;
-            $(">li", $itemContainer).each(function (i, d) {
-                height += $(d).height();
-                if (key === $(d).data("MenuItem.Data").text) {
+      options = slChain(textbox).data("CalvinAutoComplete.data").options;
+            slChain(">li", $itemContainer).each(function (i, d) {
+                height += slChain(d).height();
+                if (key === slChain(d).data("MenuItem.Data").text) {
                     hasMatched = true;
-                    MenuItemHelper.SetItemHover($(d));
+                    MenuItemHelper.SetItemHover(slChain(d));
                     return false;
                 }
             });
@@ -260,11 +260,11 @@ sl.create("sl.ui", function () {
         */
         ScrollToSelectedItem: function ($itemContainer, options) {
             var hasMatched = false, height = 0;
-            $(">li", $itemContainer).each(function (i, d) {
-                height += $(d).height();
-                if ($(d).is(".ui-menu-itemHover")) {
+            slChain(">li", $itemContainer).each(function (i, d) {
+                height += slChain(d).height();
+                if (slChain(d).is(".ui-menu-itemHover")) {
                     hasMatched = true;
-                    MenuItemHelper.SetItemHover($(d));
+                    MenuItemHelper.SetItemHover(slChain(d));
                     return false;
                 }
             });
@@ -287,7 +287,7 @@ sl.create("sl.ui", function () {
         * @param {textBox} textBox元素
         **/
         RemoveMenuItems: function (textBox) {
-            var $this = $(textBox);
+            var $this = slChain(textBox);
             if ($this.data("CalvinAutoComplete.data")) {
                 data = $this.data("CalvinAutoComplete.data");
                 if (data.ItemsContainer) {
@@ -307,12 +307,12 @@ sl.create("sl.ui", function () {
         * @param {itemsContainer} item的容器元素 也就是ul
         */
         RemoveItemHoverStyle: function ($itemsContainer) {
-            $(">li", $itemsContainer).removeClass("ui-menu-itemHover");
+            slChain(">li", $itemsContainer).removeClass("ui-menu-itemHover");
         },
 
         clearAll: function (textBox) {
 
-            var $this = $(textBox);
+            var $this = slChain(textBox);
             var data = $this.data("CalvinAutoComplete.data");
             if (data) {
                 if (data.dropdownIcon && data.dropdownIcon.data("AllMenusItems") && data.dropdownIcon.data("AllMenusItems").AllMenusItems) {
@@ -360,11 +360,11 @@ sl.create("sl.ui", function () {
     * @param {textBox} textBox元素
     */
     function WrapTextBox(textbox) {
-        var $textbox = $(textbox), options = $textbox.data("CalvinAutoComplete.data").options;
+        var $textbox = slChain(textbox), options = $textbox.data("CalvinAutoComplete.data").options;
         $textbox.wrap("<span class='combo'></span>");
         var $ContainerSpan = $textbox.parent();
         $textbox.addClass("combo-text");
-        var $dropdownIcon = $("<span><span class='combo-arrow'></span></span>");
+        var $dropdownIcon = slChain("<span><span class='combo-arrow'></span></span>");
         $dropdownIcon.data("AllMenusItems", { AllMenusItems: null });
         $textbox.appendTo($ContainerSpan);
         $ContainerSpan.append($dropdownIcon);
@@ -398,7 +398,7 @@ sl.create("sl.ui", function () {
     * @param {textBox} textbox DOM元素
     */
     function GetElementStyle(ele) {
-        var $ele = $(ele);
+        var $ele = slChain(ele);
         var offset = $ele.offset();
         return { left: offset.left, top: offset.top, width: $ele.width(), height: $ele.outerHeight() };
     }

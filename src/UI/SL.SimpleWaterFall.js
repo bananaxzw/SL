@@ -37,7 +37,7 @@ sl.create("sl.ui", function () {
                     }
                 }
             } else {
-                return { height: parseFloat($(elem).height()), width: parseFloat($(elem).width()) };
+                return { height: parseFloat(slChain(elem).height()), width: parseFloat(slChain(elem).width()) };
             }
         }
     };
@@ -48,7 +48,7 @@ sl.create("sl.ui", function () {
             this.opts = sl.extend({}, Defaults, options);
             sl.InstanceOf.BodyOrHtmlOrWindow(this.opts.container) ? this.opts.container = document.body : false;
             this.initialte();
-            this.putElements($(".sl-waterfall", this.opts.container).elements);
+            this.putElements(slChain(".sl-waterfall", this.opts.container).elements);
         }
     });
 
@@ -61,10 +61,10 @@ sl.create("sl.ui", function () {
         firstRowFull: false,
         firstRowCurrCount: 0,
         initialte: function () {
-            var container = this.opts.container, c = $(container).css("position"), othis = this;
-            !sl.InstanceOf.BodyOrHtmlOrWindow(container) && c != "fixed" && c != "relative" && c != "absolute" ? $(container).css("position", "relative") : false;
-            this.elems = $("sl_waterfall", container).elements;
-            this.containerWidth = parseFloat($(container).innerWidth());
+            var container = this.opts.container, c = slChain(container).css("position"), othis = this;
+            !sl.InstanceOf.BodyOrHtmlOrWindow(container) && c != "fixed" && c != "relative" && c != "absolute" ? slChain(container).css("position", "relative") : false;
+            this.elems = slChain("sl_waterfall", container).elements;
+            this.containerWidth = parseFloat(slChain(container).innerWidth());
             this.countOfRow = this.containerWidth / this.opts.colWidth | 0, this.countOfRow = this.countOfRow < this.opts.minColCount ? this.opts.minColCount : this.countOfRow;
             if (this.opts.dynamicLoad) {
                 new SLWaterFallLoder({ waterfall: othis, onReach: othis.opts.onReach });
@@ -78,7 +78,7 @@ sl.create("sl.ui", function () {
                 });
             }
             for (var i = 0, length = elems.length; i < length; i++) {
-                var elemH = parseFloat($(elems[i]).outerHeight());
+                var elemH = parseFloat(slChain(elems[i]).outerHeight());
                 if (!this.firstRowFull) { //第一行Pin以浮动排列，不需绝对定位
                     ++this.firstRowCurrCount == this.countOfRow ? this.firstRowFull = true : false;
                     this.colsHeight[i] = elemH;
@@ -107,14 +107,14 @@ sl.create("sl.ui", function () {
         this.page = 1;
         this.opts.container = this.opts.waterfall.opts.container;
         var othis = this;
-        $(sl.InstanceOf.BodyOrHtmlOrWindow(this.opts.container) ? window : this.opts.container).scroll(sl.throttle(100, function () {
+        slChain(sl.InstanceOf.BodyOrHtmlOrWindow(this.opts.container) ? window : this.opts.container).scroll(sl.throttle(100, function () {
             othis.onScroll.apply(othis);
         }, true));
     };
     SLWaterFallLoder.prototype = {
         onScroll: function () {
             var scrollheight = this.opts.waterfall.minColsHeight,
-        scrollTop = $(this.opts.container).scrollTop(),
+        scrollTop = slChain(this.opts.container).scrollTop(),
              height = waterfallHepler.getVisiableRect(this.opts.container).height,
              LoadRadius = this.opts.LoadRadius;
             if ((scrollTop + height - scrollheight) >= LoadRadius || (scrollTop + height - scrollheight) >= -LoadRadius) {

@@ -44,14 +44,14 @@ sl.create("sl.ui", function () {
                 //包裹pannel
                 wrapTabPanels: function (target) {
                     var opts = getOption(target);
-                    var $target = $(target);
+                    var $target = slChain(target);
                     var data = sl.data(target, "tabs");
                     $target.addClass("tabs-container");
                     $target.wrapInner('<div class="tabs-panels"/>');
                     data.container = $target;
                     var panels = data.panels;
-                    $('>div.tabs-panels>div', $target).each(function (i, e) {
-                        var $this = $(this);
+                    slChain('>div.tabs-panels>div', $target).each(function (i, e) {
+                        var $this = slChain(this);
                         if (!$this.attr('id')) {
                             $this.attr('id', 'gen-tabs-panel' + opts.idSeed++);
                         }
@@ -67,15 +67,15 @@ sl.create("sl.ui", function () {
             {
                 //创建tabs头 注意调用次方法前要先调用wrapTabPanels
                 createTabHeaders: function (target) {
-                    var $target = $(target);
+                    var $target = slChain(target);
                     var data = sl.data(target, "tabs");
-                    var $header = $('<div class="tabs-header">'
+                    var $header = slChain('<div class="tabs-header">'
 				+ '<div class="tabs-wrap">'
 				+ '<ul class="tabs"></ul>'
 				+ '</div>'
 				+ '</div>');
-                    var scrollLeft = $('<div class="tabs-scroller-left"></div>').bind("click", { target: target }, eventHelper.onScrollLeft);
-                    var scrollRight = $('<div class="tabs-scroller-right"></div>').bind("click", { target: target }, eventHelper.onScrollRight);
+                    var scrollLeft = slChain('<div class="tabs-scroller-left"></div>').bind("click", { target: target }, eventHelper.onScrollLeft);
+                    var scrollRight = slChain('<div class="tabs-scroller-right"></div>').bind("click", { target: target }, eventHelper.onScrollRight);
                     $header.prepend(scrollLeft).prepend(scrollRight);
                     $header.prependTo($target);
                     data.header = $header;
@@ -83,7 +83,7 @@ sl.create("sl.ui", function () {
                     var panels = data.panels;
                     var tabs = data.tabs;
                     sl.each(panels, function (i, d) {
-                        var $panel = $(this);
+                        var $panel = slChain(this);
                         var options = {
                             id: $panel.attr('id'),
                             title: $panel.attr('title'),
@@ -108,29 +108,29 @@ sl.create("sl.ui", function () {
                 createOneTab: function (target, options, index) {
                     var data = sl.data(target, "tabs");
                     var header = data.header;
-                    var tabs = $('ul.tabs', header);
-                    var tab = $('<li></li>');
-                    var tab_span = $('<span></span>').html(options.title);
-                    var tab_a = $('<a class="tabs-inner"></a>').attr('href', 'javascript:void(0)').append(tab_span);
+                    var tabs = slChain('ul.tabs', header);
+                    var tab = slChain('<li></li>');
+                    var tab_span = slChain('<span></span>').html(options.title);
+                    var tab_a = slChain('<a class="tabs-inner"></a>').attr('href', 'javascript:void(0)').append(tab_span);
                     tab.append(tab_a).appendTo(tabs);
                     if (options.closable) {
                         tab_span.addClass('tabs-closable');
-                        var $closeBtn = $('<a href="javascript:void(0)" class="tabs-close"></a>');
+                        var $closeBtn = slChain('<a href="javascript:void(0)" class="tabs-close"></a>');
                         tab_a.after($closeBtn);
                         $closeBtn.bind("click", { target: target }, eventHelper.onClose);
                     }
                     if (options.icon) {
                         tab_span.addClass('tabs-with-icon');
-                        tab_span.after($('<span/>').addClass('tabs-icon').addClass(options.icon));
+                        tab_span.after(slChain('<span/>').addClass('tabs-icon').addClass(options.icon));
                     }
                     if (options.selected) {
                         tab.addClass('tabs-selected');
                     }
                     if (options.content) {
-                        $('#' + options.id).html(options.content);
+                        slChain('#' + options.id).html(options.content);
                     }
 
-                    $('#' + options.id).removeAttr('title');
+                    slChain('#' + options.id).removeAttr('title');
                     sl.data(tab.elements[0], 'tabs.tab', {
                         id: options.id,
                         title: options.title,
@@ -158,12 +158,12 @@ sl.create("sl.ui", function () {
                     var index = defaults.idSeed++;
                     options.id = options.id || 'gen-tabs-panel' + index;
 
-                    $('<div></div>').attr('id', options.id).attr('title', options.title)
+                    slChain('<div></div>').attr('id', options.id).attr('title', options.title)
 				.height(options.height)
 				.width(options.width)
                 .html(options.content)
                 .hide()
-				.appendTo($('>div.tabs-panels', target));
+				.appendTo(slChain('>div.tabs-panels', target));
                     tabsStyleHelper.setPanelSize(target);
                     var tab = tabsHeaderHelper.createOneTab(target, options, index);
                     sl.data(target, "tabs").tabs.push(tab);
@@ -212,7 +212,7 @@ sl.create("sl.ui", function () {
         */
         setSize: function (target) {
 
-            var opts = getOption(target), cc = $(target);
+            var opts = getOption(target), cc = slChain(target);
             //是否停靠父元素
             if (opts.fit == true) {
                 var p = cc.parent();
@@ -221,7 +221,7 @@ sl.create("sl.ui", function () {
             }
             cc.width(opts.width); cc.height(opts.height);
 
-            var header = $('>div.tabs-header', target);
+            var header = slChain('>div.tabs-header', target);
             //如果是盒子模型的话 要减去边框和padding
             //                if (sl.boxModel == true) {
             var delta = header.outerWidth() - header.width();
@@ -239,7 +239,7 @@ sl.create("sl.ui", function () {
         },
         //设置panel样式
         setPanelSize: function (target) {
-            var panels = $('>div.tabs-panels', target), header = sl.data(target, "tabs").header,
+            var panels = slChain('>div.tabs-panels', target), header = sl.data(target, "tabs").header,
         opts = getOption(target), height = opts.height;
             //如果是盒子模型的话 要减去边框和padding
             if (!isNaN(height)) {
@@ -272,33 +272,33 @@ sl.create("sl.ui", function () {
         * @param {DOM element}
         */
         setScrollers: function (container) {
-            var header = $('>div.tabs-header', container);
+            var header = slChain('>div.tabs-header', container);
             var tabsWidth = 0;
-            $('ul.tabs li', header).each(function () {
-                tabsWidth += $(this).outerWidth();
+            slChain('ul.tabs li', header).each(function () {
+                tabsWidth += slChain(this).outerWidth();
             });
 
             if (tabsWidth > header.width()) {
-                $('.tabs-scroller-left', header).css('display', 'block');
-                $('.tabs-scroller-right', header).css('display', 'block');
-                $('.tabs-wrap', header).addClass('tabs-scrolling');
+                slChain('.tabs-scroller-left', header).css('display', 'block');
+                slChain('.tabs-scroller-right', header).css('display', 'block');
+                slChain('.tabs-wrap', header).addClass('tabs-scrolling');
 
                 // if (sl.boxModel == true) {
-                $('.tabs-wrap', header).css('left', 2);
+                slChain('.tabs-wrap', header).css('left', 2);
                 //            } else {
-                //                $('.tabs-wrap', header).css('left', 0);
+                //                slChain('.tabs-wrap', header).css('left', 0);
                 //            }
                 var width = header.width()
-				- $('.tabs-scroller-left', header).outerWidth()
-				- $('.tabs-scroller-right', header).outerWidth();
-                $('.tabs-wrap', header).width(width);
+				- slChain('.tabs-scroller-left', header).outerWidth()
+				- slChain('.tabs-scroller-right', header).outerWidth();
+                slChain('.tabs-wrap', header).width(width);
 
             } else {
-                $('.tabs-scroller-left', header).css('display', 'none');
-                $('.tabs-scroller-right', header).css('display', 'none');
-                $('.tabs-wrap', header).removeClass('tabs-scrolling').scrollLeft(0);
-                $('.tabs-wrap', header).width(header.width());
-                $('.tabs-wrap', header).css('left', 0);
+                slChain('.tabs-scroller-left', header).css('display', 'none');
+                slChain('.tabs-scroller-right', header).css('display', 'none');
+                slChain('.tabs-wrap', header).removeClass('tabs-scrolling').scrollLeft(0);
+                slChain('.tabs-wrap', header).width(header.width());
+                slChain('.tabs-wrap', header).css('left', 0);
 
             }
         },
@@ -309,11 +309,11 @@ sl.create("sl.ui", function () {
         getTabLeftPosition: function (target, tab) {
             var w = 0;
             var b = true;
-            $('>div.tabs-header ul.tabs li', target).each(function () {
+            slChain('>div.tabs-header ul.tabs li', target).each(function () {
                 if (this == tab) {
                     return false;
                 }
-                w += $(this).outerWidth();
+                w += slChain(this).outerWidth();
 
             });
             return w;
@@ -323,13 +323,13 @@ sl.create("sl.ui", function () {
         *@description 获取最大的左滚距离
         */
         getMaxScrollWidth: function (target) {
-            var header = $('>div.tabs-header', target);
+            var header = slChain('>div.tabs-header', target);
             var tabsWidth = 16; // all tabs width 右间距margin-right先加一个
-            $('ul.tabs li', header).each(function () {
-                tabsWidth += ($(this).outerWidth() + 4); //右间距margin-right
+            slChain('ul.tabs li', header).each(function () {
+                tabsWidth += (slChain(this).outerWidth() + 4); //右间距margin-right
             });
-            var wrapWidth = $('div.tabs-wrap', header).width();
-            var padding = parseInt($('ul.tabs', header).css('padding-left'));
+            var wrapWidth = slChain('div.tabs-wrap', header).width();
+            var padding = parseInt(slChain('ul.tabs', header).css('padding-left'));
 
             return tabsWidth - wrapWidth + padding;
         },
@@ -338,11 +338,11 @@ sl.create("sl.ui", function () {
         *@description 让panel的宽高适合
         */
         fitContent: function (target) {
-            var tab = $('>div.tabs-header ul.tabs li.tabs-selected', target);
+            var tab = slChain('>div.tabs-header ul.tabs li.tabs-selected', target);
             if (tab.length) {
                 var panelId = sl.data(tab.elements[0], 'tabs.tab').id;
-                var panel = $('#' + panelId);
-                var panels = $('>div.tabs-panels', target);
+                var panel = slChain('#' + panelId);
+                var panels = slChain('>div.tabs-panels', target);
                 if (panels.css('height') != 'auto') {
                     //                        if (sl.boxModel == true) {
                     panel.height(panels.height() - (panel.outerHeight() - panel.height()));
@@ -368,16 +368,16 @@ sl.create("sl.ui", function () {
         */
         selectTab: function (event) {
             var $this = event.data.tab, target = event.data.target;
-            var data = sl.data(target, "tabs"), tabs = $('ul.tabs', header);
+            var data = sl.data(target, "tabs"), tabs = slChain('ul.tabs', header);
             var header = data.header, TabOpt = sl.data($this.elements[0], "tabs.tab");
-            $('.tabs-selected', tabs).removeClass('tabs-selected');
+            slChain('.tabs-selected', tabs).removeClass('tabs-selected');
             //添加tabs-selected属性
             $this.addClass('tabs-selected');
             $this.blur();
 
-            $('>div.tabs-panels>div', target).css('display', 'none');
+            slChain('>div.tabs-panels>div', target).css('display', 'none');
 
-            var wrap = $('.tabs-wrap', header);
+            var wrap = slChain('.tabs-wrap', header);
             //获取所选的tab离左端的距离（包括滚动条左滚的）
             var leftPos = tabsStyleHelper.getTabLeftPosition(target, $this.elements[0]);
             //获取所选的tab的左端离div.tabs-wrap左端的距离
@@ -391,7 +391,7 @@ sl.create("sl.ui", function () {
                 wrap.scrollLeft(pos);
             }
 
-            var tabAttr = sl.data($this.elements[0], 'tabs.tab'), panel = $('#' + tabAttr.id);
+            var tabAttr = sl.data($this.elements[0], 'tabs.tab'), panel = slChain('#' + tabAttr.id);
             panel.css('display', 'block');
             //重置头的选中状态
             dataCacheHelper.setAllTabsDataUnSelected(target);
@@ -405,17 +405,17 @@ sl.create("sl.ui", function () {
         */
         DefalutSelectTab: function (target, title) {
             if (title) {
-                var elem = $('>div.tabs-header li:has(a span:contains("' + title + '"))', target).elements[0];
+                var elem = slChain('>div.tabs-header li:has(a span:contains("' + title + '"))', target).elements[0];
                 if (elem) {
-                    $(elem).trigger('click');
+                    slChain(elem).trigger('click');
                 }
             } else {
 
-                var tabs = $('>div.tabs-header ul.tabs', target);
-                if ($('.tabs-selected', tabs).length == 0) {
-                    $('li:first', tabs).trigger('click');
+                var tabs = slChain('>div.tabs-header ul.tabs', target);
+                if (slChain('.tabs-selected', tabs).length == 0) {
+                    slChain('li:first', tabs).trigger('click');
                 } else {
-                    $('.tabs-selected', tabs).trigger('click');
+                    slChain('.tabs-selected', tabs).trigger('click');
                 }
             }
         },
@@ -436,14 +436,14 @@ sl.create("sl.ui", function () {
         closeTab: function (target, tab) {
 
             if (!tab) return;
-            var $tab = $(tab), tabAttr = sl.data(tab, 'tabs.tab'), panel = $('#' + tabAttr.id), opts = getOption(target);
+            var $tab = slChain(tab), tabAttr = sl.data(tab, 'tabs.tab'), panel = slChain('#' + tabAttr.id), opts = getOption(target);
             if (opts.onClose.call(panel, tabAttr.title) == false) return;
 
             //如果是移除选中的tab 要移除后重新选中一个tab
-            var selected = $(tab).hasClass('tabs-selected');
+            var selected = slChain(tab).hasClass('tabs-selected');
             sl.removeData(tab, 'tabs.tab');
 
-            $(tab).remove();
+            slChain(tab).remove();
             panel.remove();
             dataCacheHelper.RemoveTabFromCache(tab, target);
 
@@ -451,7 +451,7 @@ sl.create("sl.ui", function () {
             if (selected) {
                 eventHelper.DefalutSelectTab(target);
             } else {
-                var wrap = $('>div.tabs-header .tabs-wrap', target);
+                var wrap = slChain('>div.tabs-header .tabs-wrap', target);
                 var pos = Math.min(
 					wrap.scrollLeft(),
 					tabsStyleHelper.getMaxScrollWidth(target)
@@ -471,7 +471,7 @@ sl.create("sl.ui", function () {
         *@description 向左滚动
         */
         scrollLeft: function (target) {
-            var data = sl.data(target, "tabs"), header = data.header, wrap = $('.tabs-wrap', header), opts = getOption(target);
+            var data = sl.data(target, "tabs"), header = data.header, wrap = slChain('.tabs-wrap', header), opts = getOption(target);
             if (opts == undefined) {
                 opts = data.options;
             }
@@ -490,7 +490,7 @@ sl.create("sl.ui", function () {
         */
         scrollRight: function (target) {
             var data = sl.data(target, "tabs"), header = data.header, container = data.container;
-            var wrap = $('.tabs-wrap', header), opts = getOption(target);
+            var wrap = slChain('.tabs-wrap', header), opts = getOption(target);
             if (opts == undefined) {
                 opts = data.options;
             }
@@ -549,7 +549,7 @@ sl.create("sl.ui", function () {
     {
         init: function (elem, options) {
             this.elem = elem;
-            var $this = $(elem), opts, state = sl.data(elem, 'tabs');
+            var $this = slChain(elem), opts, state = sl.data(elem, 'tabs');
             if (state) {
                 opts = sl.extend(true, state.options, options);
             }

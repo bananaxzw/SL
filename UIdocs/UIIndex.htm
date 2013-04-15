@@ -37,14 +37,14 @@
 	{ text: '对话框', click: function () { goto1("dialog.htm"); } },
     { text: '带删除按钮文本框', click: function () { goto1("input.htm"); } },
     { text: 'tooltip提示框', click: function () { goto1("tooltip.htm"); } },
-    { text: '交流方法', sub: [{ text: 'QQ群14804593' }, { text: '作者QQ59728447'}] },
+    { text: '交流方法', sub: [{ text: 'QQ群32495441' }, { text: '作者QQ59728447'}] },
 	{ text: '继续更新中··', click: function () { alert('怎么这么多要求!') } }
                        ];
         sl.ready(function () {
             var mm = new sl.ui.fixedtop(document.getElementById("nav"), { top: 0 });
             mm.reset();
-            $(window).scroll(function () {
-                if ($(this).scrollTop() >= 197) {
+            slChain(window).scroll(function () {
+                if (slChain(this).scrollTop() >= 197) {
                     mm.set();
                 }
                 else {

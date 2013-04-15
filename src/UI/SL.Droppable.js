@@ -26,7 +26,7 @@ sl.create("sl.ui", function () {
         init: function (elem, options) {
             var options = sl.extend({}, defaults, options);
             sl.data(elem, "droppable", { options: options });
-            $(elem).addClass("droppable").bind(
+            slChain(elem).addClass("droppable").bind(
         '_dragenter', function (e, source) {
             options.onDragEnter.apply(elem, [e, source]);
         }).bind(

@@ -15,8 +15,8 @@
         sl.ready(function () {
             DlHighlight.HELPERS.highlightByName("code", "pre");
             if (sl.Browser.ie) {
-                $("pre.DlHighlight").each(function () {
-                    var $this = $(this);
+                slChain("pre.DlHighlight").each(function () {
+                    var $this = slChain(this);
                     $this.html("<pre>" + $this.find("pre").html() + "</pre>");
                 })
             }
@@ -29,7 +29,7 @@
         });
 
         sl.ready(function () {
-            //alert($(".mm").data(""));
+            //alert(slChain(".mm").data(""));
             new sl.ui.combobox(document.getElementById("Text2"),
           {
               min: 1,

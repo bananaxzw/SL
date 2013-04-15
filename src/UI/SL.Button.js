@@ -21,29 +21,29 @@ sl.create("sl.ui", function () {
     };
     function createButton(target) {
         var opts = sl.data(target, 'slbutton').options;
-        $(target).empty();
-        $(target).addClass('l-btn');
+        slChain(target).empty();
+        slChain(target).addClass('l-btn');
         if (opts.id) {
-            $(target).attr('id', opts.id);
+            slChain(target).attr('id', opts.id);
         } else {
-            $(target).removeAttr('id');
+            slChain(target).removeAttr('id');
         }
         if (opts.plain) {
-            $(target).addClass('l-btn-plain');
+            slChain(target).addClass('l-btn-plain');
         } else {
-            $(target).removeClass('l-btn-plain');
+            slChain(target).removeClass('l-btn-plain');
         }
         if (opts.text) {
-            $(target).html('<span class="l-btn-left"><span class="l-btn-text">' + opts.text + '</span></span>');
+            slChain(target).html('<span class="l-btn-left"><span class="l-btn-text">' + opts.text + '</span></span>');
             if (opts.iconCls) {
-                $(target).find('.l-btn-text').addClass(opts.iconCls).css('padding-left', '20px');
+                slChain(target).find('.l-btn-text').addClass(opts.iconCls).css('padding-left', '20px');
             }
         }
         else {
-            $(target).html('<span class="l-btn-left"><span class="l-btn-text"><span class="l-btn-empty">&nbsp;</span></span></span>');
+            slChain(target).html('<span class="l-btn-left"><span class="l-btn-text"><span class="l-btn-empty">&nbsp;</span></span></span>');
 
             if (opts.iconCls) {
-                $(target).find('.l-btn-empty').addClass(opts.iconCls);
+                slChain(target).find('.l-btn-empty').addClass(opts.iconCls);
             }
         }
         setDisabled(target, opts.disabled);
@@ -52,27 +52,27 @@ sl.create("sl.ui", function () {
         var state = sl.data(target, 'slbutton');
         if (disabled) {
             state.options.disabled = true;
-            var href = $(target).attr('href');
+            var href = slChain(target).attr('href');
             if (href) {
                 state.href = href;
-                $(target).attr('href', 'javascript:void(0)');
+                slChain(target).attr('href', 'javascript:void(0)');
             }
-            var onclick = $(target).attr('onclick');
+            var onclick = slChain(target).attr('onclick');
             if (onclick) {
                 state.onclick = onclick;
-                $(target).attr('onclick', null);
+                slChain(target).attr('onclick', null);
             }
-            $(target).addClass('l-btn-disabled');
+            slChain(target).addClass('l-btn-disabled');
         }
         else {
             state.options.disabled = false;
             if (state.href) {
-                $(target).attr('href', state.href);
+                slChain(target).attr('href', state.href);
             }
             if (state.onclick) {
                 target.onclick = state.onclick;
             }
-            $(target).removeClass('l-btn-disabled');
+            slChain(target).removeClass('l-btn-disabled');
         }
     };
     this.button = sl.Class({
@@ -82,7 +82,7 @@ sl.create("sl.ui", function () {
                 sl.extend(state.options, options);
             }
             else {
-                var t = $(elem);
+                var t = slChain(elem);
                 sl.data(elem, 'slbutton', {
                     options: sl.extend({}, defaults, {
                         id: t.attr('id'),

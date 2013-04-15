@@ -80,12 +80,12 @@ sl.create("sl.ui", function () {
         },
         wrapDialog: function (elem) {
             var dialogData = sl.data(elem, "sldialog");
-            var opts = dialogData.options, $dialog = $("<div id='SLDialog' class='SLDialog' style='display:block;position:" + (dialogData.full ? 'fixed' : 'absolute') + ";z-index:" + (opts.zIndex + 2) + ";margin: 0px;'></div>"),
-        dialogContent = $('<div class="Dialog_content"></div>');
+            var opts = dialogData.options, $dialog = slChain("<div id='SLDialog' class='SLDialog' style='display:block;position:" + (dialogData.full ? 'fixed' : 'absolute') + ";z-index:" + (opts.zIndex + 2) + ";margin: 0px;'></div>"),
+        dialogContent = slChain('<div class="Dialog_content"></div>');
             if (opts.showTitle) {
-                var dialogTitle = $('<div class="Dialog_title" id="Dialog_title" style="cursor: move;"><h4 style="float:left;display:inline-block;margin:0;">' + opts.title + '</h4></div>');
+                var dialogTitle = slChain('<div class="Dialog_title" id="Dialog_title" style="cursor: move;"><h4 style="float:left;display:inline-block;margin:0;">' + opts.title + '</h4></div>');
                 if (opts.showClose) {
-                    var closeBtn = $('<a href="javascript:void(0)" title="关闭窗口" class="close_btn" id="slCloseBtn">×</a>');
+                    var closeBtn = slChain('<a href="javascript:void(0)" title="关闭窗口" class="close_btn" id="slCloseBtn">×</a>');
                     closeBtn.click(function () {
                         DialogHelper.close(elem);
                     });
@@ -95,15 +95,15 @@ sl.create("sl.ui", function () {
                 dialogContent.append(dialogTitle);
                 dialogContent.append("<div class='line'/>");
             }
-            var dialogMessage = $('<div class="Dialog_message">' + opts.message + '</div>');
+            var dialogMessage = slChain('<div class="Dialog_message">' + opts.message + '</div>');
             dialogContent.append(dialogMessage);
             if (opts.showFooter) {
                 dialogContent.append("<div class='line'/>");
-                var dialogFooter = $('<div class="Dialog_footer">' + opts.footer + '</div>');
+                var dialogFooter = slChain('<div class="Dialog_footer">' + opts.footer + '</div>');
                 dialogContent.append(dialogFooter);
             }
             $dialog.append(dialogContent);
-            $(elem).append($dialog);
+            slChain(elem).append($dialog);
             dialogData.$dialog = $dialog;
         },
         createMask: function (elem) {
@@ -144,7 +144,7 @@ sl.create("sl.ui", function () {
         center: function (el, x, y) {
             if (!x && !y) return;
             var p = el.parentNode, s = el.style;
-            var $p = $(p);
+            var $p = slChain(p);
             var borderAndPaddingWidth, borderAndPaddingHeight;
 
             if (sl.Support.boxModel) {

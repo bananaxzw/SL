@@ -16,7 +16,7 @@ sl.create("sl.ui", function () {
 
     function WrapText(textbox, opts) {
         var str = "<span class='ui-input-container'>" +
-        "</span>", $textbox = $(textbox);
+        "</span>", $textbox = slChain(textbox);
         $textbox.addClass("ui-input-text").wrapAll(str);
         var p = $textbox.parent(), show = "";
         if (!opts.showSearch) {
@@ -28,15 +28,15 @@ sl.create("sl.ui", function () {
 
     var EventHelper = {
         setInputEvent: function ($text) {
-            $text = $($text);
+            $text = slChain($text);
             var opts = $text.data("CalvinInput.data").options,
             $container = $text.data("CalvinInput.data").$Input_Container;
             //点击删除按钮 清理文字 还原样式
-            $("span.ui-input-icon", $container).click(function () {
-                if ($(this).hasClass("ui-icon-circle-close")) {
-                    $(this).addClass("ui-icon-search").removeClass("ui-icon-circle-close");
+            slChain("span.ui-input-icon", $container).click(function () {
+                if (slChain(this).hasClass("ui-icon-circle-close")) {
+                    slChain(this).addClass("ui-icon-search").removeClass("ui-icon-circle-close");
                     if (!opts.showSearch) {
-                        $(this).parent().hide(true);
+                        slChain(this).parent().hide(true);
                     }
                     $text.val(opts.DefaultText).css("color", "#a0a0a0");
                     opts.ondelete.call(this);
@@ -59,7 +59,7 @@ sl.create("sl.ui", function () {
             //有字母 出现删除
             $text.keyup(function () {
                 if (this.value != opts.DefaultText && this.value != "") {
-                    $("span.ui-input-icon", $container).removeClass("ui-icon-search").addClass("ui-icon-circle-close").parent().show();
+                    slChain("span.ui-input-icon", $container).removeClass("ui-icon-search").addClass("ui-icon-circle-close").parent().show();
                 }
 
             });
@@ -70,7 +70,7 @@ sl.create("sl.ui", function () {
 
         init: function (elem, options) {
             var opts = {},
-             $this = $(elem),
+             $this = slChain(elem),
              state = sl.data(elem, 'CalvinInput.data');
             $this.css("color", "#a0a0a0");
             if (state) {

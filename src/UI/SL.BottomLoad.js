@@ -28,7 +28,7 @@ sl.create("sl.ui", function () {
             this.page = 1;
             this.loaded = true;
             var othis = this;
-            $(sl.InstanceOf.BodyOrHtmlOrWindow(this.opts.container) ? window : this.opts.container).scroll(sl.throttle(100, function () {
+            slChain(sl.InstanceOf.BodyOrHtmlOrWindow(this.opts.container) ? window : this.opts.container).scroll(sl.throttle(100, function () {
                 othis.onScroll.apply(othis);
             }, true));
         },
@@ -38,7 +38,7 @@ sl.create("sl.ui", function () {
     });
     this.bottomload.prototype.onScroll = function () {
         var scrollheight = ScrollHelper.getScrollRect(this.opts.container).height,
-             scrollTop = $(this.opts.container).scrollTop(),
+             scrollTop = slChain(this.opts.container).scrollTop(),
              height = ScrollHelper.getVisiableRect(this.opts.container).height,
              LoadRadius = this.opts.LoadRadius, _this = this;
         if ((scrollTop + height - scrollheight) >= LoadRadius || (scrollTop + height - scrollheight) >= -LoadRadius) {
@@ -88,7 +88,7 @@ sl.create("sl.ui", function () {
                     }
                 }
             } else {
-                return { height: parseFloat($(elem).height()), width: parseFloat($(elem).width()) };
+                return { height: parseFloat(slChain(elem).height()), width: parseFloat(slChain(elem).width()) };
             }
         },
         getScrollRect: function (elem) {

@@ -20,15 +20,15 @@ sl.create("sl.ui", function () {
         "<div class='tooltip-inner'>" + options.content +
          "</div>" +
         "</div>";
-        var $toolTip = $(html);
-        $(document.body).append($toolTip);
+        var $toolTip = slChain(html);
+        slChain(document.body).append($toolTip);
         return $toolTip;
     }
     var ItemHelper =
     {
         show: function (elem) {
             var cacheData = sl.data(elem, "sltooltip"),
-             $element = $(elem),
+             $element = slChain(elem),
              $tip = cacheData.$toolTip,
              arrow = cacheData.options.arrow,
              options = cacheData.options;
@@ -83,7 +83,7 @@ sl.create("sl.ui", function () {
             this.elem = elem;
 
             var opts = {},
-             $this = $(elem),
+             $this = slChain(elem),
              state = sl.data(elem, 'sltooltip');
             if (state) {
                 sl.extend(opts, state.options, options);
