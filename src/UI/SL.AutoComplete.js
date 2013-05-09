@@ -63,12 +63,12 @@ sl.create("sl.ui", function () {
     {
         GenrateMenuItems: function (textBox, height, width, top, left) {
             var opts = sl.data(textBox, 'CalvinAutoComplete.data').options;
-            var $loading = GenerateLoading(textBox);
-            $loading.show();
+            var $loading = loadingHelper.GenerateLoading(textBox);
+            loadingHelper.showLoading(textBox);
             var key = textBox.value, param;
             //json数据
             if (/json/.test(opts.ajaxOption.contentType)) {
-                params = JSON.stringify(sl.extend({ "key": key }, opts.ajaxOption.data));
+                params =sl.Josn.stringify(sl.extend({ "key": key }, opts.ajaxOption.data));
             } else {
                 params = sl.param(sl.extend({ "key": key }, opts.ajaxOption.data));
             }
@@ -82,7 +82,13 @@ sl.create("sl.ui", function () {
                     success: function (data) {
                         opts.source = data ? (data.d ? data.d : data) : null;
                         var $items = MenuItemHelper._GenrateMenuItems(textBox, otherHelper.FilterOptionSouces(opts, textBox.value), height, width, top, left);
-                        $loading.hide();
+                        if (!opts.source || opts.source.length == 0) {
+                            loadingHelper.showNullDataLoading(textBox);
+                            setTimeout(function () { $loading.hide(); }, 1000);
+                        }
+                        else {
+                            $loading.hide();
+                        }
                         return $items;
                     },
                     error: function (xhr) {
@@ -303,6 +309,40 @@ sl.create("sl.ui", function () {
             $LoadingHtml.css({ "left": styleInfo.left, "width": styleInfo.width, "top": (styleInfo.top + styleInfo.height) });
             slChain(target).data("CalvinAutoCompleteLoading", $LoadingHtml);
             return $LoadingHtml;
+        }
+
+    };
+
+    var loadingHelper = {
+        GenerateLoading: function (target) {
+            var $loadingHtml;
+            if ($(target).data("CalvinAutoCompleteLoading")) {
+                $loadingHtml = $(target).data("CalvinAutoCompleteLoading");
+            }
+            else {
+                $loadingHtml = $("<div id='CalvinAutoCompleteLoading' class='autoCompleteLoading'></div>");
+                $loadingHtml.appendTo("body");
+                $(target).data("CalvinAutoCompleteLoading", $loadingHtml);
+
+            }
+
+            $loadingHtml.html("");
+            var styleInfo = styleHelper.GetTextBoxStyle(target);
+            $loadingHtml.css({ "left": styleInfo.left + "px", "width": styleInfo.width + "px", "top": (styleInfo.top + styleInfo.height) + "px" });
+            return $loadingHtml;
+        },
+        showLoading: function (target) {
+            var $loadingHtml = $(target).data("CalvinAutoCompleteLoading");
+            $loadingHtml.html("");
+            $loadingHtml.removeClass("autoCompleteNullData").addClass("autoCompleteLoading");
+            $loadingHtml.show();
+
+        },
+        showNullDataLoading: function (target) {
+            var $loadingHtml = $(target).data("CalvinAutoCompleteLoading");
+            $loadingHtml.html("未能检索到数据!");
+            $loadingHtml.removeClass("autoCompleteLoading").addClass("autoCompleteNullData");
+            $loadingHtml.show();
         }
 
     };

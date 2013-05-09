@@ -2,8 +2,8 @@
 (function () {
 
 
-    var baseHasDuplicate = true; // 检测浏览器是否支持自定义的sort函数
-    var hasDuplicate = false; // 是否有重复的DOM元素
+    var baseHasDuplicate = true, // 检测浏览器是否支持自定义的sort函数
+    hasDuplicate = false; // 是否有重复的DOM元素
     [0, 0].sort(function () {
         baseHasDuplicate = false;
         return 0;
@@ -45,9 +45,13 @@
             }
 
             return results;
-        }
+        },
+        isXML: function (elem) {
+            var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
+            return documentElement ? documentElement.nodeName !== "HTML" : false;
+         }
     };
-    var sortOrder, siblingCheck;
+    var sortOrder, siblingCheck, slSelector;
     if (document.documentElement.compareDocumentPosition) {
         sortOrder = function (a, b) {
             if (a === b) {
@@ -116,7 +120,38 @@
 
             return 1;
         };
-    }
+    };
+    slSelector.finder = {
+        ID: function (match, context, isXML) {
+            if (typeof context.getElementById !== "undefined" && !isXML) {
+                var m = context.getElementById(match[1]);
+                // Check parentNode to catch when Blackberry 4.6 returns
+                // nodes that are no longer in the document #6963
+                return m && m.parentNode ? [m] : [];
+            }
+        },
+
+        NAME: function (match, context) {
+            if (typeof context.getElementsByName !== "undefined") {
+                var ret = [],
+					results = context.getElementsByName(match[1]);
+
+                for (var i = 0, l = results.length; i < l; i++) {
+                    if (results[i].getAttribute("name") === match[1]) {
+                        ret.push(results[i]);
+                    }
+                }
+
+                return ret.length === 0 ? null : ret;
+            }
+        },
+
+        TAG: function (match, context) {
+            if (typeof context.getElementsByTagName !== "undefined") {
+                return context.getElementsByTagName(match[1]);
+            }
+        }
+    };
 
 
 })();
