@@ -51,10 +51,18 @@
 	margin: -1px;
 }
 
-.autoCompleteLoading {
-	position:absolute;
-	background:url('images/ajax-loader.gif') no-repeat center;
-	height:20px;
-	 border: 1px solid #aaaaaa;
-
+.autoCompleteLoading
+{
+    position: absolute;
+    background: url('images/ajax-loader.gif') no-repeat center;
+    height: 20px;
+    border: 1px solid #aaaaaa;
+}
+.autoCompleteNullData
+{
+    position: absolute;
+    height: 20px;
+    font-size: 12px;
+    border: 1px solid #aaaaaa;
+    text-align: center;
 }
