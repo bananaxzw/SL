@@ -1,6 +1,8 @@
 ﻿/// <reference path="../sl.js" />
 /// <reference path="../SL.Node.js" />
 /// <reference path="SL.Mask.js" />
+/// <reference path="SL.Draggable.js" />
+
 /********************************************************************************************
 * 文件名称:	
 * 设计人员:	许志伟 
@@ -28,7 +30,8 @@ sl.create("sl.ui", function () {
             backgroundColor: '#000',
             opacity: 50
         },
-        dialogCSS: {}
+        dialogCSS: {},
+        dragable: false
     };
     this.dialog = sl.Class({
         init: function (elem, options) {
@@ -82,6 +85,9 @@ sl.create("sl.ui", function () {
             var dialogData = sl.data(elem, "sldialog");
             var opts = dialogData.options, $dialog = slChain("<div id='SLDialog' class='SLDialog' style='display:block;position:" + (dialogData.full ? 'fixed' : 'absolute') + ";z-index:" + (opts.zIndex + 2) + ";margin: 0px;'></div>"),
         dialogContent = slChain('<div class="Dialog_content"></div>');
+
+            slChain(elem).append($dialog);
+            $dialog.append(dialogContent);
             if (opts.showTitle) {
                 var dialogTitle = slChain('<div class="Dialog_title" id="Dialog_title" style="cursor: move;"><h4 style="float:left;display:inline-block;margin:0;">' + opts.title + '</h4></div>');
                 if (opts.showClose) {
@@ -95,16 +101,18 @@ sl.create("sl.ui", function () {
                 dialogContent.append(dialogTitle);
                 dialogContent.append("<div class='line'/>");
             }
-            var dialogMessage = slChain('<div class="Dialog_message">' + opts.message + '</div>');
+            if (opts.dragable) {
+                new sl.ui.draggable($dialog.elements[0], { containment: elem });
+            }
+            var dialogMessage = slChain('<div class="Dialog_message">' + opts.message + '</div>').width($dialog.width()-35);
             dialogContent.append(dialogMessage);
             if (opts.showFooter) {
                 dialogContent.append("<div class='line'/>");
                 var dialogFooter = slChain('<div class="Dialog_footer">' + opts.footer + '</div>');
                 dialogContent.append(dialogFooter);
             }
-            $dialog.append(dialogContent);
-            slChain(elem).append($dialog);
             dialogData.$dialog = $dialog;
+         
         },
         createMask: function (elem) {
             var dialogData = sl.data(elem, "sldialog"), opts = dialogData.options;
