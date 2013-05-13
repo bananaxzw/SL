@@ -13,7 +13,9 @@
     <link href="http://www.aspnetjs.com/SL/src/css/default/SLDialog.css" rel="stylesheet"
         type="text/css" />
     <script src="http://www.aspnetjs.com/SL/src/UI/SL.Mask.js" type="text/javascript"></script>
-    <script src="http://www.aspnetjs.com/SL/src/UI/SL.Dialog.js" type="text/javascript"></script>
+    <script src="../src/UI/SL.Dialog.js" type="text/javascript"></script>
+<!--    <script src="http://www.aspnetjs.com/SL/src/UI/SL.Dialog.js" type="text/javascript"></script>-->
+    <script src="../src/UI/SL.Draggable.js" type="text/javascript"></script>
     <script type="text/javascript">
         sl.ready(function () {
             DlHighlight.HELPERS.highlightByName("code", "pre");
@@ -32,7 +34,7 @@
         });
 
         sl.ready(function () {
-            var tt = new sl.ui.dialog(document.getElementById("ElementContainerDialog"), { message: "中间内容", title: "头部", footer: "底部", zIndex: 10002 });
+            var tt = new sl.ui.dialog(document.getElementById("ElementContainerDialog"), {dragable:true, message: "中间内容", title: "头部", footer: "底部", zIndex: 10002 });
             slChain("#btnOpenElement").click(function () {
                 tt.open();
             });
