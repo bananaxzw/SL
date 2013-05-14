@@ -121,7 +121,7 @@
             return 1;
         };
     };
-    var Finder = {
+    selectorHelper.finder = {
         ID: function (match, context, isXML) {
             if (typeof context.getElementById !== "undefined" && !isXML) {
                 var m = context.getElementById(match[1]);
@@ -152,7 +152,7 @@
             }
         }
     };
-    var Filter = {};
+    selectorHelper.filter = {};
 
     //某些浏览器 getElementById会返回Name的元素
     (function () {
@@ -176,7 +176,7 @@
                 }
             };
 
-            Expr.filter.ID = function (elem, match) {
+            Filter.ID = function (elem, match) {
                 var node = typeof elem.getAttributeNode !== "undefined" && elem.getAttributeNode("id");
 
                 return elem.nodeType === 1 && node && node.nodeValue === match;
@@ -186,7 +186,41 @@
         root.removeChild(form);
         root = form = null;
     })();
+    //检查getElementsByTagName（*）返回的是不是元素节点
+    (function () {
+        var div = document.createElement("div");
+        div.appendChild(document.createComment(""));
+        if (div.getElementsByTagName("*").length > 0) {
+            Expr.find.TAG = function (match, context) {
+                var results = context.getElementsByTagName(match[1]);
+                if (match[1] === "*") {
+                    var tmp = [];
 
+                    for (var i = 0; results[i]; i++) {
+                        if (results[i].nodeType === 1) {
+                            tmp.push(results[i]);
+                        }
+                    }
+
+                    results = tmp;
+                }
+
+                return results;
+            };
+        }
+
+        // Check to see if an attribute returns normalized href attributes
+        div.innerHTML = "<a href='#'></a>";
+
+        if (div.firstChild && typeof div.firstChild.getAttribute !== "undefined" &&
+			div.firstChild.getAttribute("href") !== "#") {
+
+            Expr.attrHandle.href = function (elem) {
+                return elem.getAttribute("href", 2);
+            };
+        }
+        div = null;
+    })();
 
 
 
