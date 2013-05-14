@@ -49,7 +49,7 @@
         isXML: function (elem) {
             var documentElement = (elem ? elem.ownerDocument || elem : 0).documentElement;
             return documentElement ? documentElement.nodeName !== "HTML" : false;
-         }
+        }
     };
     var sortOrder, siblingCheck, slSelector;
     if (document.documentElement.compareDocumentPosition) {
@@ -121,7 +121,7 @@
             return 1;
         };
     };
-    slSelector.finder = {
+    var Finder = {
         ID: function (match, context, isXML) {
             if (typeof context.getElementById !== "undefined" && !isXML) {
                 var m = context.getElementById(match[1]);
@@ -152,6 +152,42 @@
             }
         }
     };
+    var Filter = {};
+
+    //某些浏览器 getElementById会返回Name的元素
+    (function () {
+
+        var form = document.createElement("div"),
+		id = "sl_checkDocumentById_" + (new Date()).getTime(),
+		root = document.documentElement;
+
+        form.innerHTML = "<a name='" + id + "'/>";
+        root.insertBefore(form, root.firstChild);
+        if (document.getElementById(id)) {
+            Finder.ID = function (match, context, isXML) {
+                if (typeof context.getElementById !== "undefined" && !isXML) {
+                    var m = context.getElementById(match[1]);
+
+                    return m ?
+					m.id === match[1] || typeof m.getAttributeNode !== "undefined" && m.getAttributeNode("id").nodeValue === match[1] ?
+						[m] :
+						undefined :
+					[];
+                }
+            };
+
+            Expr.filter.ID = function (elem, match) {
+                var node = typeof elem.getAttributeNode !== "undefined" && elem.getAttributeNode("id");
+
+                return elem.nodeType === 1 && node && node.nodeValue === match;
+            };
+        }
+
+        root.removeChild(form);
+        root = form = null;
+    })();
+
+
 
 
 })();
