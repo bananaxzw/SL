@@ -70,10 +70,11 @@ sl.create(function () {
                 old[name] = elem.style[name];
                 elem.style[name] = options[name];
             }
-            callback.apply(elem, args);
+            var val = callback.apply(elem, args);
             for (var name in options) {
                 elem.style[name] = old[name];
             }
+            return val;
         },
         //把样式格式化成驼峰式 backgroundColor
         camelize: function (attr) {
@@ -212,7 +213,7 @@ sl.create(function () {
                 if (elem.offsetWidth !== 0 || getStyle(elem, "display") !== "none") {
                     return getWH(elem, d);
                 } else {
-                    cssHelper.swap(elem, { position: "absolute", visibility: "hidden", display: "block" }, getWH, [elem, style]);
+                    return cssHelper.swap(elem, { position: "absolute", visibility: "hidden", display: "block" }, getWH, [elem, d]);
                 }
             }
         };
