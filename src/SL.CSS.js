@@ -262,6 +262,16 @@ sl.create(function () {
 
         }
     };
+    sl.each(["scrollLeft", "scrollTop"], function (index, name) {
+        cssHooks[name] = {
+            get: function (elem) {
+                return sl[name](elem);
+            },
+            set: function (elem, val) {
+                sl[name](elem, val);
+            }
+        };
+    });
 
     sl.each({ padding: 'paddingTop paddingRight paddingBottom paddingLeft',
         margin: 'marginTop marginRight marginBottom marginLeft',

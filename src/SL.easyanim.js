@@ -8,14 +8,12 @@
         elem = typeof elem === 'string' ? doc.getElementById(elem) : elem;
         return new AnimExtend(elem);
     },
-
 	pow = Math.pow,
 	sin = Math.sin,
 	PI = Math.PI,
 	BACK_CONST = 1.70158,
-    rfxnum = /^([+-]=)?([\d+-.]+)(.*)$/;
-
-    var Easing = {
+    rfxnum = /^([+-]=)?([\d+-.]+)(.*)$/,
+    Easing = {
         // 匀速运动
         linear: function (t) {
             return t;
@@ -99,71 +97,96 @@
 
             return r;
         }
-    };
-
-    var tweenFn = function (sv, tv, tu, e) {
-        if (isNaN(sv) && isNaN(tv)) {
-            var r = (sv.r + (tv.r - sv.r) * e).toFixed(0),
-						g = (sv.g + (tv.g - sv.g) * e).toFixed(0),
-						b = (sv.b + (tv.b - sv.b) * e).toFixed(0);
-
-            return 'rgb(' + r + ',' + g + ',' + b + ')';
-        } else {
-            return (sv + (tv - sv) * e).toFixed(7) + tu;
+    },
+    tweenFn = function (sv, tv, tu, e) {
+        // 总距离 * ( (当前时间 - 开始时间) / 总时间 ) = 当前距离
+        // 计算属性值时精度将直接影响到动画效果是否流畅toFixed(7)明显比toFixed(0)要流畅
+        return (sv + (tv - sv) * e).toFixed(7) + tu;
+    },
+    //解析颜色值
+    // @param { String } 颜色值
+    // @return { Object } RGB颜色值组成的对象
+    // red : object.r, green : object.g, blue : object.b
+    toRGB = function (val) {
+        var r, g, b;
+        if (/rgb/.test(val)) {
+            var arr = val.match(/\d+/g);
+            r = arr[0];
+            g = arr[1];
+            b = arr[2];
         }
+        else if (/#/.test(val)) {
+            var len = val.length;
+            if (len === 7) {
+                r = parseInt(val.slice(1, 3), 16);
+                g = parseInt(val.slice(3, 5), 16);
+                b = parseInt(val.slice(5), 16);
+            }
+            else if (len === 4) {
+                r = parseInt(val.charAt(1) + val.charAt(1), 16);
+                g = parseInt(val.charAt(2) + val.charAt(2), 16);
+                b = parseInt(val.charAt(3) + val.charAt(3), 16);
+            }
+        }
+        else {
+            return val;
+        }
+        return {
+            r: parseFloat(r),
+            g: parseFloat(g),
+            b: parseFloat(b)
+        }
+    },
+    EffectHooks = {};
+    sl.each(['color', 'backgroundColor', 'borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor', 'outlineColor'], function (index, name) {
+        EffectHooks[name] = {
+            get: function (styleVal) {
+                return { val: toRGB(styleVal) };
+            },
+            tween: function (sv, ev, unuse, e) {
+                var r = (sv.r + (ev.r - sv.r) * e).toFixed(0),
+                g = (sv.g + (ev.g - sv.g) * e).toFixed(0),
+                b = (sv.b + (ev.b - sv.b) * e).toFixed(0);
 
-    };
-
+                return 'rgb(' + r + ',' + g + ',' + b + ')';
+            },
+            set: function (elem, val) {
+                elem.style[name] = 'rgb(' + val.r + ',' + val.g + ',' + val.b + ')';
+            }
+        };
+    });
     var animBase = {
-        // 解析颜色值
-        // @param { String } 颜色值
-        // @return { Object } RGB颜色值组成的对象
-        // red : object.r, green : object.g, blue : object.b
-        parseColor: function (val) {
-            var r, g, b;
-            if (/rgb/.test(val)) {
-                var arr = val.match(/\d+/g);
-                r = arr[0];
-                g = arr[1];
-                b = arr[2];
-            }
-            else if (/#/.test(val)) {
-                var len = val.length;
-                if (len === 7) {
-                    r = parseInt(val.slice(1, 3), 16);
-                    g = parseInt(val.slice(3, 5), 16);
-                    b = parseInt(val.slice(5), 16);
-                }
-                else if (len === 4) {
-                    r = parseInt(val.charAt(1) + val.charAt(1), 16);
-                    g = parseInt(val.charAt(2) + val.charAt(2), 16);
-                    b = parseInt(val.charAt(3) + val.charAt(3), 16);
-                }
-            }
-            else {
-                return val;
-            }
-            return {
-                r: parseFloat(r),
-                g: parseFloat(g),
-                b: parseFloat(b)
-            }
-        },
         // 解析CSS属性值
         // @param { String } CSS属性
         // @return { Object } object.val为CSS属性值 object.unit为CSS属性单位
-        parseStyle: function (prop) {
-            var parts = rfxnum.exec(prop),
-             val = parseFloat(parts[2]),
-			 unit = parts[3] || "px";
-            //颜色
-            return isNaN(val) ? {
-                val: this.parseColor(unit),
-                unit: ''
-            } : {
-                val: val,
-                unit: unit
+        parseStyle: function (prop, value, isEnd) {
+
+            var name = isEnd ? "endVal" : "startVal",
+             result = {},
+             special = EffectHooks[prop],
+             specialResult;
+            if (special) {
+                specialResult = special.get(value);
+                result[name] = specialResult.val;
+                if (isEnd) {
+                    result.unit = specialResult.unit;
+                    result.set = special.set;
+                    result.tween = special.tween;
+                }
+            } else {
+                var parts = rfxnum.exec(value),
+                 val = parseFloat(parts[2]),
+			     unit = parts[3] || "px";
+                result[name] = val;
+                if (isEnd) {
+                    result.unit = unit;
+                    result.set = function (elem, val, unit) {
+                        sl.css(elem, prop, val + unit);
+                    };
+                    result.tween = tweenFn;
+                }
             }
+            return result;
         },
         // 预定义速度
         speed: {
@@ -241,17 +264,18 @@
                 var attrs = props().attrs,
 				type = props().type,
 				val, obj = {}, p;
+                //隐藏的预定义动画
                 if (type === 'hide') {
                     sl.each(attrs, function (index, name) {
                         obj[name] = name == "opacity" ? 0 : "0px";
                     });
                 }
+                ////显示的预定义动画
                 if (type === 'show') {
                     sl.each(attrs, function (index, name) {
                         obj[name] = sl.css(elem, name);
                     });
                 }
-
                 return obj;
             }
             else if (props && typeof props === 'object') {
@@ -324,11 +348,11 @@
     }
 
     AnimCore.prototype = {
-        start: function (source, target) {
+        start: function (animData, len) {
             this.startTime = +new Date();
             this.elem.currentAnim = this;
-            this.source = source;
-            this.target = target;
+            this.animData = animData;
+            this.len = len
             var self = this;
             if (self.elem.timer) return;
             self.elem.timer = win.setInterval(function () {
@@ -346,14 +370,8 @@
 			endTime = startTime + duration,  // 动画结束的时间
 			t = elapsedTime > endTime ? 1 : (elapsedTime - startTime) / duration,
 			e = this.options.easing(t),
-			len = 0,
 			i = 0,
 			p;
-
-            // 计算props对象有多少个属性
-            for (p in props) {
-                len += 1;
-            }
             elem.style.overflow = 'hidden';
             if (type === 'show') {
                 elem.style.display = 'block';
@@ -362,9 +380,13 @@
             for (p in props) {
                 i += 1;
                 //sv初始值 tv结束值 tu单位
-                var sv = this.source[p].val,
-				tv = this.target[p].val,
-				tu = this.target[p].unit;
+                var _animData = this.animData[p],
+
+                 sv = _animData.startVal,
+				tv = _animData.endVal,
+				tu = _animData.unit,
+                set = _animData.set,
+                tween = _animData.tween;
 
                 // 结束动画并还原样式
                 if (end || elapsedTime >= endTime) {
@@ -379,15 +401,16 @@
                         else {
                             //elem.style[p] = ""; //(type === 'hide' ? sv : tv) + tu;
                             //貌似这种还原样式更可靠轻松
-                            sl.css(elem, p,"");// (type === 'hide' ? sv : tv) + tu);
+                            sl.css(elem, p, ""); // (type === 'hide' ? sv : tv) + tu);
                         }
                     }
                     else {
-                        elem.style[p] = /color/i.test(p) ?
-						'rgb(' + tv.r + ',' + tv.g + ',' + tv.b + ')' :
-						tv + tu;
+                        set(elem, p, tv, tu);
+                        //                        elem.style[p] = /color/i.test(p) ?
+                        //						'rgb(' + tv.r + ',' + tv.g + ',' + tv.b + ')' :
+                        //						tv + tu;
                     }
-                    if (i === len) {  // 判断是否为最后一个属性
+                    if (i === this.len) {  // 判断是否为最后一个属性
                         this.complete();
                         this.options.callback.call(elem);
                     }
@@ -395,7 +418,7 @@
                 else {
                     if (sv === tv) continue;
                     // sl.css(elem, p, this.target[p].fn(sv, tv, tu, e));
-                    sl.css(elem, p, tweenFn(sv, tv, tu, e));
+                    sl.css(elem, p, tween(sv, tv, tu, e));
                 }
 
             }
@@ -423,12 +446,12 @@
         custom: function (props, duration, easing, callback) {
             var elem = this.elem,
 			options = animBase.setOptions(elem, duration, easing, callback),
-			type = typeof props === 'function' ? props().type : null;
+			type = typeof props === 'function' ? props().type : null, animData = {};
 
             props = animBase.setProps(elem, props, type);
 
             animBase.queue(elem, function () {
-                var source = {}, target = {}, p;
+                var source = {}, target = {}, p, len=0;
                 for (p in props) {
                     if (type === 'show') {
                         // 将CSS重置为0
@@ -439,11 +462,13 @@
                             elem.style[p] = '0px';
                         }
                     }
-                    source[p] = animBase.parseStyle(sl.css(elem, p)); // 动画开始时的CSS样式
-                    target[p] = animBase.parseStyle(props[p]); 			// 动画结束时的CSS样式
+                    animData[p] = sl.extend(animBase.parseStyle(p, sl.css(elem, p), false), animBase.parseStyle(p, props[p], true));
+                    //                    source[p] = animBase.parseStyle(sl.css(elem, p)); // 动画开始时的CSS样式
+                    //                    target[p] = animBase.parseStyle(props[p]); 			// 动画结束时的CSS样式
+                    len++;
                 }
                 var core = new AnimCore(elem, options, props, type);
-                core.start(source, target);
+                core.start(animData, len);
             });
 
             return this;
