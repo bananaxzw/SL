@@ -112,8 +112,50 @@ sl.create(function () {
                 return "#" + (value.length == 3 ? value.replace(/^(\w)(\w)(\w)$/, '$1$1$2$2$3$3') : value);
             }
             return value;
+        },
+        fixedAuto: function (el, style) {
+
+            //转换margin的auto
+            if (/^(margin).+/.test(style)) {
+                var father = el.parentNode;
+                if (/MSIE 6/.test(navigator.userAgent) && getStyle(father, "text-align") == "center") {
+                    var fatherWidth = parseFloat(getStyle(father, "width")),
+                                _temp = getStyle(father, "position");
+                    father.runtimeStyle.postion = "relative";
+                    var offsetWidth = el.offsetWidth;
+                    father.runtimeStyle.postion = _temp;
+                    return (fatherWidth - offsetWidth) / 2 + "px";
+                }
+                return "0px";
+            }
+            // 1. 当没有设置 style.left 时，getComputedStyle 在不同浏览器下，返回值不同
+            //    比如：firefox 返回 0, webkit/ie 返回 auto
+            // 2. style.left 设置为百分比时，返回值为百分比
+            // 对于第一种情况，如果是 relative 元素，值为 0. 如果是 absolute 元素，值为 offsetLeft - marginLeft
+            // 对于第二种情况，大部分类库都未做处理，属于“明之而不 fix”的保留 bug
+            if (/(top|left)/.test(style)) {
+                var val = 0, nameFix = style == "left" ? "Left" : "Top";
+                if (/absolute|fixed/.test(getStyle(el, "position"))) {
+
+                    offset = el["offset" + nameFix];
+                    // old-ie 下，elem.offsetLeft 包含 offsetParent 的 border 宽度，需要减掉
+                    if (el.uniqueID && document.documentMode < 9 || window.opera) {
+                        // 类似 offset ie 下的边框处理
+                        // 如果 offsetParent 为 html ，需要减去默认 2 px == documentElement.clientTop
+                        // 否则减去 borderTop 其实也是 clientTop
+                        // http://msdn.microsoft.com/en-us/library/aa752288%28v=vs.85%29.aspx
+                        // ie<9 注意有时候 elem.offsetParent 为 null ...
+                        // 比如 DOM.append(DOM.create("<div class='position:absolute'></div>"),document.body)
+                        offset -= el.offsetParent && el.offsetParent['client' + nameFix] || 0;
+                    }
+                    val = offset - (parseInt(getStyle(el, 'margin-' + name), 10) || 0) + "px";
+                    return val;
+                }
+                return "0px";
+            }
+
         }
-    }
+    };
     if (document.defaultView && document.defaultView.getComputedStyle) {
         curCSS = function (elem, name) {
             var doc = elem.ownerDocument,
@@ -165,7 +207,9 @@ sl.create(function () {
             if (val === 'medium' && /^border(\w)+Width$/.test(name)) {
                 return '0px';
             }
-
+            if (val == "auto") {
+                val = cssHelper.fixedAuto(elem, name);
+            }
             return val === "" ? "auto" : val;
         };
     };
