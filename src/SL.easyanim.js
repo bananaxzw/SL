@@ -339,7 +339,6 @@
         }
 
     };
-
     var AnimCore = function (elem, options, props, type) {
         this.elem = elem;
         this.options = options;
@@ -350,14 +349,16 @@
     AnimCore.prototype = {
         start: function (animData, len) {
             this.startTime = +new Date();
-            this.elem.currentAnim = this;
+            sl.data(this.elem, "fx-currentAnim", this);
+            //this.elem.currentAnim = this;
             this.animData = animData;
             this.len = len
-            var self = this;
-            if (self.elem.timer) return;
-            self.elem.timer = win.setInterval(function () {
+            var self = this, timer = sl.data(this.elem, "fx-timer");
+            //if (self.elem.timer) return;
+            if (timer) return;
+            sl.data(this.elem, "fx-timer", win.setInterval(function () {
                 self.run();
-            }, 13);
+            }, 13));
         },
 
         run: function (end) {
@@ -381,8 +382,7 @@
                 i += 1;
                 //sv初始值 tv结束值 tu单位
                 var _animData = this.animData[p],
-
-                 sv = _animData.startVal,
+                sv = _animData.startVal,
 				tv = _animData.endVal,
 				tu = _animData.unit,
                 set = _animData.set,
@@ -399,16 +399,12 @@
                             sl.css(elem, 'opacity', 100);
                         }
                         else {
-                            //elem.style[p] = ""; //(type === 'hide' ? sv : tv) + tu;
                             //貌似这种还原样式更可靠轻松
                             sl.css(elem, p, ""); // (type === 'hide' ? sv : tv) + tu);
                         }
                     }
                     else {
-                        set(elem, p, tv, tu);
-                        //                        elem.style[p] = /color/i.test(p) ?
-                        //						'rgb(' + tv.r + ',' + tv.g + ',' + tv.b + ')' :
-                        //						tv + tu;
+                        set(elem, tv, tu);
                     }
                     if (i === this.len) {  // 判断是否为最后一个属性
                         this.complete();
@@ -416,8 +412,9 @@
                     }
                 }
                 else {
-                    if (sv === tv) continue;
-                    // sl.css(elem, p, this.target[p].fn(sv, tv, tu, e));
+                    if (sv === tv) {
+                        continue;
+                    }
                     sl.css(elem, p, tween(sv, tv, tu, e));
                 }
 
@@ -430,9 +427,13 @@
         },
 
         complete: function () {
-            win.clearInterval(this.elem.timer);
-            this.elem.timer = undefined;
-            this.elem.currentAnim = undefined;
+            var timer = sl.data(this.elem, "fx-timer");
+            if (timer) {
+                win.clearInterval(timer);
+                sl.removeData(this.elem, "fx-timer");
+            }
+            sl.removeData(this.elem, "fx-currentAnim");
+            //this.elem.currentAnim = undefined;
         }
 
     };
@@ -451,20 +452,13 @@
             props = animBase.setProps(elem, props, type);
 
             animBase.queue(elem, function () {
-                var source = {}, target = {}, p, len=0;
+                var p, len = 0;
                 for (p in props) {
                     if (type === 'show') {
-                        // 将CSS重置为0
-                        if (p === 'opacity') {
-                            sl.css(elem, 'opacity', 0);
-                        }
-                        else {
-                            elem.style[p] = '0px';
-                        }
+                        // 将全部CSS属性重置为0 然后再显示出来
+                        sl.css(elem, p, 0);
                     }
                     animData[p] = sl.extend(animBase.parseStyle(p, sl.css(elem, p), false), animBase.parseStyle(p, props[p], true));
-                    //                    source[p] = animBase.parseStyle(sl.css(elem, p)); // 动画开始时的CSS样式
-                    //                    target[p] = animBase.parseStyle(props[p]); 			// 动画结束时的CSS样式
                     len++;
                 }
                 var core = new AnimCore(elem, options, props, type);
@@ -479,19 +473,19 @@
         // @param { Boolean } 是否执行当前队列的最后一帧动画
         // @return { Object } 
         stop: function (clear, end) {
-            var elem = this.elem;
+            var elem = this.elem, currentAnim = sl.data(this.elem, "fx-currentAnim");
 
             if (clear) {
                 sl.removeData(elem, "fx");
                 //elem.animQueue = undefined;
             }
-            if (elem.currentAnim) {
-                elem.currentAnim.stop();
+            if (currentAnim) {
+                currentAnim.stop();
             }
 
             //停止当前动画 立即执行目标属性
-            if (end && elem.currentAnim) {
-                elem.currentAnim.run(true);
+            if (end && currentAnim) {
+                currentAnim.run(true);
 
             } else {
                 animBase.dequeue(elem);
