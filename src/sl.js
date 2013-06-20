@@ -3225,6 +3225,9 @@ sl.create(function () {
             if (val === '') {
                 val = elem.style[name];
             }
+            if (val == "auto") {
+                val = cssHelper.fixedAuto(elem, name);
+            }
             return val;
         };
     } else if (document.documentElement.currentStyle) {
