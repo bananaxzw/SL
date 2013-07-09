@@ -4,16 +4,15 @@
     <title>javascript Autocomplete 自动补全</title>
     <meta name="description" content="自动补全文本框" />
     <meta name="keywords" content="javascript仿百度自动补全文本框;javascript仿谷歌自动补全文本框;" />
-    <link href="http://www.aspnetjs.com/SL/src/css/default/style.css" rel="stylesheet"
+    <link href="../docs/css/style.css" rel="stylesheet"
         type="text/css" />
-      <script src="http://www.aspnetjs.com/SL/src/sl-min.js" type="text/javascript"></script>
-    <script src="http://www.aspnetjs.com/SL/src/SL.Node.js" type="text/javascript"></script>
-    <script src="http://www.aspnetjs.com/SL/docs/js/hl-all.js" type="text/javascript"></script>
-    <link href="http://www.aspnetjs.com/SL/docs/js/style.css" rel="stylesheet" type="text/css" />
-    <link href="http://www.aspnetjs.com/SL/src/css/default/autoComplete.css" rel="stylesheet"
-        type="text/css" />
-    <script src="http://www.aspnetjs.com/SL/src/UI/SL.AutoComplete.js" type="text/javascript"></script>
-
+    <link href="../docs/css/style.css" rel="stylesheet" type="text/css" />
+       <script src="../src/sl-min.js" type="text/javascript"></script>
+    <script src="../src/SL.Node.js" type="text/javascript"></script>
+    <script src="../docs/js/hl-all.js" type="text/javascript"></script>
+   <link href="../docs/js/style.css" rel="stylesheet" type="text/css" />
+    <link href="../src/css/default/autoComplete.css" rel="stylesheet" type="text/css" />
+    <script src="../src/UI/SL.AutoComplete.js" type="text/javascript"></script>
     <script type="text/javascript">
         sl.ready(function () {
             DlHighlight.HELPERS.highlightByName("code", "pre");
@@ -28,6 +27,9 @@
                 //alert(obj.height); //弹出父页面中IFrame中设置的高度
                 obj.height = document.body.scrollHeight;  //调整父页面中IFrame的高度为此页面
             } catch (e) { }
+
+
+       
 
         });
 
@@ -61,8 +63,15 @@
         });
        
     </script>
+    <style>
+     html,body
+     {
+          height:100%;
+         }
+    </style>
 </head>
 <body>
+<div style=" height:2000px;"></div>
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span10">
@@ -218,5 +227,16 @@ var ss = new sl.ui.autocomplete(document.getElementById("basic"),
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        window.onload = function () {
+            var iheight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+            alert(iheight);
+            top.setFrameHeight(iheight + "px");
+        }
+        document.body.onclick = function () {
+            var iheight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+            alert(iheight);
+        }
+    </script>
 </body>
 </html>
