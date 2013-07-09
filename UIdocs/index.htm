@@ -45,19 +45,20 @@
     { text: '交流方法', sub: [{ text: 'QQ群32495441' }, { text: '作者QQ59728447'}] },
 	{ text: '继续更新中··', click: function () { alert('怎么这么多要求!') } }
                        ];
-        sl.ready(function () {
-            var mm = new sl.ui.fixedtop(document.getElementById("nav"), { top: 0 });
-            mm.reset();
-            slChain("body").scroll(function () {
-                if (slChain(this).scrollTop() >= 197) {
-                    mm.set();
-                }
-                else {
-                    mm.reset();
-                }
-            })
-            var ss = new sl.ui.menu(document.getElementById("nav"), { menuData: deskTop, isTopMenuAlwaysOpen: true, autoOpen: true, width: 200 });
-        });
+	sl.ready(function () {
+	    var mm = new sl.ui.fixedtop(document.getElementById("nav"), { top: 0 });
+	    mm.reset();
+	    slChain(window).scroll(function () {
+	        alert(1);
+	        if (slChain(this).scrollTop() >= 197) {
+	            mm.set();
+	        }
+	        else {
+	            mm.reset();
+	        }
+	    })
+	    var ss = new sl.ui.menu(document.getElementById("nav"), { menuData: deskTop, isTopMenuAlwaysOpen: true, autoOpen: true, width: 200 });
+	});
 
     </script>
 </head>

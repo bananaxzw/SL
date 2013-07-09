@@ -4,15 +4,15 @@
 	height:100%;
 	font:14px/24px 'microsoft yahei';
 }
+html  
+{
+    overflow:visible;
+	
+}
 body {
 	 overflow-y:auto;
 	 overflow-x:hidden;
 }
-html
-{
-     overflow: hidden;
-	
-    }
 h1, h2, h3, h4, h5, h6 {
 	margin:10px 0;
 	font-family:inherit;
