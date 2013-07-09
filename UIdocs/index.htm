@@ -2,23 +2,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-    <link href="http://www.aspnetjs.com/SL/src/css/default/style.css" rel="stylesheet"
-        type="text/css" />
-    <script src="http://www.aspnetjs.com/SL/src/sl-min.js" type="text/javascript"></script>
-    <script src="http://www.aspnetjs.com/SL/src/SL.Node.js" type="text/javascript"></script>
-    <script src="http://www.aspnetjs.com/SL/docs/js/hl-all.js" type="text/javascript"></script>
-    <link href="http://www.aspnetjs.com/SL/docs/js/style.css" rel="stylesheet" type="text/css" />
-    <script src="http://www.aspnetjs.com/SL/src/UI/SL.Menu.js" type="text/javascript"></script>
-    <script src="http://www.aspnetjs.com/SL/src/UI/SL.FixedTop.js" type="text/javascript"></script>
-    <link href="http://www.aspnetjs.com/SL/src/css/default/menu.css" rel="stylesheet"
-        type="text/css" />
+    <link href="../docs/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="../src/sl-min.js" type="text/javascript"></script>
+    <script src="../src/SL.Node.js" type="text/javascript"></script>
+    <script src="../docs/js/hl-all.js" type="text/javascript"></script>
+    <link href="../docs/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="../src/UI/SL.Menu.js" type="text/javascript"></script>
+    <script src="../src/UI/SL.FixedTop.js" type="text/javascript"></script>
+    <link href="../src/css/default/menu.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         .copyright
         {
             text-align: center;
         }
+        html,body
+        {
+             height:100%;
+        }
     </style>
     <script type="text/javascript">
+        function setFrameHeight(height) {
+            document.getElementById("classFrame").style.height = height;
+        }
         function goto1(where) {
             window.classFrame.location = where;
             // document.getElementById("classFrame").src = where;
@@ -43,7 +48,7 @@
         sl.ready(function () {
             var mm = new sl.ui.fixedtop(document.getElementById("nav"), { top: 0 });
             mm.reset();
-            slChain(window).scroll(function () {
+            slChain("body").scroll(function () {
                 if (slChain(this).scrollTop() >= 197) {
                     mm.set();
                 }
@@ -68,7 +73,7 @@
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span2">
-                <div style="position: relative; margin-top: 20px;" id="nav">
+                <div style="position: relative; margin-top: 20px;top:0px;" id="nav">
                 </div>
             </div>
             <div class="span10">

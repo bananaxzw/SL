@@ -1,9 +1,4 @@
-﻿html
-{
-     overflow: hidden;
-	
-    }
-html,body{
+﻿html,body{
 	padding:0px;
 	margin:0px;
 	height:100%;
@@ -13,6 +8,11 @@ body {
 	 overflow-y:auto;
 	 overflow-x:hidden;
 }
+html
+{
+     overflow: hidden;
+	
+    }
 h1, h2, h3, h4, h5, h6 {
 	margin:10px 0;
 	font-family:inherit;
