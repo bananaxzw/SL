@@ -206,5 +206,12 @@ sl.ready(function () {
             </div>
         </div>
     </div>
+      <script type="text/javascript">
+          window.onload = function () {
+              var iheight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+              alert(iheight);
+              top.setFrameHeight(iheight + "px");
+          }
+    </script>
 </body>
 </html>
