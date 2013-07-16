@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>javascript Combobox 可下拉可输入</title>
+    <meta name="description" content="可下拉可输入文本框" />
+    <meta name="keywords" content="javascript combobox;javascript可下拉可输入文本框;javascript select美化" />
+    <link href="../docs/css/style.css" rel="stylesheet"
+        type="text/css" />
+    <link href="../src/css/default/linkbutton.css" rel="stylesheet" type="text/css" />
+    <link href="../src/css/default/menubutton.css" rel="stylesheet" type="text/css" />
+    <link href="../src/css/default/menu.css" rel="stylesheet" type="text/css" />
+    <link href="../src/css/default/panel.css" rel="stylesheet" type="text/css" />
+     <script src="../src/sl-min.js" type="text/javascript"></script>
+    <script src="../src/SL.Node.js" type="text/javascript"></script>
+    <script src="../docs/js/hl-all.js" type="text/javascript"></script>
+   <link href="../docs/js/style.css" rel="stylesheet" type="text/css" />
+    <link href="../src/css/default/combox.css" rel="stylesheet"
+        type="text/css" />
+    <link href="../src/css/default/icon.css" rel="stylesheet" type="text/css" />
+    <script src="../src/UI/SL.Draggable.js" type="text/javascript"></script>
+    <script src="../src/UI/SL.Resizable.js" type="text/javascript"></script>
+    <script src="../src/UI/SL.ComboBox.js" type="text/javascript"></script>
+    <script src="../src/UI/SL.Button.js" type="text/javascript"></script>
+    <script src="../src/UI/SL.Menu.js" type="text/javascript"></script>
+    <script src="../src/UI/SL.ButtonMenu.js" type="text/javascript"></script>
+    <script src="../src/UI/SL.Panel.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        sl.ready(function () {
+            DlHighlight.HELPERS.highlightByName("code", "pre");
+            if (sl.Browser.ie) {
+                slChain("pre.DlHighlight").each(function () {
+                    var $this = slChain(this);
+                    $this.html("<pre>" + $this.find("pre").html() + "</pre>");
+                })
+            }
+            try {
+                var obj = parent.document.getElementById("classFrame");  //取得父页面IFrame对象
+                //alert(obj.height); //弹出父页面中IFrame中设置的高度
+                obj.height = document.body.scrollHeight;  //调整父页面中IFrame的高度为此页面
+            } catch (e) { }
+
+        });
+
+        sl.ready(function () {
+            new sl.ui.panel(document.getElementById("p"), { draggable: true, resizeable: true, collapsible: true, closable: true, maximizable: true });
+
+        });
+       
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span10">
+                <div id="content">
+                    <!-- ============================== class title ============================ -->
+                    <h1 class="classTitle">
+                        combobox
+                        <div class='file'>
+                            <!--   define in:<a href="../symbols/src/SL.Date.js.html">SL.Date.js</a>-->
+                        </div>
+                    </h1>
+                    <hr>
+                    <br />
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            基本用法</label>
+                    </div>
+                    <dl class="description">
+                        <dt class="heading">代码如下:</dt>
+                    </dl>
+                    <pre name="code" class='js'>
+new sl.ui.combobox(document.getElementById("Text1"),{
+              min: 1,
+              source:
+           ["许志伟1", "许志伟2", "许志伟3", "许志伟4", "许志伟5", "许志伟5", "许志伟6", "许志伟7", "许志伟8", "许志伟9", "许志伟10", "许志伟11"]
+ });
+</pre>
+                    <dl class="detailList">
+                        <dt class="heading">效果:</dt>
+                        <dd>
+                            输入"许"看看 可上下键操作</dd>
+                        <dd>
+                          <div style="height: 300px; background: #fafafa; padding: 5px; border:1px solid black;">
+		<div id="p"  style="width: 500px; height: 200px; padding: 10px;">
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+			<p>
+				panel</p>
+		</div>
+	</div>
+                        </dd>
+                    </dl>
+                    <hr>
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            option参数说明</label>
+                    </div>
+                    <table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class date.">
+                        <thead>
+                            <th>
+                                名称
+                            </th>
+                            <th>
+                                说明
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    min
+                                </td>
+                                <td>
+                                    产生自动补全的字符数 默认为1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    source
+                                </td>
+                                <td>
+                                    自动补全的数据源 如果设置远程数据源的话 可不设置
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    selected
+                                </td>
+                                <td>
+                                    选中下拉列表项的事件 第一个参数为事件对象<br />
+                                    第二个参数为项的数据对象ui 包括ui.text ui.value
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    dynamicSource
+                                </td>
+                                <td>
+                                    如果要设置远程数据源 请把设置为true
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ajaxOption
+                                </td>
+                                <td>
+                                    远程数据请求选项<br />
+                                    例如: { url: "", extendData: {} }<br />
+                                    url表示请求数据源地址<br />
+                                    extendData请求数据源地址的参数
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+      <script type="text/javascript">
+          window.onload = function () {
+              var iheight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+              
+              top.setFrameHeight(iheight + "px");
+          }
+    </script>
+</body>
+</html>

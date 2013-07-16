@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>javascript带删除按钮文本框</title>
+    <meta name="description" content="带有删除按钮的文本框" />
+	<meta name="keywords" content="删除图标文本框" />
+   <link href="../docs/css/style.css" rel="stylesheet" type="text/css" />
+     <script src="../src/sl-min.js" type="text/javascript"></script>
+    <script src="../src/SL.Node.js" type="text/javascript"></script>
+    <script src="../docs/js/hl-all.js" type="text/javascript"></script>
+   <link href="../docs/js/style.css" rel="stylesheet" type="text/css" />
+    <link href="../src/css/default/input.css" rel="stylesheet" type="text/css" />
+    <link href="../src/css/default/icons.css" rel="stylesheet" type="text/css" />
+    <script src="../src/UI/SL.Input.js" type="text/javascript"></script>
+<!--    <script src="../src/UI/SL.Input.js" type="text/javascript"></script>-->
+
+        <script type="text/javascript">
+
+            sl.ready(function () {
+                DlHighlight.HELPERS.highlightByName("code", "pre");
+                if (sl.Browser.ie) {
+                    slChain("pre.DlHighlight").each(function () {
+                        var $this = slChain(this);
+                        $this.html("<pre>" + $this.find("pre").html() + "</pre>");
+                    })
+                }
+                try {
+                    var obj = parent.document.getElementById("classFrame");  //取得父页面IFrame对象
+                    //alert(obj.height); //弹出父页面中IFrame中设置的高度
+                    obj.height = document.body.scrollHeight;  //调整父页面中IFrame的高度为此页面
+                } catch (e) { }
+
+            });
+            sl.ready(function () {
+                new sl.ui.input(document.getElementById("me"), { DefaultText: "请输入联系人", ondelete: function () { alert("删除了！"); } });
+            });
+    
+    </script>
+</head>
+<body>
+  <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span10">
+                <div id="content">
+                    <!-- ============================== class title ============================ -->
+                    <h1 class="classTitle">
+                        javascript带删除按钮文本框
+                    </h1>
+                    <hr>
+                    <br />
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            基本用法</label>
+                    </div>
+                    <dl class="description">
+                        <dt class="heading">代码如下:</dt>
+                    </dl>
+                    <pre name="code" class='js'>
+new sl.ui.input(document.getElementById("me"), { DefaultText: "请输入联系人", ondelete: function () { alert("删除了！"); } });
+</pre>
+                    <dl class="detailList">
+                        <dt class="heading">效果:</dt>
+                        <dd>请输入看看那</dd>
+                        <dd>
+                            &nbsp;<input id="me" type="text" />
+                        </dd>
+                    </dl>
+                    <hr>
+                    <div class="detailTitle fixedFont">
+                        <span class="methodType"></span>
+                        <label class=" label label-info methodName">
+                            option参数说明</label>
+                    </div>
+                       <br />
+                    <table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class date.">
+                        <thead>
+                            <th>
+                                名称
+                            </th>
+                            <th>
+                                说明
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    DefaultText
+                                </td>
+                                <td>
+                                    默认的文字 默认为""
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ondelete
+                                </td>
+                                <td>
+                                    删除按钮事件
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                    showSearch
+                                </td>
+                                <td>
+                                    是否显示search图标
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                 
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+  <script type="text/javascript">
+      window.onload = function () {
+          var iheight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+          
+          top.setFrameHeight(iheight + "px");
+      }
+    </script>
+</body>
+</html>

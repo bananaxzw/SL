@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>javascript dialog弹出框</title>
+    <meta name="description" content="javascript dialog弹出框" />
+    <meta name="keywords" content="javascript dialog弹出框" />
+    <link href="../docs/css/style.css" rel="stylesheet"
+        type="text/css" />
+     <script src="../src/sl-min.js" type="text/javascript"></script>
+    <script src="../src/SL.Node.js" type="text/javascript"></script>
+    <script src="../docs/js/hl-all.js" type="text/javascript"></script>
+   <link href="../docs/js/style.css" rel="stylesheet" type="text/css" />
+    <link href="../src/css/default/SLDialog.css" rel="stylesheet"
+        type="text/css" />
+    <script src="../src/UI/SL.Mask.js" type="text/javascript"></script>
+    <link href="../src/css/default/SLDialog.css" rel="stylesheet" type="text/css" />
+    <script src="../src/UI/SL.Dialog.js" type="text/javascript"></script>
+    <!--    <script src="../src/UI/SL.Dialog.js" type="text/javascript"></script>-->
+    <script src="../src/UI/SL.Draggable.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+
+        sl.ready(function () {
+            var tt = new sl.ui.dialog(document.getElementById("ElementContainerDialog"), { dragable: true, message: "<iframe src='HTMLPage.htm'></iframe>", title: "头部", footer: "底部", zIndex: 10002 });
+            slChain("#btnOpenElement").click(function () {
+                tt.open();
+            });
+            slChain("#btnCloseElment").click(function () {
+                tt.close();
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+
+    <input id="btnCloseElment" type="button" value="关闭" />
+    <input id="btnOpenElement" type="button" value="打开" />
+    <div id="ElementContainerDialog" style="height: 820px; width: 800px; overflow: auto;
+        border: 1px solid red;">
+        <p>
+            saf</p>
+        <p>
+            saf</p>
+        <p>
+            saf</p>
+        <p>
+            saf</p>
+        <p>
+            saf</p>
+        <p>
+            saf</p>
+            
+    </div>
+      <script type="text/javascript">
+          window.onload = function () {
+              var iheight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+              
+              top.setFrameHeight(iheight + "px");
+          }
+    </script>
+</body>
+</html>

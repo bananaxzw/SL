@@ -1,0 +1,30 @@
+﻿.ui-input-container {
+	display: inline-block;
+	white-space: nowrap;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #A4BED4;
+	background: #fff;
+}
+.ui-input-text {
+	font-size: 12px;
+	border: 0px;
+	line-height: 20px;
+	height: 20px;
+	padding: 0px;
+	*height: 18px;
+	*line-height: 18px;
+	_height: 18px;
+	_line-height: 18px;
+}
+.ui-input-icon {
+	width: 16px;
+	height: 16px;
+	overflow: hidden;
+	display: inline-block;
+	cursor: pointer;
+	opacity: 0.6;
+	filter: alpha(opacity=60);
+	vertical-align: middle;
+}

@@ -1,0 +1,82 @@
+﻿.SLDialog {
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    border: 2px solid rgb(170, 170, 170);
+    border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    background-color: rgb(255, 255, 255);
+    width: 30%;
+}
+.Dialogfull {
+    top: 40%;
+    left: 35%;
+}
+
+/*内容区域*/
+.SLDialog .Dialog_content {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+
+	
+}
+/*标题*/
+.SLDialog .Dialog_title {
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    color: #000000;
+    padding: 0 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #e5e5e5;
+    background: #EAEAEA;
+    border-radius: 4px 4px 0 0;
+    margin-top: 0;
+}
+/*关闭按钮*/
+.Dialog_title .close_btn {
+    font-family: arial;
+    font-size: 18px;
+    _font-size: 12px;
+    font-weight: 700;
+    color: #999;
+    text-decoration: none;
+    float: right;
+	
+}
+
+.Dialog_title .close_btn:hover {
+    color: #333;
+}
+
+
+.Dialog_content .Dialog_message {
+    padding: 25px 10px;
+    font-size: 13px;
+    line-height: 22px;
+    overflow: auto;
+}
+.Dialog_content .line {
+    border-top: 1px solid #CCC;
+
+}
+.Dialog_content .Dialog_footer {
+    font-size: 13px;
+    padding: 10px;
+       *zoom:1;
+}
+
+
+.Dialog_content .Dialog_footer:after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    clear: both;
+}
